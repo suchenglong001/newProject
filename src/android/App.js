@@ -14,6 +14,9 @@ import TabIcon from './components/share/TabIcon'
 
 import Home from './views/home/Home'
 import Setting from './views/setting/Setting'
+import UpdatePassword from './views/updatePassword/UpdatePassword'
+import PersonalCenter from './views/personalCenter/PersonalCenter'
+import CarInfo from './views/carInfo/CarInfo'
 import Login from './views/login/Login'
 import Initialization from './views/initialization/Initialization'
 
@@ -58,21 +61,29 @@ export default class App extends Component {
                         tabs={true}
                         tabBarStyle={styles.tabBarStyle}
                         tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene key="homeBlock"
-                            icon={TabIcon}
+                        <Scene
+                            key="homeBlock"
                             initial={true}
+                            icon={TabIcon}
                             online='ios-home'
                             outline='ios-home-outline' >
                             <Scene
                                 key="home"
-                                initial={true}
                                 component={Home}
                                 title='首页'
                                 hideNavBar={false}
                                 navBar={TopBar} />
+                            <Scene
+                                key="carInfo"
+                                initial={true}
+                                component={CarInfo}
+                                title='车辆信息'
+                                hideNavBar={false}
+                                navBar={NavBar} />
                         </Scene>
                         <Scene
                             key="settingBlock"
+
                             icon={TabIcon}
                             online='ios-settings'
                             outline='ios-settings-outline' >
@@ -83,6 +94,20 @@ export default class App extends Component {
                                 title='设置'
                                 hideNavBar={false}
                                 navBar={TopBar} />
+                            <Scene
+                                key="updatePassword"
+                                component={UpdatePassword}
+                                title='修改密码'
+                                hideTabBar
+                                hideNavBar={false}
+                                navBar={NavBar} />
+                            <Scene
+                                key="personalCenter"
+                                component={PersonalCenter}
+                                title='个人中心'
+                                hideTabBar
+                                hideNavBar={false}
+                                navBar={NavBar} />
                         </Scene>
                     </Scene>
                 </Scene>

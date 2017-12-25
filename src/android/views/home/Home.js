@@ -7,22 +7,21 @@ import {
 } from 'react-native'
 import { fontSizeCoeff } from '../../../util/util'
 import { connect } from 'react-redux'
-import { Actions, ActionConst } from 'react-native-router-flux'
+import CheckStatistics from '../../components/home/checkStatistics/CheckStatistics'
+import CheckVehicleList from '../../components/home/checkVehicleList/CheckVehicleList'
+import { Container } from 'native-base'
 
 class Home extends Component {
     constructor(props) {
         super(props)
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
-        //
         return (
-            <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 5 * fontSizeCoeff }}>Home</Text> 
+            <View style={{flex:1}}>
+                <CheckStatistics />
+                <CheckVehicleList />
+                {/* <Text style={{ fontSize: 5 * fontSizeCoeff }}>Home</Text>  */}
             </View>
         )
     }
