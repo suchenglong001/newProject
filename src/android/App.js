@@ -10,6 +10,8 @@ import { Scene, TabBar, Router, ActionConst, Actions, Switch, Reducer } from 're
 
 import NavBar from './components/share/bar/NavBar'
 import TabIcon from './components/share/TabIcon'
+import LeftButton from './components/share/bar/LeftButton'
+import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
 
 import Home from './views/home/Home'
 import Setting from './views/setting/Setting'
@@ -78,25 +80,25 @@ export default class App extends Component {
                             <Scene
                                 key="carInfo"
                                 component={CarInfo}
-                                leftButton={<Button transparent onPress={() => Actions.pop()}>
-                                    <Icon name='arrow-back' />
-                                </Button>}
+                                LeftButton={LeftButton}
                                 title='车辆信息'
                                 hideNavBar={false}
                                 hideTabBar
                                 navBar={NavBar} />
                             <Scene
                                 key="applyDamage"
-
                                 component={ApplyDamage}
+                                LeftButton={LeftButton}
+                                RightButton={ApplyDamageSubmit}
                                 title='质损申请'
-
                                 hideTabBar
                                 hideNavBar={false}
                                 navBar={NavBar} />
                             <Scene
                                 key="applyDamageUploadImage"
                                 component={ApplyDamageUploadImage}
+                                LeftButton={LeftButton}
+                                RightButton={ApplyDamageSubmit}
                                 title='质损申请'
                                 hideTabBar
                                 hideNavBar={false}

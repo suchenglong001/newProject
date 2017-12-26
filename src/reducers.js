@@ -14,6 +14,7 @@ import checkStatisticsReducer from '../src/android/components/home/checkStatisti
 import checkVehicleListReducer from '../src/android/components/home/checkVehicleList/CheckVehicleListReducer'
 import carDetailReducer from '../src/android/components/carInfo/carDetail/CarDetailReducer'
 import carInfoRecordReducer from '../src/android/components/carInfo/carInfoRecord/CarInfoRecordReducer'
+import applyDamageSubmitReducer from '../src/android/components/applyDamage/submit/ApplyDamageSubmitReducer'
 
 
 export default combineReducers({
@@ -31,5 +32,6 @@ export default combineReducers({
     carDetailReducer,
     carInfoRecordReducer,
     applyDamageReducer,
-    applyDamageUploadImageReducer
+    applyDamageUploadImageReducer,
+    applyDamageSubmitReducer
 })

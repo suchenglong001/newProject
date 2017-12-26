@@ -5,26 +5,25 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
 
 const NavBar = props => {
-    const { title, layout, rightButton, leftButton } = props
+    const { title, layout, RightButton, LeftButton } = props
     return (
         <View style={[styles.container, { width: layout.initWidth }]}>
             <StatusBar hidden={false} />
             <Header
                 androidStatusBarColor={styleColor}
                 style={[styles.header, globalStyles.styleBackgroundColor]}>
-                {leftButton && <Left>
-                    {leftButton}
+                {LeftButton && <Left>
+                    <LeftButton />
                 </Left>}
                 <Body>
                     <Title>{title}</Title>
                 </Body>
                 <Right>
-                    {rightButton}
+                    {RightButton &&<RightButton />}
                 </Right>
             </Header>
         </View>
     )
-
 }
 
 const styles = StyleSheet.create({
