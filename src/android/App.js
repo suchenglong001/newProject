@@ -4,12 +4,11 @@ import {
     Text,
     View
 } from 'react-native'
-import { Button, Icon } from 'native-base'
+import { Button, Icon, Label } from 'native-base'
 import { fontSizeCoeff } from '../util/util'
 import { Scene, TabBar, Router, ActionConst, Actions, Switch, Reducer } from 'react-native-router-flux'
 
 import NavBar from './components/share/bar/NavBar'
-import TopBar from './components/share/bar/TopBar'
 import TabIcon from './components/share/TabIcon'
 
 import Home from './views/home/Home'
@@ -17,6 +16,8 @@ import Setting from './views/setting/Setting'
 import UpdatePassword from './views/updatePassword/UpdatePassword'
 import PersonalCenter from './views/personalCenter/PersonalCenter'
 import CarInfo from './views/carInfo/CarInfo'
+import ApplyDamage from './views/applyDamage/ApplyDamage'
+import ApplyDamageUploadImage from './views/applyDamageUploadImage/ApplyDamageUploadImage'
 import Login from './views/login/Login'
 import Initialization from './views/initialization/Initialization'
 
@@ -71,19 +72,38 @@ export default class App extends Component {
                                 key="home"
                                 component={Home}
                                 title='首页'
+                                initial={true}
                                 hideNavBar={false}
-                                navBar={TopBar} />
+                                navBar={NavBar} />
                             <Scene
                                 key="carInfo"
-                                initial={true}
                                 component={CarInfo}
+                                leftButton={<Button transparent onPress={() => Actions.pop()}>
+                                    <Icon name='arrow-back' />
+                                </Button>}
                                 title='车辆信息'
+                                hideNavBar={false}
+                                hideTabBar
+                                navBar={NavBar} />
+                            <Scene
+                                key="applyDamage"
+
+                                component={ApplyDamage}
+                                title='质损申请'
+
+                                hideTabBar
+                                hideNavBar={false}
+                                navBar={NavBar} />
+                            <Scene
+                                key="applyDamageUploadImage"
+                                component={ApplyDamageUploadImage}
+                                title='质损申请'
+                                hideTabBar
                                 hideNavBar={false}
                                 navBar={NavBar} />
                         </Scene>
                         <Scene
                             key="settingBlock"
-
                             icon={TabIcon}
                             online='ios-settings'
                             outline='ios-settings-outline' >
@@ -93,7 +113,7 @@ export default class App extends Component {
                                 initial={true}
                                 title='设置'
                                 hideNavBar={false}
-                                navBar={TopBar} />
+                                navBar={NavBar} />
                             <Scene
                                 key="updatePassword"
                                 component={UpdatePassword}

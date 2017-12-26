@@ -7,6 +7,7 @@ import {
 import { fontSizeCoeff } from '../../../../util/util'
 import { connect } from 'react-redux'
 import { Container, Header, Content, List, ListItem } from 'native-base'
+import globalStyles from '../../../GlobalStyles'
 
 class CarDetail extends Component {
     constructor(props) {
@@ -21,24 +22,30 @@ class CarDetail extends Component {
         return (
             <View>
                 <ListItem >
-                    <Text>vin：12345678901234567</Text>
+                    <Text style={[globalStyles.xlText, globalStyles.styleColor]}><Text style={styles.label}>vin：</Text>12345678901234567</Text>
                 </ListItem>
                 <ListItem>
-                    <Text>品牌：奥迪</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.label}>品牌：</Text>奥迪</Text>
                 </ListItem>
                 <ListItem>
-                    <Text>委托方：安盛船务</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.label}>委托方：</Text>安盛船务</Text>
                 </ListItem>
                 <ListItem>
-                    <Text>出发地：城市+地址</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.label}>出发地：</Text>城市+地址</Text>
                 </ListItem>
                 <ListItem>
-                    <Text>目的地：城市+经销商</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.label}>目的地：</Text>城市+经销商</Text>
                 </ListItem>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    label: {
+        fontWeight: 'bold'
+    }
+})
 
 const mapStateToProps = (state) => {
     return {

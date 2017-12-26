@@ -28,7 +28,14 @@ const globalStyles = StyleSheet.create({
     xlText:{
         fontSize: 7 * fontSizeCoeff,
         color: '#777'
+    },
+    formIcon:{
+        marginLeft: 10,
+        fontSize:20,
+        color: '#777'
     }
 })
+
+export const styleColor='#36759e'
 
 export default globalStyles

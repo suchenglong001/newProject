@@ -3,6 +3,8 @@ package com.log_qa_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -27,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
+            new ImageResizerPackage(),
             new PhotoViewPackage(),
             new OrientationPackage(),
             new PickerPackage(),

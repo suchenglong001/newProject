@@ -8,7 +8,8 @@ import { fontSizeCoeff } from '../../../util/util'
 import { connect } from 'react-redux'
 import CarDetail from '../../components/carInfo/carDetail/CarDetail'
 import CarInfoRecord from '../../components/carInfo/carInfoRecord/CarInfoRecord'
-import { Button } from 'native-base'
+import { Button,Container } from 'native-base'
+import globalStyles from '../../GlobalStyles'
 
 class CarInfo extends Component {
     constructor(props) {
@@ -21,21 +22,38 @@ class CarInfo extends Component {
 
     render() {
         return (
-            <View style={{flex:1}}>
+            <Container>
                 <CarDetail />
-                <View style={{flexDirection:'row',margin:5}}>
-                    <Button full onPress={() => { }} style={{margin:5}}>
-                        <Text>质损申报</Text>
+                <View style={styles.buttonContainer}>
+                    <Button full onPress={() => { }} style={[styles.applyButton, styles.button]}>
+                        <Text style={styles.buttonTitle}>质损申报</Text>
                     </Button>
-                    <Button full onPress={() => { }} style={{margin:5}}>
-                        <Text>已检</Text>
+                    <Button full onPress={() => { }} style={[globalStyles.styleBackgroundColor, styles.button]}>
+                        <Text style={styles.buttonTitle}>已检</Text>
                     </Button>
                 </View>
                 <CarInfoRecord />
-            </View>
+            </Container>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    button: {
+        margin: 5,
+        flex: 1
+    },
+    applyButton: {
+        backgroundColor: '#fa7376'
+    },
+    buttonTitle:{
+        color: '#fff'
+    },
+    buttonContainer:{
+        flexDirection: 'row', 
+        margin: 5 
+    }
+})
 
 const mapStateToProps = (state) => {
     return {

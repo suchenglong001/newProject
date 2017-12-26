@@ -1,30 +1,22 @@
 import React, { Component } from 'react'
-import { Text, View, StatusBar, StyleSheet } from 'react-native'
-import { Header, Title, Button, Icon, Right, Left, Body, Label } from 'native-base'
+import { Header, Title, Button, Icon } from 'native-base'
+import { View, StatusBar, StyleSheet } from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
 
-const NavBar = props => {
-    const { title, layout, rightButton, leftButton } = props
+const SearchBar = props => {
+    const { title, layout } = props
     return (
         <View style={[styles.container, { width: layout.initWidth }]}>
-            <StatusBar hidden={false} />
+            <StatusBar hidden={false}/>
             <Header
                 androidStatusBarColor={styleColor}
                 style={[styles.header, globalStyles.styleBackgroundColor]}>
-                {leftButton && <Left>
-                    {leftButton}
-                </Left>}
-                <Body>
-                    <Title>{title}</Title>
-                </Body>
-                <Right>
-                    {rightButton}
-                </Right>
+                <Title>{title}</Title>
             </Header>
         </View>
     )
-
 }
 
 const styles = StyleSheet.create({
@@ -37,11 +29,7 @@ const styles = StyleSheet.create({
     header: {
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    buttonContainer: {
-        position: 'absolute',
-        left: 0
     }
 })
 
-export default NavBar
+export default SearchBar
