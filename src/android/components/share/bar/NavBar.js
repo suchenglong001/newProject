@@ -36,10 +36,6 @@ const styles = StyleSheet.create({
     header: {
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    buttonContainer: {
-        position: 'absolute',
-        left: 0
     }
 })
 

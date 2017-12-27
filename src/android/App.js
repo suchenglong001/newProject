@@ -9,15 +9,19 @@ import { fontSizeCoeff } from '../util/util'
 import { Scene, TabBar, Router, ActionConst, Actions, Switch, Reducer } from 'react-native-router-flux'
 
 import NavBar from './components/share/bar/NavBar'
+import SearchBar from './components/share/bar/SearchBar'
+import NavSearchBar from './components/share/bar/NavSearchBar'
 import TabIcon from './components/share/TabIcon'
 import LeftButton from './components/share/bar/LeftButton'
 import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
+import ApplyDamageUploadImageSubmit from './components/applyDamageUploadImage/submit/ApplyDamageUploadImageSubmit'
 
 import Home from './views/home/Home'
 import Setting from './views/setting/Setting'
 import UpdatePassword from './views/updatePassword/UpdatePassword'
 import PersonalCenter from './views/personalCenter/PersonalCenter'
 import CarInfo from './views/carInfo/CarInfo'
+import SearchCar from './views/searchCar/SearchCar'
 import ApplyDamage from './views/applyDamage/ApplyDamage'
 import ApplyDamageUploadImage from './views/applyDamageUploadImage/ApplyDamageUploadImage'
 import Login from './views/login/Login'
@@ -26,10 +30,10 @@ import Initialization from './views/initialization/Initialization'
 
 const styles = StyleSheet.create({
     tabBarStyle: {
-        backgroundColor: '#ccc',
+        backgroundColor: '#d3dde2',
     },
     tabBarSelectedItemStyle: {
-        backgroundColor: '#ccc',
+        backgroundColor: '#d3dde2',
     }
 })
 
@@ -52,7 +56,6 @@ const getSceneStyle = (/* NavigationSceneRendererProps */ props, computedProps) 
 export default class App extends Component {
     constructor(props) {
         super(props)
-
     }
 
     render() {
@@ -76,7 +79,7 @@ export default class App extends Component {
                                 title='首页'
                                 initial={true}
                                 hideNavBar={false}
-                                navBar={NavBar} />
+                                navBar={SearchBar} />
                             <Scene
                                 key="carInfo"
                                 component={CarInfo}
@@ -85,6 +88,12 @@ export default class App extends Component {
                                 hideNavBar={false}
                                 hideTabBar
                                 navBar={NavBar} />
+                            <Scene
+                                key="searchCar"
+                                component={SearchCar}
+                                hideNavBar={false}
+                                hideTabBar
+                                navBar={NavSearchBar} />
                             <Scene
                                 key="applyDamage"
                                 component={ApplyDamage}
@@ -98,7 +107,7 @@ export default class App extends Component {
                                 key="applyDamageUploadImage"
                                 component={ApplyDamageUploadImage}
                                 LeftButton={LeftButton}
-                                RightButton={ApplyDamageSubmit}
+                                RightButton={ApplyDamageUploadImageSubmit}
                                 title='质损申请'
                                 hideTabBar
                                 hideNavBar={false}
@@ -115,7 +124,7 @@ export default class App extends Component {
                                 initial={true}
                                 title='设置'
                                 hideNavBar={false}
-                                navBar={NavBar} />
+                                navBar={SearchBar} />
                             <Scene
                                 key="updatePassword"
                                 component={UpdatePassword}
