@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import globalStyles, { styleColor } from '../../../GlobalStyles'
 
 const SearchBar = props => {
-    const { title, layout, RightButton, LeftButton } = props
+    const { title, layout } = props
     return (
         <View style={[styles.container, { width: layout.initWidth }]}>
             <StatusBar hidden={false} />

@@ -4,7 +4,6 @@ import {
     View,
     Text
 } from 'react-native'
-
 import { Container, Content, List, Left, ListItem, Thumbnail, Separator, Body, Right, Icon } from 'native-base'
 import { connect } from 'react-redux'
 import FoundationIcon from 'react-native-vector-icons/dist/Foundation'
@@ -35,7 +34,30 @@ class Setting extends Component {
                                 </View>
                             </View>
                         </ListItem>
-                        <Separator bordered/>
+                        <Separator bordered />
+                        <ListItem icon onPress={Actions.demageList}>
+                            <Left>
+                                <Icon name="ios-alert" style={globalStyles.styleColor} />
+                            </Left>
+                            <Body>
+                                <Text style={globalStyles.midText}>我的质损</Text>
+                            </Body>
+                            <Right>
+                            <Icon name="arrow-forward" />
+                            </Right>
+                        </ListItem>
+                        <ListItem icon last onPress={Actions.responsibilityList}>
+                            <Left>
+                                <Icon name="ios-umbrella" style={globalStyles.styleColor} />
+                            </Left>
+                            <Body>
+                                <Text style={globalStyles.midText}>我的责任</Text>
+                            </Body>
+                            <Right>
+                                <Icon name="arrow-forward" />
+                            </Right>
+                        </ListItem>
+                        <Separator bordered />
                         <ListItem icon>
                             <Left>
                                 <Icon name="ios-cube-outline" style={globalStyles.styleColor} />

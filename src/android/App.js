@@ -26,6 +26,10 @@ import ApplyDamage from './views/applyDamage/ApplyDamage'
 import ApplyDamageUploadImage from './views/applyDamageUploadImage/ApplyDamageUploadImage'
 import Login from './views/login/Login'
 import Initialization from './views/initialization/Initialization'
+import DemageInfo from './views/demageInfo/DemageInfo'
+import DemageList from './views/demageList/DemageList'
+import ResponsibilityInfo from './views/responsibilityInfo/ResponsibilityInfo'
+import ResponsibilityList from './views/responsibilityList/ResponsibilityList'
 
 
 const styles = StyleSheet.create({
@@ -69,7 +73,7 @@ export default class App extends Component {
                         tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
                         <Scene
                             key="homeBlock"
-                            initial={true}
+
                             icon={TabIcon}
                             online='ios-home'
                             outline='ios-home-outline' >
@@ -115,6 +119,7 @@ export default class App extends Component {
                         </Scene>
                         <Scene
                             key="settingBlock"
+                            initial={true}
                             icon={TabIcon}
                             online='ios-settings'
                             outline='ios-settings-outline' >
@@ -127,13 +132,49 @@ export default class App extends Component {
                                 navBar={SearchBar} />
                             <Scene
                                 key="updatePassword"
+                                LeftButton={LeftButton}
                                 component={UpdatePassword}
                                 title='修改密码'
                                 hideTabBar
                                 hideNavBar={false}
                                 navBar={NavBar} />
                             <Scene
+                                key="demageInfo"
+                                
+                                LeftButton={LeftButton}
+                                component={DemageInfo}
+                                title='质损详情'
+                                hideTabBar
+                                hideNavBar={false}
+                                navBar={NavBar} />
+                            <Scene
+                                key="demageList"
+                                initial={true}
+                                LeftButton={LeftButton}
+                                component={DemageList}
+                                title='我的质损'
+                                hideTabBar
+                                hideNavBar={false}
+                                navBar={NavBar} />
+                            <Scene
+                                key="responsibilityInfo"
+                                LeftButton={LeftButton}
+                                component={ResponsibilityInfo}
+                                title='责任详情'
+                                hideTabBar
+                                hideNavBar={false}
+                                navBar={NavBar} />
+                            <Scene
+                                key="responsibilityList"
+                                LeftButton={LeftButton}
+                                component={ResponsibilityList}
+                                title='我的责任'
+                                hideTabBar
+                                hideNavBar={false}
+                                navBar={NavBar} />
+                            <Scene
                                 key="personalCenter"
+                                LeftButton={LeftButton}
                                 component={PersonalCenter}
                                 title='个人中心'
                                 hideTabBar

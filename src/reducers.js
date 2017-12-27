@@ -16,7 +16,6 @@ import carDetailReducer from '../src/android/components/carInfo/carDetail/CarDet
 import carInfoRecordReducer from '../src/android/components/carInfo/carInfoRecord/CarInfoRecordReducer'
 import applyDamageSubmitReducer from '../src/android/components/applyDamage/submit/ApplyDamageSubmitReducer'
 
-
 export default combineReducers({
     form: formReducer,
     homeReducer,
