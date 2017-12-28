@@ -36,6 +36,9 @@ const globalStyles = StyleSheet.create({
         marginLeft: 10,
         fontSize:20,
         color: '#777'
+    },
+    listBackgroundColor:{
+        backgroundColor: '#f8fafb'   
     }
 })
 

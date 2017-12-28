@@ -73,7 +73,7 @@ export default class App extends Component {
                         tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
                         <Scene
                             key="homeBlock"
-
+                            initial={true}
                             icon={TabIcon}
                             online='ios-home'
                             outline='ios-home-outline' >
@@ -81,7 +81,7 @@ export default class App extends Component {
                                 key="home"
                                 component={Home}
                                 title='首页'
-                                initial={true}
+                                //initial={true}
                                 hideNavBar={false}
                                 navBar={SearchBar} />
                             <Scene
@@ -126,7 +126,7 @@ export default class App extends Component {
                             <Scene
                                 key="setting"
                                 component={Setting}
-                                initial={true}
+                                
                                 title='设置'
                                 hideNavBar={false}
                                 navBar={SearchBar} />
@@ -140,7 +140,7 @@ export default class App extends Component {
                                 navBar={NavBar} />
                             <Scene
                                 key="demageInfo"
-                                
+                                initial={true}
                                 LeftButton={LeftButton}
                                 component={DemageInfo}
                                 title='质损详情'
@@ -149,7 +149,7 @@ export default class App extends Component {
                                 navBar={NavBar} />
                             <Scene
                                 key="demageList"
-                                initial={true}
+                                
                                 LeftButton={LeftButton}
                                 component={DemageList}
                                 title='我的质损'

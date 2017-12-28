@@ -16,7 +16,7 @@ import { Actions } from 'react-native-router-flux'
 const renderListItem = props => {
     const { item, index } = props
     return (
-        <TouchableOpacity key={index} style={styles.itemContainer} onPress={()=>Actions.carInfo()}>
+        <TouchableOpacity key={index} style={[styles.itemContainer,globalStyles.listBackgroundColor]} onPress={()=>Actions.carInfo()}>
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
                 <Text style={[globalStyles.smallText, styles.text]}>2017-06-10 11:30</Text>
