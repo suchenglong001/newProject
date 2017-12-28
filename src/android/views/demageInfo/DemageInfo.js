@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {
     StyleSheet,
-
     View
 } from 'react-native'
 import { fontSizeCoeff } from '../../../util/util'
@@ -33,9 +32,10 @@ class DemageInfo extends Component {
                         activeTextStyle={{ color: '#fff' }}
                         textStyle={{ color: '#adc5d5' }}
                         heading="车辆">
-                        <View style={{flex:1}}>
-                            <DemageDetail />
-                        </View>
+                        <Container>
+                            <CarInfoForDemageInfo />
+                            <RecordForDemageInfo />
+                        </Container>
                     </Tab>
                     <Tab
                         tabStyle={{ backgroundColor: '#36759e' }}
@@ -43,11 +43,9 @@ class DemageInfo extends Component {
                         activeTextStyle={{ color: '#fff' }}
                         textStyle={{ color: '#adc5d5' }}
                         heading="质损">
-                        <View style={{flex:1}}>
-                            <CarInfoForDemageInfo />
-                            <RecordForDemageInfo />
-                        </View>
-
+                        <Container>
+                            <DemageDetail />
+                        </Container>
                     </Tab>
                     <Tab
                         tabStyle={{ backgroundColor: '#36759e' }}
@@ -55,9 +53,10 @@ class DemageInfo extends Component {
                         activeTextStyle={{ color: '#fff' }}
                         textStyle={{ color: '#adc5d5' }}
                         heading="照片">
-                        <View>
+                        <Container>
                             <ImageListForDemageInfo />
-                        </View>
+                        </Container>
+
                     </Tab>
                     <Tab
                         tabStyle={{ backgroundColor: '#36759e', }}
@@ -65,9 +64,9 @@ class DemageInfo extends Component {
                         activeTextStyle={{ color: '#fff' }}
                         textStyle={{ color: '#adc5d5' }}
                         heading="处理">
-                        <View>
+                        <Container>
                             <DemageOpResult />
-                        </View>
+                        </Container>
                     </Tab>
                 </Tabs>
             </Container>

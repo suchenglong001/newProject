@@ -81,7 +81,7 @@ export default class App extends Component {
                                 key="home"
                                 component={Home}
                                 title='首页'
-                                //initial={true}
+                                initial={true}
                                 hideNavBar={false}
                                 navBar={SearchBar} />
                             <Scene
@@ -119,14 +119,14 @@ export default class App extends Component {
                         </Scene>
                         <Scene
                             key="settingBlock"
-                            initial={true}
+                            
                             icon={TabIcon}
                             online='ios-settings'
                             outline='ios-settings-outline' >
                             <Scene
                                 key="setting"
                                 component={Setting}
-                                
+                                initial={true}
                                 title='设置'
                                 hideNavBar={false}
                                 navBar={SearchBar} />
@@ -140,7 +140,7 @@ export default class App extends Component {
                                 navBar={NavBar} />
                             <Scene
                                 key="demageInfo"
-                                initial={true}
+                                
                                 LeftButton={LeftButton}
                                 component={DemageInfo}
                                 title='质损详情'

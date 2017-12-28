@@ -17,7 +17,7 @@ const globalStyles = StyleSheet.create({
         color: '#777'
     },
     midText: {
-        fontSize: 5 * fontSizeCoeff,
+        fontSize: 4.5 * fontSizeCoeff,
         color: '#777'
     },
     smallText: {
