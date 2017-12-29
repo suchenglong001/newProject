@@ -7,11 +7,11 @@ import { fontSizeCoeff } from '../../../util/util'
 import { connect } from 'react-redux'
 import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, ListItem } from 'native-base'
 import globalStyles from '../../GlobalStyles'
-import CarInfoForDemageInfo from '../../components/demageInfo/carInfo/CarInfoForDemageInfo'
-import RecordForDemageInfo from '../../components/demageInfo/record/RecordForDemageInfo'
-import ImageListForDemageInfo from '../../components/demageInfo/imageList/ImageListForDemageInfo'
-import DemageOpResult from '../../components/demageInfo/opResult/DemageOpResult'
-import DemageDetail from '../../components/demageInfo/demageDetail/DemageDetail'
+import CarInfoForDemage from '../../components/demageInfo/CarInfoForDemage'
+import RecordForDemage from '../../components/demageInfo/RecordForDemage'
+import ImageListForDemage from '../../components/demageInfo/ImageListForDemage'
+import DemageOpResult from '../../components/demageInfo/DemageOpResult'
+import DemageDetail from '../../components/demageInfo/DemageDetail'
 
 class DemageInfo extends Component {
     constructor(props) {
@@ -33,8 +33,8 @@ class DemageInfo extends Component {
                         textStyle={{ color: '#adc5d5' }}
                         heading="车辆">
                         <Container>
-                            <CarInfoForDemageInfo />
-                            <RecordForDemageInfo />
+                            <CarInfoForDemage />
+                            <RecordForDemage />
                         </Container>
                     </Tab>
                     <Tab
@@ -54,7 +54,7 @@ class DemageInfo extends Component {
                         textStyle={{ color: '#adc5d5' }}
                         heading="照片">
                         <Container>
-                            <ImageListForDemageInfo />
+                            <ImageListForDemage />
                         </Container>
 
                     </Tab>

@@ -5,11 +5,9 @@ import {
     View
 } from 'react-native'
 import { Icon } from 'native-base'
-import { fontSizeCoeff } from '../../../../util/util'
-import { connect } from 'react-redux'
-import globalStyles from '../../../GlobalStyles'
+import globalStyles from '../../GlobalStyles'
 
-class CarInfoForDemageInfo extends Component {
+export default class CarInfoForDemageInfo extends Component {
     constructor(props) {
         super(props)
     }
@@ -73,14 +71,3 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) => {
-    return {
-        templateReducer: state.templateReducer
-    }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(CarInfoForDemageInfo)

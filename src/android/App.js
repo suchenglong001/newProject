@@ -73,7 +73,7 @@ export default class App extends Component {
                         tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
                         <Scene
                             key="homeBlock"
-                            initial={true}
+                            
                             icon={TabIcon}
                             online='ios-home'
                             outline='ios-home-outline' >
@@ -119,7 +119,7 @@ export default class App extends Component {
                         </Scene>
                         <Scene
                             key="settingBlock"
-                            
+                            initial={true}
                             icon={TabIcon}
                             online='ios-settings'
                             outline='ios-settings-outline' >

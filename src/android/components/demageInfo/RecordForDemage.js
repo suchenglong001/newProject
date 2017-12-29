@@ -5,9 +5,7 @@ import {
     View,
     FlatList
 } from 'react-native'
-import { fontSizeCoeff } from '../../../../util/util'
-import { connect } from 'react-redux'
-import globalStyles from '../../../GlobalStyles'
+import globalStyles from '../../GlobalStyles'
 import { Icon } from 'native-base'
 
 const ListHeader = () => {
@@ -35,7 +33,7 @@ const renderItem = props => {
     )
 }
 
-class RecordForDemageInfo extends Component {
+export default class RecordForDemageInfo extends Component {
     constructor(props) {
         super(props)
     }
@@ -80,14 +78,3 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) => {
-    return {
-        templateReducer: state.templateReducer
-    }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecordForDemageInfo)

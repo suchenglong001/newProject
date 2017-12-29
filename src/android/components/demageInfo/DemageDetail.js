@@ -4,12 +4,10 @@ import {
     Text,
     View
 } from 'react-native'
-import { fontSizeCoeff } from '../../../../util/util'
-import { connect } from 'react-redux'
-import globalStyles from '../../../GlobalStyles'
+import globalStyles from '../../GlobalStyles'
 import { Icon } from 'native-base'
 
-class DemageDetail extends Component {
+export default class DemageDetail extends Component {
     constructor(props) {
         super(props)
     }
@@ -79,14 +77,3 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) => {
-    return {
-        templateReducer: state.templateReducer
-    }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DemageDetail)

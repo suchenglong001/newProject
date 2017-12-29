@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import {
     StyleSheet,
-    Text,
     View
 } from 'react-native'
 import { fontSizeCoeff } from '../../../util/util'
 import { connect } from 'react-redux'
+import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, ListItem } from 'native-base'
+import globalStyles from '../../GlobalStyles'
+import CarInfoForDemage from '../../components/demageInfo/CarInfoForDemage'
+import RecordForDemage from '../../components/demageInfo/RecordForDemage'
+import ImageListForDemage from '../../components/demageInfo/ImageListForDemage'
+import DemageOpResult from '../../components/demageInfo/DemageOpResult'
+import DemageDetail from '../../components/demageInfo/DemageDetail'
 
-class ResponsibilityInfo extends Component {
+class DemageInfo extends Component {
     constructor(props) {
         super(props)
     }
@@ -18,16 +24,59 @@ class ResponsibilityInfo extends Component {
 
     render() {
         return (
-            <View>
-                <Text style={{ fontSize: 5 * fontSizeCoeff }}>Template</Text>
-            </View>
+            <Container style={globalStyles.listBackgroundColor}>
+                <Tabs onChangeTab={param => console.log(param)}>
+                    <Tab
+                        tabStyle={{ backgroundColor: '#36759e' }}
+                        activeTabStyle={{ backgroundColor: '#36759e' }}
+                        activeTextStyle={{ color: '#fff' }}
+                        textStyle={{ color: '#adc5d5' }}
+                        heading="车辆">
+                        <Container>
+                            <CarInfoForDemage />
+                            <RecordForDemage />
+                        </Container>
+                    </Tab>
+                    <Tab
+                        tabStyle={{ backgroundColor: '#36759e' }}
+                        activeTabStyle={{ backgroundColor: '#36759e' }}
+                        activeTextStyle={{ color: '#fff' }}
+                        textStyle={{ color: '#adc5d5' }}
+                        heading="质损">
+                        <Container>
+                            <DemageDetail />
+                        </Container>
+                    </Tab>
+                    <Tab
+                        tabStyle={{ backgroundColor: '#36759e' }}
+                        activeTabStyle={{ backgroundColor: '#36759e' }}
+                        activeTextStyle={{ color: '#fff' }}
+                        textStyle={{ color: '#adc5d5' }}
+                        heading="照片">
+                        <Container>
+                            <ImageListForDemage />
+                        </Container>
+
+                    </Tab>
+                    <Tab
+                        tabStyle={{ backgroundColor: '#36759e', }}
+                        activeTabStyle={{ backgroundColor: '#36759e' }}
+                        activeTextStyle={{ color: '#fff' }}
+                        textStyle={{ color: '#adc5d5' }}
+                        heading="处理">
+                        <Container>
+                            <DemageOpResult />
+                        </Container>
+                    </Tab>
+                </Tabs>
+            </Container>
         )
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        responsibilityInfoReducer: state.responsibilityInfoReducer
+        demageInfoReducer: state.demageInfoReducer
     }
 }
 
@@ -35,4 +84,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResponsibilityInfo)
+export default connect(mapStateToProps, mapDispatchToProps)(DemageInfo)
