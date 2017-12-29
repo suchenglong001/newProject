@@ -12,6 +12,7 @@ import RecordForDemage from '../../components/demageInfo/RecordForDemage'
 import ImageListForDemage from '../../components/demageInfo/ImageListForDemage'
 import DemageOpResult from '../../components/demageInfo/DemageOpResult'
 import DemageDetail from '../../components/demageInfo/DemageDetail'
+import DemageEditor from '../../components/demageInfo/DemageEditor'
 
 class DemageInfo extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class DemageInfo extends Component {
     render() {
         return (
             <Container style={globalStyles.listBackgroundColor}>
-                <Tabs onChangeTab={param => console.log(param)}>
+                <Tabs>
                     <Tab
                         tabStyle={{ backgroundColor: '#36759e' }}
                         activeTabStyle={{ backgroundColor: '#36759e' }}
@@ -33,8 +34,9 @@ class DemageInfo extends Component {
                         textStyle={{ color: '#adc5d5' }}
                         heading="车辆">
                         <Container>
-                            <CarInfoForDemage />
-                            <RecordForDemage />
+                            <DemageEditor />
+                            {/* <CarInfoForDemage />
+                            <RecordForDemage /> */}
                         </Container>
                     </Tab>
                     <Tab

@@ -25,16 +25,15 @@ class DemageInfo extends Component {
     render() {
         return (
             <Container style={globalStyles.listBackgroundColor}>
-                <Tabs onChangeTab={param => console.log(param)}>
+                <Tabs>
                     <Tab
-                        tabStyle={{ backgroundColor: '#36759e' }}
+                        tabStyle={{ backgroundColor: '#36759e', }}
                         activeTabStyle={{ backgroundColor: '#36759e' }}
                         activeTextStyle={{ color: '#fff' }}
                         textStyle={{ color: '#adc5d5' }}
-                        heading="车辆">
+                        heading="处理">
                         <Container>
-                            <CarInfoForDemage />
-                            <RecordForDemage />
+                            <DemageOpResult />
                         </Container>
                     </Tab>
                     <Tab
@@ -56,16 +55,16 @@ class DemageInfo extends Component {
                         <Container>
                             <ImageListForDemage />
                         </Container>
-
                     </Tab>
                     <Tab
-                        tabStyle={{ backgroundColor: '#36759e', }}
+                        tabStyle={{ backgroundColor: '#36759e' }}
                         activeTabStyle={{ backgroundColor: '#36759e' }}
                         activeTextStyle={{ color: '#fff' }}
                         textStyle={{ color: '#adc5d5' }}
-                        heading="处理">
+                        heading="车辆">
                         <Container>
-                            <DemageOpResult />
+                            <CarInfoForDemage />
+                            <RecordForDemage />
                         </Container>
                     </Tab>
                 </Tabs>

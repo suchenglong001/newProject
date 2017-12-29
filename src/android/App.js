@@ -126,7 +126,7 @@ export default class App extends Component {
                             <Scene
                                 key="setting"
                                 component={Setting}
-                                initial={true}
+                                
                                 title='设置'
                                 hideNavBar={false}
                                 navBar={SearchBar} />
@@ -140,7 +140,7 @@ export default class App extends Component {
                                 navBar={NavBar} />
                             <Scene
                                 key="demageInfo"
-                                
+                                initial={true}
                                 LeftButton={LeftButton}
                                 component={DemageInfo}
                                 title='质损详情'
