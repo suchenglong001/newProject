@@ -34,9 +34,9 @@ class DemageInfo extends Component {
                         textStyle={{ color: '#adc5d5' }}
                         heading="车辆">
                         <Container>
-                            <DemageEditor />
-                            {/* <CarInfoForDemage />
-                            <RecordForDemage /> */}
+                            {/* <DemageEditor /> */}
+                            <CarInfoForDemage />
+                            <RecordForDemage />
                         </Container>
                     </Tab>
                     <Tab

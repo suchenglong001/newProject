@@ -5,11 +5,11 @@ import {
     View,
     Button
 } from 'react-native'
-import { fontSizeCoeff } from '../../../util/util'
 import { connect } from 'react-redux'
 import CheckStatistics from '../../components/home/checkStatistics/CheckStatistics'
 import CheckVehicleList from '../../components/home/checkVehicleList/CheckVehicleList'
 import { Container } from 'native-base'
+import globalStyles from '../../GlobalStyles'
 
 class Home extends Component {
     constructor(props) {
@@ -18,11 +18,11 @@ class Home extends Component {
 
     render() {
         return (
-            <View style={{flex:1}}>
+            <Container style={globalStyles.listBackgroundColor}>
                 <CheckStatistics />
                 <CheckVehicleList />
                 {/* <Text style={{ fontSize: 5 * fontSizeCoeff }}>Home</Text>  */}
-            </View>
+            </Container>
         )
     }
 }

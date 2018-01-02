@@ -12,21 +12,23 @@ import { connect } from 'react-redux'
 import { Icon, Thumbnail } from 'native-base'
 import globalStyles from '../../../GlobalStyles'
 import { Actions } from 'react-native-router-flux'
+import * as checkVehicleListAction from './CheckVehicleListAction'
+import moment from 'moment'
 
 const renderListItem = props => {
-    const { item, index } = props
+    const { item: { vin, make_name, check_start_date }, index } = props
     return (
-        <TouchableOpacity key={index} style={[styles.itemContainer,globalStyles.listBackgroundColor]} onPress={()=>Actions.carInfo()}>
+        <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => Actions.carInfo()}>
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
-                <Text style={[globalStyles.smallText, styles.text]}>2017-06-10 11:30</Text>
+                <Text style={[globalStyles.smallText, styles.text]}>{check_start_date ? `${moment(check_start_date).format('YYYY-MM-DD HH:mm')}` : ''}</Text>
             </View>
             <View style={styles.itemBodyContainer}>
                 <View style={styles.itemBodyLeft}>
                     <Icon name="ios-car" style={[globalStyles.styleColor, styles.itemBodyIcon]} />
-                    <Text style={[globalStyles.midText, styles.text]}>12345678901234567</Text>
+                    <Text style={[globalStyles.midText, styles.text]}>{vin ? `${vin}` : ''}</Text>
                 </View>
-                <Text style={globalStyles.midText}>一汽大众</Text>
+                <Text style={globalStyles.midText}>{make_name ? `${make_name}` : ''}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -47,15 +49,16 @@ class CheckVehicleList extends Component {
     }
 
     componentDidMount() {
-
+        this.props.getCheckVehicleList()
     }
 
     render() {
+        const { checkVehicleList } = this.props.checkVehicleListReducer.data
         return (
             <FlatList
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmpty}
-                data={[1, 2, 3, 4, 5, 6]}
+                data={checkVehicleList}
                 renderItem={renderListItem}
             />
         )
@@ -65,7 +68,7 @@ class CheckVehicleList extends Component {
 const styles = StyleSheet.create({
     itemContainer: {
         marginHorizontal: 10,
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.3,
         borderColor: '#ddd',
         paddingVertical: 5
     },
@@ -110,7 +113,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+    getCheckVehicleList: () => {
+        dispatch(checkVehicleListAction.getCheckVehicleList())
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckVehicleList)

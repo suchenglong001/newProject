@@ -8,6 +8,7 @@ import { fontSizeCoeff } from '../../../../util/util'
 import { connect } from 'react-redux'
 import globalStyles from '../../../GlobalStyles'
 import { Thumbnail } from 'native-base'
+import * as checkStatisticsAction from './CheckStatisticsAction'
 
 class CheckStatistics extends Component {
     constructor(props) {
@@ -15,16 +16,17 @@ class CheckStatistics extends Component {
     }
 
     componentDidMount() {
-
+        this.props.getCheckStatistics()
     }
 
     render() {
+        const { data: { check_count, d_count } } = this.props.checkStatisticsReducer
         return (
             <View style={[globalStyles.styleBackgroundColor, styles.container]}>
                 <View style={styles.item}>
                     <View style={styles.circle}>
                         <Text style={[globalStyles.smallText, styles.text]}>本月申报</Text>
-                        <Text style={[globalStyles.xlText, styles.text]}>45</Text>
+                        <Text style={[globalStyles.xlText, styles.text]}>{d_count ? `${d_count}` : '0'}</Text>
                     </View>
                 </View>
                 <View style={styles.item}>
@@ -34,7 +36,7 @@ class CheckStatistics extends Component {
                 <View style={styles.item}>
                     <View style={styles.circle}>
                         <Text style={[globalStyles.smallText, styles.text]}>本月责任</Text>
-                        <Text style={[globalStyles.xlText, styles.text]}>2</Text>
+                        <Text style={[globalStyles.xlText, styles.text]}>{check_count ? `${check_count}` : '0'}</Text>
                     </View>
                 </View>
             </View>
@@ -79,7 +81,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+    getCheckStatistics: () => {
+        dispatch(checkStatisticsAction.getCheckStatistics())
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckStatistics)

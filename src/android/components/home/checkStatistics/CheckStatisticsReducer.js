@@ -1,11 +1,68 @@
 import { handleActions } from 'redux-actions'
 import * as checkStatisticsActionTypes from './CheckStatisticsActionTypes'
+import { isEqualKeys } from '../../../../util/IsObjectValueEqual'
 
 const initialState = {
-
+    data: {
+        d_count: 3,
+        check_count: 2
+    },
+    getCheckStatistics: {
+        errorMsg: '',
+        failedMsg: '',
+        isResultStatus: 0
+    }
 }
 
-//isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(错误)，4(执行失败),5(服务器未处理错误)]
+//isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(错误)，4(执行失败)]
 export default handleActions({
-    
+    [checkStatisticsActionTypes.get_checkStatistics_success]: (state, action) => {
+        const { payload: { d_count, check_count }, payload } = action
+        if (!isEqualKeys(payload, state.data) || state.getCheckStatistics.isResultStatus != 2) {
+            return {
+                ...state,
+                data: {
+                    d_count,
+                    check_count
+                },
+                getCheckStatistics: {
+                    ...initialState.getCheckStatistics,
+                    isResultStatus: 2,
+                }
+            }
+        } else {
+            return state
+        }
+    },
+    [checkStatisticsActionTypes.get_checkStatistics_waiting]: (state, action) => {
+        return {
+            ...state,
+            getCheckStatistics: {
+                ...initialState.getCheckStatistics,
+                isResultStatus: 1,
+            }
+        }
+    },
+    [checkStatisticsActionTypes.get_checkStatistics_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            getCheckStatistics: {
+                ...initialState.getCheckStatistics,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [checkStatisticsActionTypes.get_checkStatistics_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            getCheckStatistics: {
+                ...initialState.getCheckStatistics,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    }
 }, initialState)
