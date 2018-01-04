@@ -7,9 +7,11 @@ import {
 import { connect } from 'react-redux'
 import CarDetail from '../../components/carInfo/carDetail/CarDetail'
 import CarInfoRecord from '../../components/carInfo/carInfoRecord/CarInfoRecord'
-import { Button, Container } from 'native-base'
-import globalStyles from '../../GlobalStyles'
+import { Button, Container, Spinner } from 'native-base'
+import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Actions } from 'react-native-router-flux'
+
+
 
 class CarInfo extends Component {
     constructor(props) {
@@ -17,25 +19,34 @@ class CarInfo extends Component {
     }
 
     componentDidMount() {
-        
+
     }
 
     render() {
-        const { initParam } = this.props
-        return (
-            <Container>
-                <CarDetail initParam={initParam}/>
-                <View style={styles.buttonContainer}>
-                    <Button full onPress={Actions.applyDamage} style={[styles.applyButton, styles.button]}>
-                        <Text style={styles.buttonTitle}>质损申报</Text>
-                    </Button>
-                    <Button full onPress={() => { }} style={[globalStyles.styleBackgroundColor, styles.button]}>
-                        <Text style={styles.buttonTitle}>已检</Text>
-                    </Button>
-                </View>
-                <CarInfoRecord initParam={initParam}/>
-            </Container>
-        )
+        const { getCarDetail } = this.props.carDetailReducer
+        const { getCarInfoRecord } = this.props.carInfoRecordReducer
+        if (getCarDetail.isResultStatus == 1 || getCarInfoRecord == 1) {
+            return (
+                <Container>
+                    <Spinner color={styleColor} />
+                </Container>
+            )
+        } else {
+            return (
+                <Container>
+                    <CarDetail />
+                    <View style={styles.buttonContainer}>
+                        <Button full onPress={Actions.applyDamage} style={[styles.applyButton, styles.button]}>
+                            <Text style={styles.buttonTitle}>质损申报</Text>
+                        </Button>
+                        <Button full onPress={() => { }} style={[globalStyles.styleBackgroundColor, styles.button]}>
+                            <Text style={styles.buttonTitle}>已检</Text>
+                        </Button>
+                    </View>
+                    <CarInfoRecord />
+                </Container>
+            )
+        }
     }
 }
 
@@ -58,7 +69,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        carInfoReducer: state.carInfoReducer
+        carInfoReducer: state.carInfoReducer,
+        carDetailReducer: state.carDetailReducer,
+        carInfoRecordReducer: state.carInfoRecordReducer
     }
 }
 

@@ -10,12 +10,14 @@ import { connect } from 'react-redux'
 import { ListItem } from 'native-base'
 import globalStyles from '../../../GlobalStyles'
 import * as carInfoRecordAction from './CarInfoRecordAction'
+import moment from 'moment'
 
 const renderListItem = props => {
-    const { item, index } = props
+    const { item: { name, timez, content }, index } = props
+
     return (
         <View key={index} style={styles.listItemContainer}>
-            <Text style={globalStyles.midText}>操作记录</Text>
+            <Text style={globalStyles.midText}>{timez ? `${moment(timez).format('YYYY:MM:DD HH:mm')}` : ''} {name ? `[${name}]` : ''} {content ? `${content}` : ''}</Text>
         </View>
     )
 }
@@ -42,32 +44,24 @@ const renderListFooter = () => {
     )
 }
 
-class CarInfoRecord extends Component {
-    constructor(props) {
-        super(props)
-    }
 
-    componentWillUnmount() {
-        this.props.getCarDetailResetStatus()
-    }
-    
-    render() {
-        return (
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={[1, 2, 3, 4, 5, 6, 7, 8]}
-                renderItem={renderListItem}
-                ListEmptyComponent={renderListEmpty}
-                ListHeaderComponent={renderListHeader}
-                ListFooterComponent={renderListFooter}
-            />
-        )
-    }
+const CarInfoRecord = props => {
+    const { carInfoRecord: { comment } } = props.carInfoRecordReducer.data
+    return (
+        <FlatList
+            showsVerticalScrollIndicator={false}
+            data={comment ? comment : []}
+            renderItem={renderListItem}
+            ListEmptyComponent={renderListEmpty}
+            ListHeaderComponent={renderListHeader}
+            ListFooterComponent={renderListFooter}
+        />
+    )
 }
 
 const styles = StyleSheet.create({
     listItemContainer: {
-        marginLeft: 15,
+        marginHorizontal: 15,
         marginTop: 5
     },
     listEmptyContainer: {
@@ -85,9 +79,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    getCarInfoRecord: (param) => {
-        dispatch(carInfoRecordAction.getCarInfoRecord(param))
-    }
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarInfoRecord)

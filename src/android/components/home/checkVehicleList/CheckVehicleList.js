@@ -19,12 +19,17 @@ import moment from 'moment'
 import { Field, reduxForm } from 'redux-form'
 
 const renderListItem = props => {
-    const { item: { vin, make_name, check_start_date, car_id }, index, getCarDetail, getCarInfoRecord } = props
+    const { item: { vin, make_name, check_start_date, car_id }, index, getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
     return (
         <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => {
+            getCarInfoRecordWaiting()
+            getCarDetailWaiting()
             Actions.carInfo()
-            InteractionManager.runAfterInteractions(() => getCarDetail({ car_id }))
-            InteractionManager.runAfterInteractions(() => getCarInfoRecord({ car_id }))
+            InteractionManager.runAfterInteractions(() => {
+                getCarDetail({ car_id })
+                getCarInfoRecord({ car_id })
+            })
+
         }}>
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
@@ -61,13 +66,13 @@ class CheckVehicleList extends Component {
 
     render() {
         const { checkVehicleList } = this.props.checkVehicleListReducer.data
-        const { getCarDetail, getCarInfoRecord } = this.props
+        const { getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = this.props
         return (
             <FlatList
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmpty}
                 data={checkVehicleList}
-                renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail, getCarInfoRecord })}
+                renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail, getCarInfoRecord, getCarDetailWaiting, getCarInfoRecordWaiting })}
             />
         )
     }
@@ -129,6 +134,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getCarInfoRecord: (param) => {
         dispatch(carInfoRecordAction.getCarInfoRecord(param))
+    },
+    getCarInfoRecordWaiting: () => {
+        dispatch(carInfoRecordAction.getCarInfoRecordWaiting())
+    },
+    getCarDetailWaiting: () => {
+        dispatch(carDetailAction.getCarDetailWaiting())
     }
 })
 

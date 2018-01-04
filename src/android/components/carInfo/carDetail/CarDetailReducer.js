@@ -18,22 +18,15 @@ const initialState = {
 export default handleActions({
     [carDetailActionTypes.get_carDetail_success]: (state, action) => {
         const { payload: { carDetail } } = action
-        if (!isEqualDispatch(carDetail, state.data.carDetail)) {
-            return {
-                ...state,
-                data: {
-                    carDetail
-                },
-                getCarDetail: {
-                    ...initialState.getCarDetail,
-                    isResultStatus: 2,
-                }
+        return {
+            ...state,
+            data: {
+                carDetail
+            },
+            getCarDetail: {
+                ...initialState.getCarDetail,
+                isResultStatus: 2,
             }
-        } else if (state.getCarDetail.isResultStatus != 2) {
-            state.getCarDetail.isResultStatus = 2
-            return state
-        } else {
-            return state
         }
     },
     [carDetailActionTypes.get_carDetail_waiting]: (state, action) => {
@@ -66,9 +59,5 @@ export default handleActions({
                 errorMsg
             }
         }
-    },
-    [carDetailActionTypes.get_carDetail_resetStatus]: (state, action) => {
-        state.getCarDetail.isResultStatus = 0
-        return state
     }
 }, initialState)

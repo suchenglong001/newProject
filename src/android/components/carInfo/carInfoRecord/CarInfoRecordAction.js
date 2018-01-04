@@ -8,11 +8,9 @@ export const getCarInfoRecord = (param) => async (dispatch, getState) => {
     const { loginReducer: { data: { user: { uid } } } } = getState()
     try {
         const url = `${record_host}/user/${uid}/car/${car_id}/record`
-        console.log('url', url)
         const res = await httpRequest.get(url)
-        console.log('res', res)
         if (res.success) {
-            
+            dispatch({ type: carInfoRecordActionTypes.get_carInfoRecord_success, payload: { carInfoRecord: res.result[0] } })
         } else {
             dispatch({ type: carInfoRecordActionTypes.get_carInfoRecord_failed, payload: { errorMsg: res.msg } })
         }
@@ -22,6 +20,10 @@ export const getCarInfoRecord = (param) => async (dispatch, getState) => {
     }
 }
 
-export const getCarInfoRecordResetStatus = () => (dispatch) => {
-    dispatch({ type: carInfoRecordActionTypes.get_carInfoRecord_resetStatus, payload: {} })
+export const getCarInfoRecordWaiting = () => (dispatch) => {
+    dispatch({ type: carInfoRecordActionTypes.get_carInfoRecord_waiting, payload: {} })
 }
+
+// export const getCarInfoRecordResetStatus = () => (dispatch) => {
+//     dispatch({ type: carInfoRecordActionTypes.get_carInfoRecord_resetStatus, payload: {} })
+// }

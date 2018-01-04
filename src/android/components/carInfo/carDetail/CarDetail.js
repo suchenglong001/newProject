@@ -10,38 +10,38 @@ import { Container, Header, Content, List, ListItem } from 'native-base'
 import globalStyles from '../../../GlobalStyles'
 import * as carDetailAction from './CarDetailAction'
 
-class CarDetail extends Component {
-    constructor(props) {
-        super(props)
-    }
 
-    componentWillUnmount() {
-        this.props.getCarDetailResetStatus()
-    }
-
-    render() {
-        const { carDetail: { make_name, en_short_name, route_start, route_end, vin, addr_name, re_short_name } } = this.props.carDetailReducer.data
-        return (
-            <View>
-                <ListItem>
-                    <Text style={[globalStyles.xlText, globalStyles.styleColor]}><Text style={styles.label}>vin：</Text>{vin ? `${vin}` : ''}</Text>
-                </ListItem>
-                <ListItem>
-                    <Text style={globalStyles.midText}><Text style={styles.label}>品牌：</Text>{make_name ? `${make_name}` : ''}</Text>
-                </ListItem>
-                <ListItem>
-                    <Text style={globalStyles.midText}><Text style={styles.label}>委托方：</Text>{en_short_name ? `${en_short_name}` : ''}</Text>
-                </ListItem>
-                <ListItem>
-                    <Text style={globalStyles.midText}><Text style={styles.label}>出发地：</Text>{route_start ? `${route_start}` : ''}{addr_name ? `(${addr_name})` : ''}</Text>
-                </ListItem>
-                <ListItem>
-                    <Text style={globalStyles.midText}><Text style={styles.label}>目的地：</Text>{route_end ? `${route_end}` : ''}{re_short_name ? `(${re_short_name})` : ''}</Text>
-                </ListItem>
-            </View>
-        )
-    }
+const CarDetail = props => {
+    const { carDetail: { make_name, en_short_name, route_start, route_end, vin, addr_name, re_short_name } } = props.carDetailReducer.data
+    return (
+        <View>
+            <ListItem>
+                <Text style={[globalStyles.xlText, globalStyles.styleColor]}><Text style={styles.label}>vin：</Text>{vin ? `${vin}` : ''}</Text>
+            </ListItem>
+            <ListItem>
+                <Text style={globalStyles.midText}><Text style={styles.label}>品牌：</Text>{make_name ? `${make_name}` : ''}</Text>
+            </ListItem>
+            <ListItem>
+                <Text style={globalStyles.midText}><Text style={styles.label}>委托方：</Text>{en_short_name ? `${en_short_name}` : ''}</Text>
+            </ListItem>
+            <ListItem>
+                <Text style={globalStyles.midText}><Text style={styles.label}>出发地：</Text>{route_start ? `${route_start}` : ''}{addr_name ? `(${addr_name})` : ''}</Text>
+            </ListItem>
+            <ListItem>
+                <Text style={globalStyles.midText}><Text style={styles.label}>目的地：</Text>{route_end ? `${route_end}` : ''}{re_short_name ? `(${re_short_name})` : ''}</Text>
+            </ListItem>
+        </View>
+    )
 }
+// class CarDetail extends Component {
+//     constructor(props) {
+//         super(props)
+//     }
+
+//     render() {
+
+//     }
+// }
 
 const styles = StyleSheet.create({
     label: {
@@ -56,9 +56,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    getCarDetailResetStatus: () => {
-        dispatch(carDetailAction.getCarDetailResetStatus())
-    }
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarDetail)
