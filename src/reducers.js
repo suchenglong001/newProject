@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
-import homeReducer from '../src/android/views/home/HomeReducer'
 import initializationReducer from '../src/android/views/initialization/InitializationReducer'
 import loginReducer from '../src/android/views/login/LoginReducer'
 import settingReducer from '../src/android/views/setting/SettingReducer'
@@ -18,7 +17,6 @@ import applyDamageSubmitReducer from '../src/android/components/applyDamage/subm
 
 export default combineReducers({
     form: formReducer,
-    homeReducer,
     initializationReducer,
     loginReducer,
     settingReducer,

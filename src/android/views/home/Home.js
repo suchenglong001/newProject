@@ -21,7 +21,6 @@ class Home extends Component {
             <Container style={globalStyles.listBackgroundColor}>
                 <CheckStatistics />
                 <CheckVehicleList />
-                {/* <Text style={{ fontSize: 5 * fontSizeCoeff }}>Home</Text>  */}
             </Container>
         )
     }

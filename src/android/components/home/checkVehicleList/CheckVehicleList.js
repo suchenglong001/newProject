@@ -5,20 +5,21 @@ import {
     View,
     Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    InteractionManager
 } from 'react-native'
-import { fontSizeCoeff } from '../../../../util/util'
 import { connect } from 'react-redux'
 import { Icon, Thumbnail } from 'native-base'
 import globalStyles from '../../../GlobalStyles'
 import { Actions } from 'react-native-router-flux'
 import * as checkVehicleListAction from './CheckVehicleListAction'
 import moment from 'moment'
+import { Field, reduxForm } from 'redux-form'
 
 const renderListItem = props => {
-    const { item: { vin, make_name, check_start_date }, index } = props
+    const { item: { vin, make_name, check_start_date,car_id }, index } = props
     return (
-        <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => Actions.carInfo()}>
+        <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => Actions.carInfo({ initParam: { car_id } })}>
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
                 <Text style={[globalStyles.smallText, styles.text]}>{check_start_date ? `${moment(check_start_date).format('YYYY-MM-DD HH:mm')}` : ''}</Text>
@@ -49,7 +50,7 @@ class CheckVehicleList extends Component {
     }
 
     componentDidMount() {
-        this.props.getCheckVehicleList()
+        InteractionManager.runAfterInteractions(() => this.props.getCheckVehicleList())
     }
 
     render() {

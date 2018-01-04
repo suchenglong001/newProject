@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    InteractionManager
 } from 'react-native'
-import { fontSizeCoeff } from '../../../../util/util'
 import { connect } from 'react-redux'
 import globalStyles from '../../../GlobalStyles'
 import { Thumbnail } from 'native-base'
 import * as checkStatisticsAction from './CheckStatisticsAction'
+
 
 class CheckStatistics extends Component {
     constructor(props) {
@@ -16,11 +17,12 @@ class CheckStatistics extends Component {
     }
 
     componentDidMount() {
-        this.props.getCheckStatistics()
+        InteractionManager.runAfterInteractions(() => this.props.getCheckStatistics())
     }
 
     render() {
         const { data: { check_count, d_count } } = this.props.checkStatisticsReducer
+        const { data: { user: { real_name } } } = this.props.loginReducer
         return (
             <View style={[globalStyles.styleBackgroundColor, styles.container]}>
                 <View style={styles.item}>
@@ -31,7 +33,7 @@ class CheckStatistics extends Component {
                 </View>
                 <View style={styles.item}>
                     <Thumbnail source={{ uri: `personalicon` }} style={styles.thumbnail} />
-                    <Text style={[globalStyles.midText, styles.text]}>张建国</Text>
+                    <Text style={[globalStyles.midText, styles.text]}>{real_name ? `${real_name}` : ''}</Text>
                 </View>
                 <View style={styles.item}>
                     <View style={styles.circle}>
@@ -76,7 +78,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        checkStatisticsReducer: state.checkStatisticsReducer
+        checkStatisticsReducer: state.checkStatisticsReducer,
+        loginReducer: state.loginReducer
     }
 }
 

@@ -3,12 +3,13 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList
+    FlatList,
+    InteractionManager
 } from 'react-native'
-import { fontSizeCoeff } from '../../../../util/util'
 import { connect } from 'react-redux'
 import { ListItem } from 'native-base'
 import globalStyles from '../../../GlobalStyles'
+import * as carInfoRecordAction from './CarInfoRecordAction'
 
 const renderListItem = props => {
     const { item, index } = props
@@ -47,7 +48,8 @@ class CarInfoRecord extends Component {
     }
 
     componentDidMount() {
-
+        const { car_id } = this.props.initParam
+        InteractionManager.runAfterInteractions(() => this.props.getCarInfoRecord({ car_id }))
     }
 
     render() {
@@ -67,13 +69,13 @@ class CarInfoRecord extends Component {
 const styles = StyleSheet.create({
     listItemContainer: {
         marginLeft: 15,
-         marginTop: 5
+        marginTop: 5
     },
     listEmptyContainer: {
-        margin: 15 
+        margin: 15
     },
     listFooterContainer: {
-        height: 5 
+        height: 5
     }
 })
 
@@ -84,7 +86,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+    getCarInfoRecord: (param) => {
+        dispatch(carInfoRecordAction.getCarInfoRecord(param))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarInfoRecord)

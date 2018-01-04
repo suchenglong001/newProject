@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions'
 import * as checkStatisticsActionTypes from './CheckStatisticsActionTypes'
-import { isEqualKeys } from '../../../../util/IsObjectValueEqual'
+import { isEqualDispatch } from '../../../../util/IsObjectValueEqual'
 
 const initialState = {
     data: {
@@ -18,7 +18,7 @@ const initialState = {
 export default handleActions({
     [checkStatisticsActionTypes.get_checkStatistics_success]: (state, action) => {
         const { payload: { d_count, check_count }, payload } = action
-        if (!isEqualKeys(payload, state.data) || state.getCheckStatistics.isResultStatus != 2) {
+        if (!isEqualDispatch(payload, state.data) || state.getCheckStatistics.isResultStatus != 2) {
             return {
                 ...state,
                 data: {

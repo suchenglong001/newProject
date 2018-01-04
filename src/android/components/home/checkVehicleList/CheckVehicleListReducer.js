@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions'
 import * as checkVehicleListActionTypes from './CheckVehicleListActionTypes'
-import { isEqualArr } from '../../../../util/IsObjectValueEqual'
+import { isEqualDispatch } from '../../../../util/IsObjectValueEqual'
 
 const initialState = {
     data: {
@@ -17,7 +17,7 @@ const initialState = {
 export default handleActions({
     [checkVehicleListActionTypes.get_checkVehicleList_success]: (state, action) => {
         const { payload: { checkVehicleList } } = action
-        if (!isEqualArr(checkVehicleList, state.data.checkVehicleList) || state.getCheckVehicleList.isResultStatus != 2) {
+        if (!isEqualDispatch(checkVehicleList, state.data.checkVehicleList) || state.getCheckVehicleList.isResultStatus != 2) {
             return {
                 ...state,
                 data: {

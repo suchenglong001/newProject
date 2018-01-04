@@ -7,7 +7,7 @@ import {
 import { connect } from 'react-redux'
 import CarDetail from '../../components/carInfo/carDetail/CarDetail'
 import CarInfoRecord from '../../components/carInfo/carInfoRecord/CarInfoRecord'
-import { Button,Container } from 'native-base'
+import { Button, Container } from 'native-base'
 import globalStyles from '../../GlobalStyles'
 import { Actions } from 'react-native-router-flux'
 
@@ -17,13 +17,14 @@ class CarInfo extends Component {
     }
 
     componentDidMount() {
-
+        
     }
 
     render() {
+        const { initParam } = this.props
         return (
             <Container>
-                <CarDetail />
+                <CarDetail initParam={initParam}/>
                 <View style={styles.buttonContainer}>
                     <Button full onPress={Actions.applyDamage} style={[styles.applyButton, styles.button]}>
                         <Text style={styles.buttonTitle}>质损申报</Text>
@@ -32,7 +33,7 @@ class CarInfo extends Component {
                         <Text style={styles.buttonTitle}>已检</Text>
                     </Button>
                 </View>
-                <CarInfoRecord />
+                <CarInfoRecord initParam={initParam}/>
             </Container>
         )
     }
@@ -46,12 +47,12 @@ const styles = StyleSheet.create({
     applyButton: {
         backgroundColor: '#fa7376'
     },
-    buttonTitle:{
+    buttonTitle: {
         color: '#fff'
     },
-    buttonContainer:{
-        flexDirection: 'row', 
-        margin: 5 
+    buttonContainer: {
+        flexDirection: 'row',
+        margin: 5
     }
 })
 
