@@ -47,11 +47,10 @@ class CarInfoRecord extends Component {
         super(props)
     }
 
-    componentDidMount() {
-        const { car_id } = this.props.initParam
-        InteractionManager.runAfterInteractions(() => this.props.getCarInfoRecord({ car_id }))
+    componentWillUnmount() {
+        this.props.getCarDetailResetStatus()
     }
-
+    
     render() {
         return (
             <FlatList

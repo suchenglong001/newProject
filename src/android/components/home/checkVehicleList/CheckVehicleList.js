@@ -13,13 +13,19 @@ import { Icon, Thumbnail } from 'native-base'
 import globalStyles from '../../../GlobalStyles'
 import { Actions } from 'react-native-router-flux'
 import * as checkVehicleListAction from './CheckVehicleListAction'
+import * as carDetailAction from '../../../components/carInfo/carDetail/CarDetailAction'
+import * as carInfoRecordAction from '../../../components/carInfo/carInfoRecord/CarInfoRecordAction'
 import moment from 'moment'
 import { Field, reduxForm } from 'redux-form'
 
 const renderListItem = props => {
-    const { item: { vin, make_name, check_start_date,car_id }, index } = props
+    const { item: { vin, make_name, check_start_date, car_id }, index, getCarDetail, getCarInfoRecord } = props
     return (
-        <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => Actions.carInfo({ initParam: { car_id } })}>
+        <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => {
+            Actions.carInfo()
+            InteractionManager.runAfterInteractions(() => getCarDetail({ car_id }))
+            InteractionManager.runAfterInteractions(() => getCarInfoRecord({ car_id }))
+        }}>
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
                 <Text style={[globalStyles.smallText, styles.text]}>{check_start_date ? `${moment(check_start_date).format('YYYY-MM-DD HH:mm')}` : ''}</Text>
@@ -55,12 +61,13 @@ class CheckVehicleList extends Component {
 
     render() {
         const { checkVehicleList } = this.props.checkVehicleListReducer.data
+        const { getCarDetail, getCarInfoRecord } = this.props
         return (
             <FlatList
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmpty}
                 data={checkVehicleList}
-                renderItem={renderListItem}
+                renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail, getCarInfoRecord })}
             />
         )
     }
@@ -116,6 +123,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     getCheckVehicleList: () => {
         dispatch(checkVehicleListAction.getCheckVehicleList())
+    },
+    getCarDetail: (param) => {
+        dispatch(carDetailAction.getCarDetail(param))
+    },
+    getCarInfoRecord: (param) => {
+        dispatch(carInfoRecordAction.getCarInfoRecord(param))
     }
 })
 

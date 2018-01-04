@@ -18,53 +18,57 @@ const initialState = {
 export default handleActions({
     [carDetailActionTypes.get_carDetail_success]: (state, action) => {
         const { payload: { carDetail } } = action
-        console.log(carDetail)
-        return state
-        // if (!isEqualKeys(payload, state.data) || state.getCheckStatistics.isResultStatus != 2) {
-        //     return {
-        //         ...state,
-        //         data: {
-        //             d_count,
-        //             check_count
-        //         },
-        //         getCheckStatistics: {
-        //             ...initialState.getCheckStatistics,
-        //             isResultStatus: 2,
-        //         }
-        //     }
-        // } else {
-        //     return state
-        // }
+        if (!isEqualDispatch(carDetail, state.data.carDetail)) {
+            return {
+                ...state,
+                data: {
+                    carDetail
+                },
+                getCarDetail: {
+                    ...initialState.getCarDetail,
+                    isResultStatus: 2,
+                }
+            }
+        } else if (state.getCarDetail.isResultStatus != 2) {
+            state.getCarDetail.isResultStatus = 2
+            return state
+        } else {
+            return state
+        }
     },
-    // [carDetailActionTypes.get_carDetail_waiting]: (state, action) => {
-    //     return {
-    //         ...state,
-    //         getCheckStatistics: {
-    //             ...initialState.getCheckStatistics,
-    //             isResultStatus: 1,
-    //         }
-    //     }
-    // },
-    // [carDetailActionTypes.get_carDetail_failed]: (state, action) => {
-    //     const { payload: { failedMsg } } = action
-    //     return {
-    //         ...state,
-    //         getCheckStatistics: {
-    //             ...initialState.getCheckStatistics,
-    //             isResultStatus: 4,
-    //             failedMsg
-    //         }
-    //     }
-    // },
-    // [carDetailActionTypes.get_carDetail_error]: (state, action) => {
-    //     const { payload: { errorMsg } } = action
-    //     return {
-    //         ...state,
-    //         getCheckStatistics: {
-    //             ...initialState.getCheckStatistics,
-    //             isResultStatus: 3,
-    //             errorMsg
-    //         }
-    //     }
-    // }
+    [carDetailActionTypes.get_carDetail_waiting]: (state, action) => {
+        return {
+            ...state,
+            getCarDetail: {
+                ...initialState.getCarDetail,
+                isResultStatus: 1,
+            }
+        }
+    },
+    [carDetailActionTypes.get_carDetail_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            getCarDetail: {
+                ...initialState.getCarDetail,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [carDetailActionTypes.get_carDetail_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            getCarDetail: {
+                ...initialState.getCarDetail,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+    [carDetailActionTypes.get_carDetail_resetStatus]: (state, action) => {
+        state.getCarDetail.isResultStatus = 0
+        return state
+    }
 }, initialState)

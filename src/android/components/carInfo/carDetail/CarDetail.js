@@ -15,13 +15,12 @@ class CarDetail extends Component {
         super(props)
     }
 
-    componentDidMount() {
-        const { car_id } = this.props.initParam
-        InteractionManager.runAfterInteractions(() => this.props.getCarDetail({ car_id }))
+    componentWillUnmount() {
+        this.props.getCarDetailResetStatus()
     }
 
     render() {
-        const { carDetail: { make_name, en_short_name, route_start, route_end, vin } } = this.props.carDetailReducer.data
+        const { carDetail: { make_name, en_short_name, route_start, route_end, vin, addr_name, re_short_name } } = this.props.carDetailReducer.data
         return (
             <View>
                 <ListItem>
@@ -34,10 +33,10 @@ class CarDetail extends Component {
                     <Text style={globalStyles.midText}><Text style={styles.label}>委托方：</Text>{en_short_name ? `${en_short_name}` : ''}</Text>
                 </ListItem>
                 <ListItem>
-                    <Text style={globalStyles.midText}><Text style={styles.label}>出发地：</Text>城市+地址</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.label}>出发地：</Text>{route_start ? `${route_start}` : ''}{addr_name ? `(${addr_name})` : ''}</Text>
                 </ListItem>
                 <ListItem>
-                    <Text style={globalStyles.midText}><Text style={styles.label}>目的地：</Text>城市+经销商</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.label}>目的地：</Text>{route_end ? `${route_end}` : ''}{re_short_name ? `(${re_short_name})` : ''}</Text>
                 </ListItem>
             </View>
         )
@@ -57,8 +56,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    getCarDetail: (param) => {
-        dispatch(carDetailAction.getCarDetail(param))
+    getCarDetailResetStatus: () => {
+        dispatch(carDetailAction.getCarDetailResetStatus())
     }
 })
 

@@ -4,12 +4,13 @@ import * as carDetailActionTypes from './CarDetailActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 
 export const getCarDetail = (param) => async (dispatch, getState) => {
+    console.log(getState())
     const { car_id } = param
     try {
         const url = `${base_host}/carList${ObjectToUrl({ carId: car_id })}`
-        console.log('url',url)
+        console.log('url', url)
         const res = await httpRequest.get(url)
-        console.log('res',res)
+        console.log('res', res)
         if (res.success) {
             dispatch({ type: carDetailActionTypes.get_carDetail_success, payload: { carDetail: res.result[0] } })
         } else {
@@ -19,4 +20,8 @@ export const getCarDetail = (param) => async (dispatch, getState) => {
     catch (err) {
         dispatch({ type: carDetailActionTypes.get_carDetail_error, payload: { errorMsg: err } })
     }
+}
+
+export const getCarDetailResetStatus = () => (dispatch) => {
+    dispatch({ type: carDetailActionTypes.get_carDetail_resetStatus, payload: {} })
 }

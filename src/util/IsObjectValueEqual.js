@@ -12,16 +12,17 @@ export const isEqualArr = (a, b) => {//比较两个array中的各个元素可枚
 
 export const isEqualDispatch = (a, b) => {
     if (a === b) return true
-    else if (a instanceof Map) {
-        if (b instanceof Map) return isEqualMap(a, b)
-        else if (Array.isArray(b)) return isEqualArr([...a.values()], b)
-        else return false
-    }
-    else if (Array.isArray(a)) {
-        if (Array.isArray(b)) return isEqualArr(a, b)
-        else if(b instanceof Map) return isEqualArr(a, [...b.values()])
-        else return false
-    } 
+    // else if (a instanceof Map) {
+    //     if (b instanceof Map) return isEqualMap(a, b)
+    //     else if (Array.isArray(b)) return isEqualArr([...a.values()], b)
+    //     else return false
+    // }
+    // else if (Array.isArray(a)) {
+    //     if (Array.isArray(b)) return isEqualArr(a, b)
+    //     else if(b instanceof Map) return isEqualArr(a, [...b.values()])
+    //     else return false
+    // } 
+    else if (Array.isArray(a)) return Array.isArray(b) ? isEqualArr(a, b) : false
     else if (a === null || a === undefined || b === null || b === undefined) return false
     else if (typeof a === "object") return (typeof b === "object") ? isEqualKeys(a, b) : false
     else return false

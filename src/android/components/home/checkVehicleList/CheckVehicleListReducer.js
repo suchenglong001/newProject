@@ -17,7 +17,7 @@ const initialState = {
 export default handleActions({
     [checkVehicleListActionTypes.get_checkVehicleList_success]: (state, action) => {
         const { payload: { checkVehicleList } } = action
-        if (!isEqualDispatch(checkVehicleList, state.data.checkVehicleList) || state.getCheckVehicleList.isResultStatus != 2) {
+        if (!isEqualDispatch(checkVehicleList, state.data.checkVehicleList)) {
             return {
                 ...state,
                 data: {
@@ -28,7 +28,10 @@ export default handleActions({
                     isResultStatus: 2,
                 }
             }
-        } else {
+        } else if(state.getCheckVehicleList.isResultStatus != 2){
+            state.getCheckVehicleList.isResultStatus = 2
+            return state
+        }else {
             return state
         }
 

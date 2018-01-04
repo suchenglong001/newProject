@@ -4,8 +4,8 @@ import { isEqualDispatch } from '../../../../util/IsObjectValueEqual'
 
 const initialState = {
     data: {
-        d_count: 3,
-        check_count: 2
+        d_count: 0,
+        check_count: 0
     },
     getCheckStatistics: {
         errorMsg: '',
@@ -18,7 +18,7 @@ const initialState = {
 export default handleActions({
     [checkStatisticsActionTypes.get_checkStatistics_success]: (state, action) => {
         const { payload: { d_count, check_count }, payload } = action
-        if (!isEqualDispatch(payload, state.data) || state.getCheckStatistics.isResultStatus != 2) {
+        if (!isEqualDispatch(payload, state.data)) {
             return {
                 ...state,
                 data: {
@@ -30,6 +30,9 @@ export default handleActions({
                     isResultStatus: 2,
                 }
             }
+        } else if (state.getCheckStatistics.isResultStatus != 2) {
+            state.getCheckStatistics.isResultStatus = 2
+            return state
         } else {
             return state
         }
