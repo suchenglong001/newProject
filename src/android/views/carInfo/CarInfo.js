@@ -12,7 +12,6 @@ import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Actions } from 'react-native-router-flux'
 
 
-
 class CarInfo extends Component {
     constructor(props) {
         super(props)
@@ -23,9 +22,9 @@ class CarInfo extends Component {
     }
 
     render() {
-        const { getCarDetail } = this.props.carDetailReducer
+        const { getCarDetail, data: { carDetail: { id } } } = this.props.carDetailReducer
         const { getCarInfoRecord } = this.props.carInfoRecordReducer
-        if (getCarDetail.isResultStatus == 1 || getCarInfoRecord == 1) {
+        if (getCarDetail.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) {
             return (
                 <Container>
                     <Spinner color={styleColor} />
@@ -36,7 +35,7 @@ class CarInfo extends Component {
                 <Container>
                     <CarDetail />
                     <View style={styles.buttonContainer}>
-                        <Button full onPress={Actions.applyDamage} style={[styles.applyButton, styles.button]}>
+                        <Button full onPress={() => Actions.applyDamage({ initParam: { car_Id: id } })} style={[styles.applyButton, styles.button]}>
                             <Text style={styles.buttonTitle}>质损申报</Text>
                         </Button>
                         <Button full onPress={() => { }} style={[globalStyles.styleBackgroundColor, styles.button]}>

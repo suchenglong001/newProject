@@ -16,7 +16,6 @@ import * as checkVehicleListAction from './CheckVehicleListAction'
 import * as carDetailAction from '../../../components/carInfo/carDetail/CarDetailAction'
 import * as carInfoRecordAction from '../../../components/carInfo/carInfoRecord/CarInfoRecordAction'
 import moment from 'moment'
-import { Field, reduxForm } from 'redux-form'
 
 const renderListItem = props => {
     const { item: { vin, make_name, check_start_date, car_id }, index, getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props

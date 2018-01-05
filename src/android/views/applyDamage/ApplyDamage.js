@@ -4,10 +4,48 @@ import {
     Text,
     View,
     TextInput,
+    TouchableOpacity,
+    InteractionManager
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, Input, Label, Icon } from 'native-base'
-import globalStyles ,{textColor} from '../../GlobalStyles'
+import globalStyles, { textColor } from '../../GlobalStyles'
+import { Field, reduxForm, getFormValues } from 'redux-form'
+import { Actions } from 'react-native-router-flux'
+import * as selectDriverAction from '../select/driver/SelectDriverAction'
+
+const DamageRemark = props => {
+    const { input: { onChange, ...restProps } } = props
+    return (
+        <View style={styles.item}>
+            <Label style={[styles.label, globalStyles.midText, globalStyles.styleColor]}>质损描述</Label>
+            <Input
+                multiline={true}
+                style={[styles.inputArea, globalStyles.midText]}
+                onChangeText={onChange}
+                {...restProps} />
+        </View>
+    )
+}
+
+const SelectDriver = props => {
+    const { input: { onChange, value }, getSelectDriverList, getSelectDriverListWaiting } = props
+    return (
+        <TouchableOpacity
+            style={[styles.item, styles.itemSelectContainer]}
+            onPress={() => {
+                getSelectDriverListWaiting()
+                Actions.selectDriver({ onChange })
+                InteractionManager.runAfterInteractions(getSelectDriverList)
+            }} >
+            <Label style={globalStyles.midText}>货车司机：</Label>
+            <View style={styles.itemSelect}>
+                <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}{value.tel ? `(${value.tel})` : ''}</Label>
+                <Icon name='md-arrow-dropdown' style={globalStyles.formIcon} />
+            </View>
+        </TouchableOpacity>
+    )
+}
 
 class ApplyDamage extends Component {
     constructor(props) {
@@ -18,23 +56,28 @@ class ApplyDamage extends Component {
 
     }
 
+    static defaultProps = {
+        initParam: {
+            car_Id: 908
+        }
+    }
+
     render() {
+        const { getSelectDriverList, getSelectDriverListWaiting } = this.props
+        console.log(this.props.selectDriverValues)
         return (
             <Container>
                 <Content>
-                    <View style={styles.item}>
-                        <Label style={[styles.label, globalStyles.midText,globalStyles.styleColor]}>质损描述</Label>
-                        <Input multiline={true} style={[styles.inputArea,globalStyles.midText]} />
-                    </View>
-                    <View style={[styles.item, styles.itemSelectContainer]}>
-                        <Label style={globalStyles.midText}>货车司机：</Label>
-                        <View style={styles.itemSelect}>
-                            <Label style={globalStyles.midText}>王大雷(13838385438)</Label>
-                            <Icon name='md-arrow-dropdown' style={globalStyles.formIcon} />
-                        </View>
-                    </View>
+                    <Field
+                        name='damageRemark'
+                        component={DamageRemark} />
+                    <Field
+                        name='selectDriver'
+                        component={SelectDriver}
+                        getSelectDriverList={getSelectDriverList}
+                        getSelectDriverListWaiting={getSelectDriverListWaiting} />
                 </Content>
-            </Container>
+            </Container >
         )
     }
 }
@@ -68,12 +111,22 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        applyDamageReducer: state.applyDamageReducer
+        applyDamageReducer: state.applyDamageReducer,
+        selectDriverValues: getFormValues('applyDamage')(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+    getSelectDriverList: () => {
+        dispatch(selectDriverAction.getSelectDriverList())
+    },
+    getSelectDriverListWaiting: () => {
+        dispatch(selectDriverAction.getSelectDriverListWaiting())
+    }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplyDamage)
+export default connect(mapStateToProps, mapDispatchToProps)(
+    reduxForm({
+        form: 'applyDamage'
+    })(ApplyDamage)
+)

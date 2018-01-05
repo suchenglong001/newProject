@@ -11,6 +11,7 @@ import { Scene, TabBar, Router, ActionConst, Actions, Switch, Reducer } from 're
 import NavBar from './components/share/bar/NavBar'
 import SearchBar from './components/share/bar/SearchBar'
 import NavSearchBar from './components/share/bar/NavSearchBar'
+import SearchDriverBar from './components/share/bar/SearchDriverBar'
 import TabIcon from './components/share/TabIcon'
 import LeftButton from './components/share/bar/LeftButton'
 import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
@@ -30,6 +31,7 @@ import DemageInfo from './views/demageInfo/DemageInfo'
 import DemageList from './views/demageList/DemageList'
 import ResponsibilityInfo from './views/responsibilityInfo/ResponsibilityInfo'
 import ResponsibilityList from './views/responsibilityList/ResponsibilityList'
+import SelectDriver from './views/select/driver/SelectDriver'
 
 
 const styles = StyleSheet.create({
@@ -81,7 +83,7 @@ export default class App extends Component {
                                 key="home"
                                 component={Home}
                                 title='首页'
-                                initial={true}
+                                
                                 hideNavBar={false}
                                 navBar={SearchBar} />
                             <Scene
@@ -99,12 +101,21 @@ export default class App extends Component {
                                 hideTabBar
                                 navBar={NavSearchBar} />
                             <Scene
+                                key="selectDriver"
+                                component={SelectDriver}
+                                hideNavBar={false}
+                                
+                                hideTabBar
+                                navBar={SearchDriverBar} />
+                            <Scene
                                 key="applyDamage"
                                 component={ApplyDamage}
                                 LeftButton={LeftButton}
+                                initial={true}
                                 RightButton={ApplyDamageSubmit}
                                 title='质损申请'
                                 hideTabBar
+                                
                                 hideNavBar={false}
                                 navBar={NavBar} />
                             <Scene

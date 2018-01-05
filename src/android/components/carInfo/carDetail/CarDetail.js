@@ -33,15 +33,6 @@ const CarDetail = props => {
         </View>
     )
 }
-// class CarDetail extends Component {
-//     constructor(props) {
-//         super(props)
-//     }
-
-//     render() {
-
-//     }
-// }
 
 const styles = StyleSheet.create({
     label: {
