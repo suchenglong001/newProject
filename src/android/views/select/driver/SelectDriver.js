@@ -15,13 +15,13 @@ import { Actions } from 'react-native-router-flux'
 
 
 const renderListItem = props => {
-    const { item: { drive_name, tel, id }, index, onChange } = props
+    const { item: { drive_name, tel, id, truck_id, truck_num }, index, onChange } = props
     return (
         <TouchableOpacity
             key={index}
             style={styles.item}
             onPress={() => {
-                onChange({ drive_name, tel, id })
+                onChange({ drive_name, tel, id, truck_id, truck_num })
                 Actions.pop()
             }}>
             <Text style={globalStyles.midText}>{drive_name ? `${drive_name}` : ''}</Text>

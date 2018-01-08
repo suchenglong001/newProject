@@ -7,10 +7,13 @@ import {
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import { Button } from 'native-base'
+import * as applyDamageSubmitAction from './ApplyDamageSubmitAction'
+import { submit } from 'redux-form';
 
- const ApplyDamageSubmit = props => {
+const ApplyDamageSubmit = props => {
+    const { createDamage } = props
     return (
-        <Button transparent onPress={Actions.applyDamageUploadImage}>
+        <Button transparent onPress={createDamage}>
             <Text style={{ color: '#fff' }}>下一步</Text>
         </Button>
     )
@@ -24,7 +27,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    
+    createDamage: () => {
+        dispatch(submit('applyDamage'))
+    }
 })
 
-export default  connect(mapStateToProps, mapDispatchToProps)(ApplyDamageSubmit)
+export default connect(mapStateToProps, mapDispatchToProps)(ApplyDamageSubmit)

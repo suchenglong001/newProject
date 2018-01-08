@@ -13,9 +13,11 @@ import globalStyles, { textColor } from '../../GlobalStyles'
 import { Field, reduxForm, getFormValues } from 'redux-form'
 import { Actions } from 'react-native-router-flux'
 import * as selectDriverAction from '../select/driver/SelectDriverAction'
+import * as applyDamageSubmitAction from '../../components/applyDamage/submit/ApplyDamageSubmitAction'
 
 const DamageRemark = props => {
-    const { input: { onChange, ...restProps } } = props
+    console.log('DamageRemarkprops', props)
+    const { input: { onChange, ...restProps }, meta: { error, touched } } = props
     return (
         <View style={styles.item}>
             <Label style={[styles.label, globalStyles.midText, globalStyles.styleColor]}>质损描述</Label>
@@ -24,12 +26,15 @@ const DamageRemark = props => {
                 style={[styles.inputArea, globalStyles.midText]}
                 onChangeText={onChange}
                 {...restProps} />
+            {touched&&<Text>{error}</Text>}
         </View>
     )
 }
 
 const SelectDriver = props => {
-    const { input: { onChange, value }, getSelectDriverList, getSelectDriverListWaiting } = props
+    console.log('SelectDriverprops', props)
+
+    const { input: { onChange, value }, meta: { error, touched }, getSelectDriverList, getSelectDriverListWaiting } = props
     return (
         <TouchableOpacity
             style={[styles.item, styles.itemSelectContainer]}
@@ -43,6 +48,7 @@ const SelectDriver = props => {
                 <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}{value.tel ? `(${value.tel})` : ''}</Label>
                 <Icon name='md-arrow-dropdown' style={globalStyles.formIcon} />
             </View>
+            {touched&&<Text>{error}</Text>}
         </TouchableOpacity>
     )
 }
@@ -64,7 +70,7 @@ class ApplyDamage extends Component {
 
     render() {
         const { getSelectDriverList, getSelectDriverListWaiting } = this.props
-        console.log(this.props.selectDriverValues)
+        console.log(this.props)
         return (
             <Container>
                 <Content>
@@ -109,6 +115,23 @@ const styles = StyleSheet.create({
     }
 })
 
+const validate = values => {
+    const errors = { damageRemark: '', selectDriver: '' }
+    if (!values.damageRemark) {
+        errors.damageRemark = '必填'
+    }
+
+    if (!values.selectDriver) {
+        errors.selectDriver =  '必选'
+    } else {
+        if (!values.selectDriver.truck_id) {
+            errors.selectDriver = '该司机未绑定车头'
+        }
+    }
+    console.log('errors', errors)
+    return errors
+}
+
 const mapStateToProps = (state) => {
     return {
         applyDamageReducer: state.applyDamageReducer,
@@ -122,11 +145,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getSelectDriverListWaiting: () => {
         dispatch(selectDriverAction.getSelectDriverListWaiting())
+    },
+    onSubmit: () => {
+        dispatch(applyDamageSubmitAction.createDamage())
     }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
     reduxForm({
-        form: 'applyDamage'
+        form: 'applyDamage',
+        validate
     })(ApplyDamage)
 )

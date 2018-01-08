@@ -3,7 +3,7 @@ import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as selectDriverActionTypes from './SelectDriverActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 
-export const getSelectDriverList = () =>async (dispatch,getState) => {
+export const getSelectDriverList = () => async (dispatch, getState) => {
     try {
         const url = `${base_host}/drive`
         const res = await httpRequest.get(url)
