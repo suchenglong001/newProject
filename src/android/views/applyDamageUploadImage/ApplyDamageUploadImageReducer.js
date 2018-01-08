@@ -2,10 +2,10 @@ import { handleActions } from 'redux-actions'
 import * as applyDamageUploadImageActionTypes from './ApplyDamageUploadImageActionTypes'
 
 const initialState = {
-    data:{
-        imageList:[]
+    data: {
+        imageList: []
     },
-    uploadDamageImage:{
+    uploadDamageImage: {
         errorMsg: '',
         failedMsg: '',
         isResultStatus: 0
@@ -19,7 +19,7 @@ export default handleActions({
         return {
             ...state,
             data: {
-                imageList
+                imageList: [...state.data.imageList, ...imageList]
             },
             uploadDamageImage: {
                 ...initialState.uploadDamageImage,
@@ -28,11 +28,11 @@ export default handleActions({
         }
     },
     [applyDamageUploadImageActionTypes.upload_DamageImage_partSuccess]: (state, action) => {
-        const { payload: { imageList,failedMsg } } = action
+        const { payload: { imageList, failedMsg } } = action
         return {
             ...state,
             data: {
-                imageList
+                imageList: [...state.data.imageList, ...imageList]
             },
             uploadDamageImage: {
                 ...initialState.uploadDamageImage,
