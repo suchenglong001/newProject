@@ -39,6 +39,10 @@ const globalStyles = StyleSheet.create({
     },
     listBackgroundColor:{
         backgroundColor: '#f8fafb'   
+    },
+    errorText:{
+        fontSize: 4 * fontSizeCoeff,
+        color: 'red'
     }
 })
 

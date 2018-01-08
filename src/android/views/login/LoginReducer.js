@@ -2,11 +2,12 @@ import { handleActions } from 'redux-actions'
 import * as loginActionTypes from './LoginActionTypes'
 
 const initialState = {
-    data:{
-        user:{
+    data: {
+        user: {
             uid: 36,
             mobile: "123",
-            real_name: "仓储小"
+            real_name: "仓储小",
+            type: 29
         }
     }
 }

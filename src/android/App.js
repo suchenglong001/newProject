@@ -111,7 +111,7 @@ export default class App extends Component {
                                 key="applyDamage"
                                 component={ApplyDamage}
                                 LeftButton={LeftButton}
-                                initial={true}
+                                
                                 RightButton={ApplyDamageSubmit}
                                 title='质损申请'
                                 hideTabBar
@@ -125,6 +125,7 @@ export default class App extends Component {
                                 RightButton={ApplyDamageUploadImageSubmit}
                                 title='质损申请'
                                 hideTabBar
+                                initial={true}
                                 hideNavBar={false}
                                 navBar={NavBar} />
                         </Scene>

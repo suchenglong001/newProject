@@ -4,7 +4,10 @@ import { isEqualDispatch } from '../../../../util/IsObjectValueEqual'
 
 const initialState = {
     data: {
-        carDetail: {}
+        carDetail: {
+            id: 908,
+            vin: 'LSV12345678901234'
+        }
     },
     getCarDetail: {
         errorMsg: '',

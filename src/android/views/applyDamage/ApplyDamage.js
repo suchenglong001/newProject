@@ -16,7 +16,6 @@ import * as selectDriverAction from '../select/driver/SelectDriverAction'
 import * as applyDamageSubmitAction from '../../components/applyDamage/submit/ApplyDamageSubmitAction'
 
 const DamageRemark = props => {
-    console.log('DamageRemarkprops', props)
     const { input: { onChange, ...restProps }, meta: { error, touched } } = props
     return (
         <View style={styles.item}>
@@ -26,14 +25,12 @@ const DamageRemark = props => {
                 style={[styles.inputArea, globalStyles.midText]}
                 onChangeText={onChange}
                 {...restProps} />
-            {touched&&<Text>{error}</Text>}
+            {touched &&error&& <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
         </View>
     )
 }
 
 const SelectDriver = props => {
-    console.log('SelectDriverprops', props)
-
     const { input: { onChange, value }, meta: { error, touched }, getSelectDriverList, getSelectDriverListWaiting } = props
     return (
         <TouchableOpacity
@@ -43,12 +40,15 @@ const SelectDriver = props => {
                 Actions.selectDriver({ onChange })
                 InteractionManager.runAfterInteractions(getSelectDriverList)
             }} >
-            <Label style={globalStyles.midText}>货车司机：</Label>
-            <View style={styles.itemSelect}>
-                <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}{value.tel ? `(${value.tel})` : ''}</Label>
-                <Icon name='md-arrow-dropdown' style={globalStyles.formIcon} />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Label style={globalStyles.midText}>货车司机：</Label>
+                <View style={styles.itemSelect}>
+                    <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}{value.tel ? `(${value.tel})` : ''}</Label>
+                    <Icon name='md-arrow-dropdown' style={globalStyles.formIcon} />
+                </View>
             </View>
-            {touched&&<Text>{error}</Text>}
+
+            {touched &&error&& <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
         </TouchableOpacity>
     )
 }
@@ -70,7 +70,6 @@ class ApplyDamage extends Component {
 
     render() {
         const { getSelectDriverList, getSelectDriverListWaiting } = this.props
-        console.log(this.props)
         return (
             <Container>
                 <Content>
@@ -98,10 +97,7 @@ const styles = StyleSheet.create({
     itemSelectContainer: {
         borderBottomWidth: 0.3,
         borderColor: '#777',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingBottom: 15,
-        alignItems: 'center'
+        paddingBottom: 15
     },
     itemSelect: {
         flexDirection: 'row',
@@ -122,13 +118,12 @@ const validate = values => {
     }
 
     if (!values.selectDriver) {
-        errors.selectDriver =  '必选'
+        errors.selectDriver = '必选'
     } else {
         if (!values.selectDriver.truck_id) {
             errors.selectDriver = '该司机未绑定车头'
         }
     }
-    console.log('errors', errors)
     return errors
 }
 

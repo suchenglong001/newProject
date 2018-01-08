@@ -6,17 +6,24 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
-import { Button } from 'native-base'
+import { Button,Spinner } from 'native-base'
 import * as applyDamageSubmitAction from './ApplyDamageSubmitAction'
 import { submit } from 'redux-form';
 
 const ApplyDamageSubmit = props => {
-    const { createDamage } = props
-    return (
-        <Button transparent onPress={createDamage}>
-            <Text style={{ color: '#fff' }}>下一步</Text>
-        </Button>
-    )
+    const { createDamage,applyDamageSubmitReducer: { createDamage: { isResultStatus } } } = props
+    if(isResultStatus==1){
+        return (
+            <Spinner color='#fff'/>
+        )
+    }else{
+        return (
+            <Button transparent onPress={createDamage}>
+                <Text style={{ color: '#fff' }}>下一步</Text>
+            </Button>
+        )
+    }
+
 }
 
 
