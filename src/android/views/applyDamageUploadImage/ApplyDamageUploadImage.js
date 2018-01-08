@@ -3,7 +3,10 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList
+    FlatList,
+    ActivityIndicator,
+    Modal,
+    Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, Input, Label, Icon } from 'native-base'
@@ -11,6 +14,13 @@ import CameraButton from '../../components/share/CameraButton'
 import globalStyles from '../../GlobalStyles'
 import * as applyDamageUploadImageAction from './ApplyDamageUploadImageAction'
 import ImageItem from '../../components/share/ImageItem'
+
+
+
+const window = Dimensions.get('window')
+
+const containerWidth = window.width / 2
+const containerHeight = containerWidth / 16 * 9
 
 
 const renderItem = props => {
@@ -67,16 +77,33 @@ class ApplyDamageUploadImage extends Component {
     }
 
     render() {
-        const { uploadDamageImageWating, uploadDamageImage, applyDamageUploadImageReducer: { data: { imageList } } } = this.props
-        console.log('imageList', imageList)
+        const { uploadDamageImageWating, uploadDamageImage, applyDamageUploadImageReducer: { data: { imageList }, uploadDamageImage: { isResultStatus } } } = this.props
         return (
-            <FlatList
-                style={styles.flatList}
-                showsVerticalScrollIndicator={false}
-                data={imageList.length > 0 ? [...imageList, 'isCameraButton'] : imageList}
-                numColumns={2}
-                ListEmptyComponent={() => renderListEmpty({ uploadDamageImageWating, uploadDamageImage })}
-                renderItem={({ item, index }) => renderItem({ item, index, uploadDamageImageWating, uploadDamageImage })} />
+            <Container >
+                <FlatList
+                    style={styles.flatList}
+                    showsVerticalScrollIndicator={false}
+                    data={imageList.length > 0 ? [...imageList, 'isCameraButton'] : imageList}
+                    numColumns={2}
+                    ListEmptyComponent={() => renderListEmpty({ uploadDamageImageWating, uploadDamageImage })}
+                    renderItem={({ item, index }) => renderItem({ item, index, uploadDamageImageWating, uploadDamageImage })} />
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={isResultStatus == 1}
+                    onRequestClose={() => { }}>
+                    <View style={styles.modalContainer} >
+                        <View style={styles.modalItem}>
+                            <ActivityIndicator
+                                animating={isResultStatus == 1}
+                                style={styles.modalActivityIndicator}
+                                size="large"
+                            />
+                            <Text style={styles.modalText}>正在上传图片...</Text>
+                        </View>
+                    </View>
+                </Modal>
+            </Container>
         )
     }
 }
@@ -110,7 +137,28 @@ const styles = StyleSheet.create({
     itemCameraButton: {
         alignItems: 'center',
         justifyContent: 'center',
-        flex: 1
+        width: containerWidth,
+        height: containerHeight
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalItem: {
+        flexDirection: 'row',
+        padding: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalActivityIndicator: {
+        height: 40
+    },
+    modalText: {
+        color: '#fff',
+        paddingLeft: 10
     }
 })
 
