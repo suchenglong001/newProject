@@ -5,15 +5,26 @@ import {
     View
 } from 'react-native'
 import { connect } from 'react-redux'
-import CarDetail from '../components/carInfo/carDetail/CarDetail'
-import CarInfoRecord from '../components/carInfo/carInfoRecord/CarInfoRecord'
+import CarDetail from '../../components/carInfo/carDetail/CarDetail'
+import CarInfoRecord from '../../components/carInfo/carInfoRecord/CarInfoRecord'
 import { Button, Container, Spinner } from 'native-base'
-import globalStyles, { styleColor } from '../GlobalStyles'
+import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Actions } from 'react-native-router-flux'
+import * as carInfoAction from './CarInfoAction'
 
 const CarInfo = props => {
-    const { getCarDetail, data: { carDetail: { id } } } = props.carDetailReducer
-    const { getCarInfoRecord } = props.carInfoRecordReducer
+    const {
+        carDetailReducer: {
+            getCarDetail,
+            data: {
+                carDetail: {
+                    id
+                } } },
+        carInfoRecordReducer: {
+            getCarInfoRecord
+        },
+        qualityAssurance } = props
+
     if (getCarDetail.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) {
         return (
             <Container>
@@ -28,7 +39,7 @@ const CarInfo = props => {
                     <Button full onPress={() => Actions.applyDamage({ initParam: { car_Id: id } })} style={[styles.applyButton, styles.button]}>
                         <Text style={styles.buttonTitle}>质损申报</Text>
                     </Button>
-                    <Button full onPress={() => { }} style={[globalStyles.styleBackgroundColor, styles.button]}>
+                    <Button full onPress={qualityAssurance} style={[globalStyles.styleBackgroundColor, styles.button]}>
                         <Text style={styles.buttonTitle}>已检</Text>
                     </Button>
                 </View>
@@ -65,7 +76,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+    qualityAssurance: () => {
+        dispatch(carInfoAction.qualityAssurance())
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarInfo)
