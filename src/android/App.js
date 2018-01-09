@@ -32,6 +32,7 @@ import DemageList from './views/demageList/DemageList'
 import ResponsibilityInfo from './views/responsibilityInfo/ResponsibilityInfo'
 import ResponsibilityList from './views/responsibilityList/ResponsibilityList'
 import SelectDriver from './views/select/driver/SelectDriver'
+import SinglePhotoView from './views/SinglePhotoView'
 
 
 const styles = StyleSheet.create({
@@ -107,6 +108,11 @@ export default class App extends Component {
                                 
                                 hideTabBar
                                 navBar={SearchDriverBar} />
+                            <Scene
+                                key="singlePhotoView"
+                                component={SinglePhotoView}
+                                hideNavBar
+                                hideTabBar />
                             <Scene
                                 key="applyDamage"
                                 component={ApplyDamage}

@@ -3,7 +3,7 @@ import * as applyDamageUploadImageActionTypes from './ApplyDamageUploadImageActi
 
 const initialState = {
     data: {
-        imageList: []
+        imageList: ['59fa839a100f67405a123c23','59fa839a100f67405a123c23']
     },
     uploadDamageImage: {
         errorMsg: '',

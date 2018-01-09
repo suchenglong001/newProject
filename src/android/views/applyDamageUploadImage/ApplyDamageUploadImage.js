@@ -6,7 +6,8 @@ import {
     FlatList,
     ActivityIndicator,
     Modal,
-    Dimensions
+    Dimensions,
+    TouchableOpacity
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, Input, Label, Icon } from 'native-base'
@@ -14,24 +15,25 @@ import CameraButton from '../../components/share/CameraButton'
 import globalStyles from '../../GlobalStyles'
 import * as applyDamageUploadImageAction from './ApplyDamageUploadImageAction'
 import ImageItem from '../../components/share/ImageItem'
-
-
+import { base_host, file_host, record_host } from '../../../config/Host'
+import { Actions } from 'react-native-router-flux'
 
 const window = Dimensions.get('window')
-
 const containerWidth = window.width / 2
 const containerHeight = containerWidth / 16 * 9
 
-
 const renderItem = props => {
-    const { item, index, uploadDamageImageWating, uploadDamageImage } = props
+    const { item, index, uploadDamageImageWating, uploadDamageImage ,imageList} = props
     if (item == 'isCameraButton') {
         return renderItemCameraButton({ index, uploadDamageImageWating, uploadDamageImage })
     } else {
         return (
-            <View key={index} style={styles.itemContainer}>
-                <ImageItem imageUrl={`http://stg.myxxjs.com:9002/api/image/${item}`} />
-            </View>
+            <TouchableOpacity 
+            key={index} 
+            style={styles.itemContainer}  
+            onPress={() => Actions.singlePhotoView({ initParam: { imageUrlList: imageList.map(url=>`${file_host}/image/${url}`), index } })} >
+                <ImageItem imageUrl={`${file_host}/image/${item}`} />
+            </TouchableOpacity>
         )
     }
 }
@@ -86,7 +88,7 @@ class ApplyDamageUploadImage extends Component {
                     data={imageList.length > 0 ? [...imageList, 'isCameraButton'] : imageList}
                     numColumns={2}
                     ListEmptyComponent={() => renderListEmpty({ uploadDamageImageWating, uploadDamageImage })}
-                    renderItem={({ item, index }) => renderItem({ item, index, uploadDamageImageWating, uploadDamageImage })} />
+                    renderItem={({ item, index }) => renderItem({ item, index,imageList, uploadDamageImageWating, uploadDamageImage })} />
                 <Modal
                     animationType={"fade"}
                     transparent={true}
