@@ -22,8 +22,3 @@ export const getCarDetail = (param) => async (dispatch, getState) => {
 export const getCarDetailWaiting = () => (dispatch) => {
     dispatch({ type: carDetailActionTypes.get_carDetail_waiting, payload: {} })
 }
-
-
-// export const getCarDetailResetStatus = () => (dispatch) => {
-//     dispatch({ type: carDetailActionTypes.get_carDetail_resetStatus, payload: {} })
-// }

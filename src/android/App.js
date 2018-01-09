@@ -11,6 +11,7 @@ import { Scene, TabBar, Router, ActionConst, Actions, Switch, Reducer } from 're
 import NavBar from './components/share/bar/NavBar'
 import SearchBar from './components/share/bar/SearchBar'
 import NavSearchBar from './components/share/bar/NavSearchBar'
+import SearchCarBar from './components/share/bar/SearchCarBar'
 import SearchDriverBar from './components/share/bar/SearchDriverBar'
 import TabIcon from './components/share/TabIcon'
 import LeftButton from './components/share/bar/LeftButton'
@@ -84,7 +85,7 @@ export default class App extends Component {
                                 key="home"
                                 component={Home}
                                 title='首页'
-                                initial={true}
+                                
                                 hideNavBar={false}
                                 navBar={SearchBar} />
                             <Scene
@@ -98,9 +99,10 @@ export default class App extends Component {
                             <Scene
                                 key="searchCar"
                                 component={SearchCar}
+                                initial={true}
                                 hideNavBar={false}
                                 hideTabBar
-                                navBar={NavSearchBar} />
+                                navBar={SearchCarBar} />
                             <Scene
                                 key="selectDriver"
                                 component={SelectDriver}

@@ -14,6 +14,7 @@ import carDetailReducer from '../src/android/components/carInfo/carDetail/CarDet
 import carInfoRecordReducer from '../src/android/components/carInfo/carInfoRecord/CarInfoRecordReducer'
 import applyDamageSubmitReducer from '../src/android/components/applyDamage/submit/ApplyDamageSubmitReducer'
 import selectDriverReducer from '../src/android/views/select/driver/SelectDriverReducer'
+import searchCarReducer from '../src/android/views/searchCar/SearchCarReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
     applyDamageUploadImageReducer,
     applyDamageSubmitReducer,
     selectDriverReducer,
-    carInfoReducer
+    carInfoReducer,
+    searchCarReducer
 })

@@ -24,7 +24,7 @@ export default handleActions({
             },
             getSelectDriverList: {
                 ...initialState.getSelectDriverList,
-                getSelectDriverList: 2
+                isResultStatus: 2
             }
         }
     },

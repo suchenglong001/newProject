@@ -2,38 +2,134 @@ import React, { Component } from 'react'
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    FlatList,
+    TouchableOpacity,
+    InteractionManager,
+    ActivityIndicator
 } from 'react-native'
-import { fontSizeCoeff } from '../../../util/util'
+import { getFormValues } from 'redux-form'
 import { connect } from 'react-redux'
+import { Thumbnail, Spinner } from 'native-base'
+import globalStyles, { styleColor } from '../../GlobalStyles'
+import { Actions } from 'react-native-router-flux'
+import * as carDetailAction from '../../components/carInfo/carDetail/CarDetailAction'
+import * as carInfoRecordAction from '../../components/carInfo/carInfoRecord/CarInfoRecordAction'
+import * as searchCarAction from './SearchCarAction'
 
-class SearchCar extends Component {
-    constructor(props) {
-        super(props)
+const renderItem = props => {
+    const { item: { vin, id }, index, getCarInfoRecordWaiting, getCarDetailWaiting, getCarDetail, getCarInfoRecord } = props
+    return (
+        <TouchableOpacity
+            key={index}
+            style={styles.itemContainer}
+            onPress={() => {
+                getCarInfoRecordWaiting()
+                getCarDetailWaiting()
+                Actions.carInfo()
+                InteractionManager.runAfterInteractions(() => {
+                    getCarDetail({ car_id: id })
+                    getCarInfoRecord({ car_id: id })
+                })
+            }}>
+            <Text style={globalStyles.midText}>{vin ? `${vin}` : ''}</Text>
+        </TouchableOpacity >
+    )
+}
+
+const ListEmptyComponent = props => {
+    return (
+        <View style={styles.listEmptyContainer}>
+            <Thumbnail square source={{ uri: 'emptylisticon' }} />
+            <Text style={[globalStyles.largeText, styles.listEmptyText]}>未搜到该VIN码车辆信息</Text>
+        </View>
+    )
+}
+
+const ListFooterComponent = props => {
+    return (
+        <View style={styles.footerContainer}>
+            <ActivityIndicator color={styleColor} styleAttr='Small' />
+            <Text style={[globalStyles.smallText, styles.footerText]}>正在加载...</Text>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    itemContainer: {
+        marginHorizontal: 10,
+        borderBottomWidth: 0.3,
+        borderColor: '#ddd',
+        paddingVertical: 10
+    },
+    listEmptyContainer: {
+        alignItems: 'center',
+        marginTop: 60
+    },
+    listEmptyText: {
+        color: '#aaa',
+        marginTop: 30
+    },
+    footerContainer: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        margin: 10,
+        alignItems: 'center'
+    },
+    footerText: {
+        paddingLeft: 10
     }
+})
 
-    componentDidMount() {
-
-
-    }
-
-    render() {
-        return (
-            <View>
-                <Text style={{ fontSize: 5 * fontSizeCoeff }}>SearchCar</Text>
-            </View>
-        )
-    }
+const SearchCar = props => {
+    const { searchCarReducer: { data: { carList }, getCarList },
+        searchCarReducer,
+        searchCarValues,
+        getCarDetail,
+        getCarInfoRecord,
+        getCarInfoRecordWaiting,
+        getCarDetailWaiting,
+        getCarListMore } = props
+    console.log('carList', carList)
+    return (
+        <FlatList
+            showsVerticalScrollIndicator={false}
+            onEndReachedThreshold={0.2}
+            onEndReached={() => {
+                if (searchCarValues && searchCarValues.vinCode.length > 5 && getCarList.isResultStatus == 2) {
+                    getCarListMore()
+                }
+            }}
+            data={(searchCarValues && searchCarValues.vinCode.length > 5) ? carList : []}
+            ListFooterComponent={searchCarReducer.getCarListMore.isResultStatus == 1 ? ListFooterComponent : undefined}
+            ListEmptyComponent={ListEmptyComponent}
+            renderItem={({ item, index }) => renderItem({ item, index, getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting })} />
+    )
 }
 
 const mapStateToProps = (state) => {
     return {
-        templateReducer: state.templateReducer
+        searchCarReducer: state.searchCarReducer,
+        searchCarValues: getFormValues('SearchCar')(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+    getCarDetail: (param) => {
+        dispatch(carDetailAction.getCarDetail(param))
+    },
+    getCarInfoRecord: (param) => {
+        dispatch(carInfoRecordAction.getCarInfoRecord(param))
+    },
+    getCarInfoRecordWaiting: () => {
+        dispatch(carInfoRecordAction.getCarInfoRecordWaiting())
+    },
+    getCarDetailWaiting: () => {
+        dispatch(carDetailAction.getCarDetailWaiting())
+    },
+    getCarListMore: () => {
+        dispatch(searchCarAction.getCarListMore())
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchCar)
