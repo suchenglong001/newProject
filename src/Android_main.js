@@ -1,16 +1,9 @@
-import React, { Component } from 'react';
-import {
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
-
+import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import ReduxThunk from 'redux-thunk'
 import reducers from './reducers'
 import App from './android/App'
-import Home from './android/views/home/Home'
 
 const store = compose(
     applyMiddleware(ReduxThunk)

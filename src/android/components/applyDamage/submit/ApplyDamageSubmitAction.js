@@ -23,7 +23,6 @@ export const createDamage = () => async (dispatch, getState) => {
             damageExplain: applyDamageForm.damageRemark
         })
         if (res.success) {
-            console.log('res.id ',res.id )
             dispatch({ type: applyDamageSubmitActionTypes.create_Damage_success, payload: { damageId: res.id } })
             Actions.applyDamageUploadImage()
         } else {

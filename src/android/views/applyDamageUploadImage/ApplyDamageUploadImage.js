@@ -23,15 +23,15 @@ const containerWidth = window.width / 2
 const containerHeight = containerWidth / 16 * 9
 
 const renderItem = props => {
-    const { item, index, uploadDamageImageWating, uploadDamageImage ,imageList} = props
+    const { item, index, uploadDamageImageWating, uploadDamageImage, imageList } = props
     if (item == 'isCameraButton') {
         return renderItemCameraButton({ index, uploadDamageImageWating, uploadDamageImage })
     } else {
         return (
-            <TouchableOpacity 
-            key={index} 
-            style={styles.itemContainer}  
-            onPress={() => Actions.singlePhotoView({ initParam: { imageUrlList: imageList.map(url=>`${file_host}/image/${url}`), index } })} >
+            <TouchableOpacity
+                key={index}
+                style={styles.itemContainer}
+                onPress={() => Actions.singlePhotoView({ initParam: { imageUrlList: imageList.map(url => `${file_host}/image/${url}`), index } })} >
                 <ImageItem imageUrl={`${file_host}/image/${item}`} />
             </TouchableOpacity>
         )
@@ -69,46 +69,37 @@ const renderListEmpty = props => {
     )
 }
 
-class ApplyDamageUploadImage extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount() {
-
-    }
-
-    render() {
-        const { uploadDamageImageWating, uploadDamageImage, applyDamageUploadImageReducer: { data: { imageList }, uploadDamageImage: { isResultStatus } } } = this.props
-        return (
-            <Container >
-                <FlatList
-                    style={styles.flatList}
-                    showsVerticalScrollIndicator={false}
-                    data={imageList.length > 0 ? [...imageList, 'isCameraButton'] : imageList}
-                    numColumns={2}
-                    ListEmptyComponent={() => renderListEmpty({ uploadDamageImageWating, uploadDamageImage })}
-                    renderItem={({ item, index }) => renderItem({ item, index,imageList, uploadDamageImageWating, uploadDamageImage })} />
-                <Modal
-                    animationType={"fade"}
-                    transparent={true}
-                    visible={isResultStatus == 1}
-                    onRequestClose={() => { }}>
-                    <View style={styles.modalContainer} >
-                        <View style={styles.modalItem}>
-                            <ActivityIndicator
-                                animating={isResultStatus == 1}
-                                style={styles.modalActivityIndicator}
-                                size="large"
-                            />
-                            <Text style={styles.modalText}>正在上传图片...</Text>
-                        </View>
+const ApplyDamageUploadImage = props => {
+    const { uploadDamageImageWating, uploadDamageImage, applyDamageUploadImageReducer: { data: { imageList }, uploadDamageImage: { isResultStatus } } } = props
+    return (
+        <Container >
+            <FlatList
+                style={styles.flatList}
+                showsVerticalScrollIndicator={false}
+                data={imageList.length > 0 ? [...imageList, 'isCameraButton'] : imageList}
+                numColumns={2}
+                ListEmptyComponent={() => renderListEmpty({ uploadDamageImageWating, uploadDamageImage })}
+                renderItem={({ item, index }) => renderItem({ item, index, imageList, uploadDamageImageWating, uploadDamageImage })} />
+            <Modal
+                animationType={"fade"}
+                transparent={true}
+                visible={isResultStatus == 1}
+                onRequestClose={() => { }}>
+                <View style={styles.modalContainer} >
+                    <View style={styles.modalItem}>
+                        <ActivityIndicator
+                            animating={isResultStatus == 1}
+                            style={styles.modalActivityIndicator}
+                            size="large"
+                        />
+                        <Text style={styles.modalText}>正在上传图片...</Text>
                     </View>
-                </Modal>
-            </Container>
-        )
-    }
+                </View>
+            </Modal>
+        </Container>
+    )
 }
+
 
 const styles = StyleSheet.create({
     cameraButtonContainer: {

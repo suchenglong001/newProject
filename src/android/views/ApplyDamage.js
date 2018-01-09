@@ -9,11 +9,11 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, Input, Label, Icon } from 'native-base'
-import globalStyles, { textColor } from '../../GlobalStyles'
+import globalStyles, { textColor } from '../GlobalStyles'
 import { Field, reduxForm, getFormValues } from 'redux-form'
 import { Actions } from 'react-native-router-flux'
-import * as selectDriverAction from '../select/driver/SelectDriverAction'
-import * as applyDamageSubmitAction from '../../components/applyDamage/submit/ApplyDamageSubmitAction'
+import * as selectDriverAction from './select/driver/SelectDriverAction'
+import * as applyDamageSubmitAction from '../components/applyDamage/submit/ApplyDamageSubmitAction'
 
 const DamageRemark = props => {
     const { input: { onChange, ...restProps }, meta: { error, touched } } = props
@@ -25,7 +25,7 @@ const DamageRemark = props => {
                 style={[styles.inputArea, globalStyles.midText]}
                 onChangeText={onChange}
                 {...restProps} />
-            {touched &&error&& <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
+            {touched && error && <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
         </View>
     )
 }
@@ -40,7 +40,7 @@ const SelectDriver = props => {
                 Actions.selectDriver({ onChange })
                 InteractionManager.runAfterInteractions(getSelectDriverList)
             }} >
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Label style={globalStyles.midText}>货车司机：</Label>
                 <View style={styles.itemSelect}>
                     <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}{value.tel ? `(${value.tel})` : ''}</Label>
@@ -48,44 +48,30 @@ const SelectDriver = props => {
                 </View>
             </View>
 
-            {touched &&error&& <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
+            {touched && error && <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
         </TouchableOpacity>
     )
 }
 
-class ApplyDamage extends Component {
-    constructor(props) {
-        super(props)
-    }
 
-    componentDidMount() {
-
-    }
-
-    static defaultProps = {
-        initParam: {
-            car_Id: 908
-        }
-    }
-
-    render() {
-        const { getSelectDriverList, getSelectDriverListWaiting } = this.props
-        return (
-            <Container>
-                <Content>
-                    <Field
-                        name='damageRemark'
-                        component={DamageRemark} />
-                    <Field
-                        name='selectDriver'
-                        component={SelectDriver}
-                        getSelectDriverList={getSelectDriverList}
-                        getSelectDriverListWaiting={getSelectDriverListWaiting} />
-                </Content>
-            </Container >
-        )
-    }
+const ApplyDamage = props => {
+    const { getSelectDriverList, getSelectDriverListWaiting } = props
+    return (
+        <Container>
+            <Content>
+                <Field
+                    name='damageRemark'
+                    component={DamageRemark} />
+                <Field
+                    name='selectDriver'
+                    component={SelectDriver}
+                    getSelectDriverList={getSelectDriverList}
+                    getSelectDriverListWaiting={getSelectDriverListWaiting} />
+            </Content>
+        </Container >
+    )
 }
+
 
 const styles = StyleSheet.create({
     item: {

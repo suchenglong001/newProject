@@ -6,8 +6,6 @@ import settingReducer from '../src/android/views/setting/SettingReducer'
 import updatePasswordReducer from '../src/android/views/updatePassword/UpdatePasswordReducer'
 import retrievePasswordReducer from '../src/android/views/retrievePassword/RetrievePasswordReducer'
 import personalCenterReducer from '../src/android/views/personalCenter/PersonalCenterReducer'
-import carInfoReducer from '../src/android/views/carInfo/CarInfoReducer'
-import applyDamageReducer from '../src/android/views/applyDamage/ApplyDamageReducer'
 import applyDamageUploadImageReducer from '../src/android/views/applyDamageUploadImage/ApplyDamageUploadImageReducer'
 import checkStatisticsReducer from '../src/android/components/home/checkStatistics/CheckStatisticsReducer'
 import checkVehicleListReducer from '../src/android/components/home/checkVehicleList/CheckVehicleListReducer'
@@ -24,12 +22,10 @@ export default combineReducers({
     updatePasswordReducer,
     retrievePasswordReducer,
     personalCenterReducer,
-    carInfoReducer,
     checkStatisticsReducer,
     checkVehicleListReducer,
     carDetailReducer,
     carInfoRecordReducer,
-    applyDamageReducer,
     applyDamageUploadImageReducer,
     applyDamageSubmitReducer,
     selectDriverReducer

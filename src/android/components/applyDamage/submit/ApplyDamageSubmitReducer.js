@@ -3,7 +3,7 @@ import * as applyDamageSubmitActionTypes from './ApplyDamageSubmitActionTypes'
 
 const initialState = {
     data: {
-        damageId: 65
+        damageId: 0
     },
     createDamage: {
         errorMsg: '',

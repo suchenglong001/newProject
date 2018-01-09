@@ -15,15 +15,15 @@ import SearchDriverBar from './components/share/bar/SearchDriverBar'
 import TabIcon from './components/share/TabIcon'
 import LeftButton from './components/share/bar/LeftButton'
 import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
-import ApplyDamageUploadImageSubmit from './components/applyDamageUploadImage/submit/ApplyDamageUploadImageSubmit'
+import ApplyDamageUploadImageSubmit from './components/applyDamageUploadImage/ApplyDamageUploadImageSubmit'
 
-import Home from './views/home/Home'
+import Home from './views/Home'
 import Setting from './views/setting/Setting'
 import UpdatePassword from './views/updatePassword/UpdatePassword'
 import PersonalCenter from './views/personalCenter/PersonalCenter'
-import CarInfo from './views/carInfo/CarInfo'
+import CarInfo from './views/CarInfo'
 import SearchCar from './views/searchCar/SearchCar'
-import ApplyDamage from './views/applyDamage/ApplyDamage'
+import ApplyDamage from './views/ApplyDamage'
 import ApplyDamageUploadImage from './views/applyDamageUploadImage/ApplyDamageUploadImage'
 import Login from './views/login/Login'
 import Initialization from './views/initialization/Initialization'
@@ -84,7 +84,7 @@ export default class App extends Component {
                                 key="home"
                                 component={Home}
                                 title='首页'
-                                
+                                initial={true}
                                 hideNavBar={false}
                                 navBar={SearchBar} />
                             <Scene
@@ -131,7 +131,7 @@ export default class App extends Component {
                                 RightButton={ApplyDamageUploadImageSubmit}
                                 title='质损申请'
                                 hideTabBar
-                                initial={true}
+                                
                                 hideNavBar={false}
                                 navBar={NavBar} />
                         </Scene>
