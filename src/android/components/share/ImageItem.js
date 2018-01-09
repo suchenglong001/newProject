@@ -32,15 +32,6 @@ export default class ImageItem extends Component {
         }
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     //判断props与state中可枚举属性值是否相同，如果相同则不刷新组件
-    //     if (isEqualKeys(this.props, nextProps) && isEqualKeys(this.state, nextState)) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // }
-
     static defaultProps = {
         imageUrl: 'http://stg.myxxjs.com:9002/api/image/59fa839a100f67405a123c23', //图片地址
     }

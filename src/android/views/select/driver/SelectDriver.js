@@ -30,37 +30,26 @@ const renderListItem = props => {
     )
 }
 
-class SelectDriver extends Component {
-    constructor(props) {
-        super(props)
+const SelectDriver = props => {
+    const { onChange,
+        searchDriverValues,
+        selectDriverReducer: { data: { driverList }, getSelectDriverList } } = props
+    if (getSelectDriverList.isResultStatus == 1) {
+        return (
+            <Container>
+                <Spinner color={styleColor} />
+            </Container>
+        )
     }
-
-    componentDidMount() {
-        // this.props.getSelectDriverListWaiting()
-        // this.props.getSelectDriverList()
-    }
-
-    render() {
-        const { onChange,
-            searchDriverValues,
-            selectDriverReducer: { data: { driverList }, getSelectDriverList } } = this.props
-        if (getSelectDriverList.isResultStatus == 1) {
-            return (
-                <Container>
-                    <Spinner color={styleColor} />
-                </Container>
-            )
-        }
-        else {
-            return (
-                <Container>
-                    <FlatList
-                        showsVerticalScrollIndicator={false}
-                        data={searchDriverValues ? driverList.filter(item => item.drive_name.indexOf(searchDriverValues.keyword) >= 0 || item.tel.indexOf(searchDriverValues.keyword) >= 0) : driverList}
-                        renderItem={(param) => renderListItem({ onChange, ...param })} />
-                </Container>
-            )
-        }
+    else {
+        return (
+            <Container>
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={searchDriverValues ? driverList.filter(item => item.drive_name.indexOf(searchDriverValues.keyword) >= 0 || item.tel.indexOf(searchDriverValues.keyword) >= 0) : driverList}
+                    renderItem={(param) => renderListItem({ onChange, ...param })} />
+            </Container>
+        )
     }
 }
 
