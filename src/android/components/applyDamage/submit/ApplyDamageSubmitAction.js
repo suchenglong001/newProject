@@ -3,11 +3,11 @@ import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as applyDamageSubmitActionTypes from './ApplyDamageSubmitActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 import { getFormValues } from 'redux-form'
-import { Actions } from 'react-native-router-flux'
 import { ToastAndroid, InteractionManager } from 'react-native'
 import * as carInfoRecordAction from '../../carInfo/carInfoRecord/CarInfoRecordAction'
+import * as routerDirection from '../../../../util/RouterDirection'
 
-export const createDamage = () => async (dispatch, getState) => {
+export const createDamage = (parent) => async (dispatch, getState) => {
     dispatch({ type: applyDamageSubmitActionTypes.create_Damage_waiting, payload: {} })
     const state = getState()
     const { loginReducer: { data: { user } },
@@ -27,7 +27,7 @@ export const createDamage = () => async (dispatch, getState) => {
         if (res.success) {
             ToastAndroid.showWithGravity('提交成功！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
             dispatch({ type: applyDamageSubmitActionTypes.create_Damage_success, payload: { damageId: res.id } })
-            Actions.applyDamageUploadImage()
+            routerDirection.applyDamageUploadImage(parent)()
             carInfoRecordAction.getCarInfoRecordWaiting()(dispatch)
             InteractionManager.runAfterInteractions(() => carInfoRecordAction.getCarInfoRecord({ car_id: carDetail.id })(dispatch, getState))
         } else {

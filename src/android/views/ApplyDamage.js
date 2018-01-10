@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { Container, Content, Input, Label, Icon } from 'native-base'
 import globalStyles, { textColor } from '../GlobalStyles'
 import { Field, reduxForm, getFormValues } from 'redux-form'
-import { Actions } from 'react-native-router-flux'
+import * as routerDirection from '../../util/RouterDirection'
 import * as selectDriverAction from './select/driver/SelectDriverAction'
 import * as applyDamageSubmitAction from '../components/applyDamage/submit/ApplyDamageSubmitAction'
 
@@ -31,13 +31,13 @@ const DamageRemark = props => {
 }
 
 const SelectDriver = props => {
-    const { input: { onChange, value }, meta: { error, touched }, getSelectDriverList, getSelectDriverListWaiting } = props
+    const { input: { onChange, value }, meta: { error, touched }, getSelectDriverList, getSelectDriverListWaiting, parent } = props
     return (
         <TouchableOpacity
             style={[styles.item, styles.itemSelectContainer]}
             onPress={() => {
                 getSelectDriverListWaiting()
-                Actions.selectDriver({ onChange })
+                routerDirection.selectDriver(parent)({ onChange })
                 InteractionManager.runAfterInteractions(getSelectDriverList)
             }} >
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -55,7 +55,7 @@ const SelectDriver = props => {
 
 
 const ApplyDamage = props => {
-    const { getSelectDriverList, getSelectDriverListWaiting } = props
+    const { getSelectDriverList, getSelectDriverListWaiting,parent } = props
     return (
         <Container>
             <Content>
@@ -66,7 +66,8 @@ const ApplyDamage = props => {
                     name='selectDriver'
                     component={SelectDriver}
                     getSelectDriverList={getSelectDriverList}
-                    getSelectDriverListWaiting={getSelectDriverListWaiting} />
+                    getSelectDriverListWaiting={getSelectDriverListWaiting}
+                    parent={parent} />
             </Content>
         </Container >
     )
@@ -120,7 +121,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch,ownProps) => ({
     getSelectDriverList: () => {
         dispatch(selectDriverAction.getSelectDriverList())
     },
@@ -128,7 +129,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(selectDriverAction.getSelectDriverListWaiting())
     },
     onSubmit: () => {
-        dispatch(applyDamageSubmitAction.createDamage())
+        const { parent} =ownProps
+        dispatch(applyDamageSubmitAction.createDamage(parent))
     }
 })
 

@@ -67,6 +67,7 @@ export default class App extends Component {
     }
 
     render() {
+        console.disableYellowBox = true
         return (
             <Router getSceneStyle={getSceneStyle}>
                 <Scene key="root">
@@ -75,81 +76,32 @@ export default class App extends Component {
                         tabs={true}
                         tabBarStyle={styles.tabBarStyle}
                         tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                        <Scene
-                            key="homeBlock"
-                            
-                            icon={TabIcon}
-                            online='ios-home'
-                            outline='ios-home-outline' >
-                            <Scene
-                                key="home"
-                                component={Home}
-                                title='首页'
-                                
-                                hideNavBar={false}
-                                navBar={SearchBar} />
-                            <Scene
-                                key="carInfo"
-                                component={CarInfo}
-                                LeftButton={LeftButton}
-                                title='车辆信息'
-                                hideNavBar={false}
-                                hideTabBar
-                                navBar={NavBar} />
-                            <Scene
-                                key="searchCar"
-                                component={SearchCar}
-                                initial={true}
-                                hideNavBar={false}
-                                hideTabBar
-                                navBar={SearchCarBar} />
-                            <Scene
-                                key="selectDriver"
-                                component={SelectDriver}
-                                hideNavBar={false}
-                                
-                                hideTabBar
-                                navBar={SearchDriverBar} />
-                            <Scene
-                                key="singlePhotoView"
-                                component={SinglePhotoView}
-                                hideNavBar
-                                hideTabBar />
-                            <Scene
-                                key="applyDamage"
-                                component={ApplyDamage}
-                                LeftButton={LeftButton}
-                                
-                                RightButton={ApplyDamageSubmit}
-                                title='质损申请'
-                                hideTabBar
-                                
-                                hideNavBar={false}
-                                navBar={NavBar} />
-                            <Scene
-                                key="applyDamageUploadImage"
-                                component={ApplyDamageUploadImage}
-                                LeftButton={LeftButton}
-                                RightButton={ApplyDamageUploadImageSubmit}
-                                title='质损申请'
-                                hideTabBar
-                                
-                                hideNavBar={false}
-                                navBar={NavBar} />
+                        <Scene key="homeBlock" icon={TabIcon} online='ios-home' outline='ios-home-outline' >
+                            <Scene key="home" component={Home} title='首页' hideNavBar={false} navBar={SearchBar} />
+                            <Scene key="carInfoAtHomeBlock" component={CarInfo} LeftButton={LeftButton} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
+                            <Scene key="searchCarAtHomeBlock" component={SearchCar} hideNavBar={false} hideTabBar navBar={SearchCarBar} />
+                            <Scene key="selectDriverAtHomeBlock" component={SelectDriver} hideNavBar={false} hideTabBar navBar={SearchDriverBar} />
+                            <Scene key="singlePhotoViewAtHomeBlock" component={SinglePhotoView} hideNavBar hideTabBar />
+                            <Scene key="applyDamageAtHomeBlock" component={ApplyDamage} LeftButton={LeftButton} RightButton={ApplyDamageSubmit}
+                                title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
+                            <Scene key="applyDamageUploadImageAtHomeBlock" component={ApplyDamageUploadImage} LeftButton={LeftButton} RightButton={ApplyDamageUploadImageSubmit}
+                                title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
                         </Scene>
                         <Scene
+                            initial={true}
                             key="settingBlock"
-                            
                             icon={TabIcon}
                             online='ios-settings'
                             outline='ios-settings-outline' >
-                            <Scene
-                                key="setting"
-                                component={Setting}
-                                initial={true}
-                                title='设置'
-                                hideNavBar={false}
-                                navBar={SearchBar} />
+                            <Scene key="setting" component={Setting} initial={true} title='设置' hideNavBar={false} navBar={SearchBar} />
+                            <Scene key="carInfoAtSettingBlock" component={CarInfo} LeftButton={LeftButton} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
+                            <Scene key="searchCarAtSettingBlock" component={SearchCar} hideNavBar={false} hideTabBar navBar={SearchCarBar} />
+                            <Scene key="selectDriverAtSettingBlock" component={SelectDriver} hideNavBar={false} hideTabBar navBar={SearchDriverBar} />
+                            <Scene key="singlePhotoViewAtSettingBlock" component={SinglePhotoView} hideNavBar hideTabBar />
+                            <Scene key="applyDamageAtSettingBlock" component={ApplyDamage} LeftButton={LeftButton} RightButton={ApplyDamageSubmit}
+                                title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
+                            <Scene key="applyDamageUploadImageAtSettingBlock" component={ApplyDamageUploadImage} LeftButton={LeftButton} RightButton={ApplyDamageUploadImageSubmit}
+                                title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
                             <Scene
                                 key="updatePassword"
                                 LeftButton={LeftButton}
@@ -160,7 +112,6 @@ export default class App extends Component {
                                 navBar={NavBar} />
                             <Scene
                                 key="demageInfo"
-                                
                                 LeftButton={LeftButton}
                                 component={DemageInfo}
                                 title='质损详情'

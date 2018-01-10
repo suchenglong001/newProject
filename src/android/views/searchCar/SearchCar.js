@@ -12,13 +12,13 @@ import { getFormValues } from 'redux-form'
 import { connect } from 'react-redux'
 import { Thumbnail, Spinner } from 'native-base'
 import globalStyles, { styleColor } from '../../GlobalStyles'
-import { Actions } from 'react-native-router-flux'
+import * as routerDirection from '../../../util/RouterDirection'
 import * as carDetailAction from '../../components/carInfo/carDetail/CarDetailAction'
 import * as carInfoRecordAction from '../../components/carInfo/carInfoRecord/CarInfoRecordAction'
 import * as searchCarAction from './SearchCarAction'
 
 const renderItem = props => {
-    const { item: { vin, id }, index, getCarInfoRecordWaiting, getCarDetailWaiting, getCarDetail, getCarInfoRecord } = props
+    const { item: { vin, id }, index, getCarInfoRecordWaiting, getCarDetailWaiting, getCarDetail, getCarInfoRecord,parent } = props
     return (
         <TouchableOpacity
             key={index}
@@ -26,7 +26,7 @@ const renderItem = props => {
             onPress={() => {
                 getCarInfoRecordWaiting()
                 getCarDetailWaiting()
-                Actions.carInfo()
+                routerDirection.carInfo(parent)()
                 InteractionManager.runAfterInteractions(() => {
                     getCarDetail({ car_id: id })
                     getCarInfoRecord({ car_id: id })
@@ -89,8 +89,8 @@ const SearchCar = props => {
         getCarInfoRecord,
         getCarInfoRecordWaiting,
         getCarDetailWaiting,
-        getCarListMore } = props
-    console.log('carList', carList)
+        getCarListMore,
+        parent } = props
     return (
         <FlatList
             showsVerticalScrollIndicator={false}
@@ -103,7 +103,7 @@ const SearchCar = props => {
             data={(searchCarValues && searchCarValues.vinCode.length > 5) ? carList : []}
             ListFooterComponent={searchCarReducer.getCarListMore.isResultStatus == 1 ? ListFooterComponent : undefined}
             ListEmptyComponent={ListEmptyComponent}
-            renderItem={({ item, index }) => renderItem({ item, index, getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting })} />
+            renderItem={({ item, index }) => renderItem({parent, item, index, getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting })} />
     )
 }
 

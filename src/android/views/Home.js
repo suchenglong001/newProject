@@ -8,7 +8,7 @@ const Home = props => {
     return (
         <Container style={globalStyles.listBackgroundColor}>
             <CheckStatistics />
-            <CheckVehicleList />
+            <CheckVehicleList parent={props.parent}/>
         </Container>
     )
 }

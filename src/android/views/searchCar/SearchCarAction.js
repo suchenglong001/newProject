@@ -3,7 +3,7 @@ import { base_host, file_host, record_host } from '../../../config/Host'
 import * as searchCarActionTypes from './SearchCarActionTypes'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
 import { getFormValues } from 'redux-form'
-
+import {ToastAndroid} from 'react-native'
 
 const pageSize = 50
 
@@ -49,7 +49,7 @@ export const getCarListMore = () => async (dispatch, getState) => {
             dispatch({ type: searchCarActionTypes.get_CarListMore_error, payload: { errorMsg: err } })
         }
     } else {
-        //已全部加载完毕
+        ToastAndroid.showWithGravity('已全部加载完毕！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
     }
 
 }

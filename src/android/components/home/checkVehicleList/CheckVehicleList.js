@@ -11,19 +11,19 @@ import {
 import { connect } from 'react-redux'
 import { Icon, Thumbnail } from 'native-base'
 import globalStyles from '../../../GlobalStyles'
-import { Actions } from 'react-native-router-flux'
+import * as routerDirection from '../../../../util/RouterDirection'
 import * as checkVehicleListAction from './CheckVehicleListAction'
 import * as carDetailAction from '../../../components/carInfo/carDetail/CarDetailAction'
 import * as carInfoRecordAction from '../../../components/carInfo/carInfoRecord/CarInfoRecordAction'
 import moment from 'moment'
 
 const renderListItem = props => {
-    const { item: { vin, make_name, check_start_date, car_id }, index, getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
+    const { item: { vin, make_name, check_start_date, car_id }, index, getCarDetail,parent, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
     return (
         <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => {
             getCarInfoRecordWaiting()
             getCarDetailWaiting()
-            Actions.carInfo()
+            routerDirection.carInfo(parent)()
             InteractionManager.runAfterInteractions(() => {
                 getCarDetail({ car_id })
                 getCarInfoRecord({ car_id })
@@ -65,13 +65,13 @@ class CheckVehicleList extends Component {
 
     render() {
         const { checkVehicleList } = this.props.checkVehicleListReducer.data
-        const { getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = this.props
+        const { getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting,parent } = this.props
         return (
             <FlatList
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmpty}
                 data={checkVehicleList}
-                renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail, getCarInfoRecord, getCarDetailWaiting, getCarInfoRecordWaiting })}
+                renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail,parent, getCarInfoRecord, getCarDetailWaiting, getCarInfoRecordWaiting })}
             />
         )
     }

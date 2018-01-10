@@ -12,8 +12,6 @@ import globalStyles, { styleColor } from '../../../GlobalStyles'
 import { Field, reduxForm, getFormValues } from 'redux-form'
 import { Actions } from 'react-native-router-flux'
 
-
-
 const renderListItem = props => {
     const { item: { drive_name, tel, id, truck_id, truck_num }, index, onChange } = props
     return (

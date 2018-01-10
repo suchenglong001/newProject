@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Header, Title, Button, Icon, Right, Left, Body, Label, Item, Input, Text } from 'native-base'
 import { View, StatusBar, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight } from 'react-native'
-import { Actions } from 'react-native-router-flux'
+import * as routerDirection from '../../../../util/RouterDirection'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
 
 const SearchBar = props => {
-    const { title, layout } = props
+    //console.log('props',props)
+    const { title, layout, parent } = props
     return (
         <View style={[styles.container, { width: layout.initWidth }]}>
             <StatusBar hidden={false} />
@@ -19,7 +20,7 @@ const SearchBar = props => {
                 <Body style={styles.body}>
                     <TouchableHighlight
                         underlayColor={'rgba(255, 255, 255, 0)'}
-                        onPress={Actions.searchCar}
+                        onPress={routerDirection.searchCar(parent)}
                         style={styles.bodyTouch}>
                         <View style={styles.bodyTouchChild}>
                             <View style={styles.input} >

@@ -9,21 +9,22 @@ import CarDetail from '../../components/carInfo/carDetail/CarDetail'
 import CarInfoRecord from '../../components/carInfo/carInfoRecord/CarInfoRecord'
 import { Button, Container, Spinner } from 'native-base'
 import globalStyles, { styleColor } from '../../GlobalStyles'
-import { Actions } from 'react-native-router-flux'
 import * as carInfoAction from './CarInfoAction'
+import * as routerDirection from '../../../util/RouterDirection'
 
 const CarInfo = props => {
     const {
         carDetailReducer: {
             getCarDetail,
-            data: {
+        data: {
                 carDetail: {
                     id
                 } } },
         carInfoRecordReducer: {
             getCarInfoRecord
         },
-        qualityAssurance } = props
+        qualityAssurance,
+        parent } = props
 
     if (getCarDetail.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) {
         return (
@@ -36,7 +37,7 @@ const CarInfo = props => {
             <Container>
                 <CarDetail />
                 <View style={styles.buttonContainer}>
-                    <Button full onPress={() => Actions.applyDamage({ initParam: { car_Id: id } })} style={[styles.applyButton, styles.button]}>
+                    <Button full onPress={() => routerDirection.applyDamage(parent)({ initParam: { car_Id: id } })} style={[styles.applyButton, styles.button]}>
                         <Text style={styles.buttonTitle}>质损申报</Text>
                     </Button>
                     <Button full onPress={qualityAssurance} style={[globalStyles.styleBackgroundColor, styles.button]}>
