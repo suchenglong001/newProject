@@ -9,7 +9,6 @@ export const getCarInfoRecord = (param) => async (dispatch, getState) => {
     try {
         const url = `${record_host}/user/${uid}/car/${car_id}/record`
         const res = await httpRequest.get(url)
-        console.log('res', res)
         if (res.success) {
             dispatch({ type: recordForDemageActionTypes.get_RecordForDemage_success, payload: { carInfoRecord: res.result[0] } })
         } else {

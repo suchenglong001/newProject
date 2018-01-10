@@ -21,6 +21,7 @@ import moment from 'moment'
 const renderListItem = props => {
     const { item: { id, vin, damage_explain, make_name, created_on, damage_status, car_id },
         index,
+        item,
         getCarInfo,
         getCarInfoWaiting,
         getCarInfoRecordWaiting,
@@ -29,7 +30,7 @@ const renderListItem = props => {
         <TouchableOpacity style={styles.listItemContainer} onPress={() => {
             getCarInfoWaiting()
             getCarInfoRecordWaiting()
-            Actions.demageInfo({ initParam: { id } })
+            Actions.demageInfo({ initParam: item })
             InteractionManager.runAfterInteractions(() => {
                 getCarInfo({ car_id })
                 getCarInfoRecord({ car_id })

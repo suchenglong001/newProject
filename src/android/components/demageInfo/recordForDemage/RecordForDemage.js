@@ -8,6 +8,7 @@ import {
 import globalStyles from '../../../GlobalStyles'
 import { Icon } from 'native-base'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 const ListHeader = () => {
     return (
@@ -38,7 +39,6 @@ const renderItem = props => {
 }
 
 const RecordForDemageInfo = props => {
-    console.log('RecordForDemageInfoprops', props)
     const { recordForDemageReducer: { data: { carInfoRecord: { comment } } } } = props
     return (
         <View style={{ flex: 1 }}>
