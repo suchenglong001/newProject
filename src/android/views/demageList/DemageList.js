@@ -5,20 +5,36 @@ import {
     View,
     FlatList,
     TouchableOpacity,
-    ActivityIndicator
+    ActivityIndicator,
+    InteractionManager
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, List, Left, ListItem, Thumbnail, Separator, Body, Right, Icon, Spinner } from 'native-base'
 import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Actions } from 'react-native-router-flux'
 import * as demageListAction from './DemageListAction'
+import * as carInfoForDemageAction from '../../components/demageInfo/carInfoForDemage/CarInfoForDemageAction'
+import * as recordForDemageAction from '../../components/demageInfo/recordForDemage/RecordForDemageAction'
 import moment from 'moment'
 
 //damage_status cancel :    ready_process : 1, in_process : 2, completed : 3
 const renderListItem = props => {
-    const { item: { id, vin, damage_explain, make_name, created_on, damage_status }, index } = props
+    const { item: { id, vin, damage_explain, make_name, created_on, damage_status, car_id },
+        index,
+        getCarInfo,
+        getCarInfoWaiting,
+        getCarInfoRecordWaiting,
+        getCarInfoRecord } = props
     return (
-        <TouchableOpacity style={styles.listItemContainer} onPress={() => Actions.demageInfo({ initParam: { id } })}>
+        <TouchableOpacity style={styles.listItemContainer} onPress={() => {
+            getCarInfoWaiting()
+            getCarInfoRecordWaiting()
+            Actions.demageInfo({ initParam: { id } })
+            InteractionManager.runAfterInteractions(() => {
+                getCarInfo({ car_id })
+                getCarInfoRecord({ car_id })
+            })
+        }}>
             <View style={styles.listItemTopContainer}>
                 <Text style={globalStyles.smallText}>编号：{id ? `${id}` : ''}</Text>
                 <View style={styles.itemGroup}>
@@ -54,7 +70,7 @@ const renderEmpty = () => {
         </View>
     )
 }
-const ListFooterComponent=()=>{
+const ListFooterComponent = () => {
     return (
         <View style={styles.footerContainer}>
             <ActivityIndicator color={styleColor} styleAttr='Small' />
@@ -64,7 +80,13 @@ const ListFooterComponent=()=>{
 }
 
 const DemageList = props => {
-    const { demageListReducer: { data: { demageList, isComplete }, getDemageList },demageListReducer,getDemageListMore } = props
+    const { demageListReducer: { data: { demageList, isComplete }, getDemageList },
+        demageListReducer,
+        getDemageListMore,
+        getCarInfo,
+        getCarInfoWaiting,
+        getCarInfoRecordWaiting,
+        getCarInfoRecord } = props
     if (getDemageList.isResultStatus == 1) {
         return (
             <Container>
@@ -85,8 +107,15 @@ const DemageList = props => {
                             getDemageListMore()
                         }
                     }}
-                    ListFooterComponent={demageListReducer.getDemageListMore.isResultStatus == 1?ListFooterComponent:<View style={{height:10}}/>}
-                    renderItem={renderListItem} />
+                    ListFooterComponent={demageListReducer.getDemageListMore.isResultStatus == 1 ? ListFooterComponent : <View style={{ height: 10 }} />}
+                    renderItem={({ item, index }) => renderListItem({
+                        item,
+                        index,
+                        getCarInfo,
+                        getCarInfoWaiting,
+                        getCarInfoRecordWaiting,
+                        getCarInfoRecord
+                    })} />
             </Container>
         )
     }
@@ -166,6 +195,18 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     getDemageListMore: () => {
         dispatch(demageListAction.getDemageListMore())
+    },
+    getCarInfo: (param) => {
+        dispatch(carInfoForDemageAction.getCarInfo(param))
+    },
+    getCarInfoWaiting: () => {
+        dispatch(carInfoForDemageAction.getCarInfoWaiting())
+    },
+    getCarInfoRecord: (param) => {
+        dispatch(recordForDemageAction.getCarInfoRecord(param))
+    },
+    getCarInfoRecordWaiting: () => {
+        dispatch(recordForDemageAction.getCarInfoRecordWaiting())
     }
 })
 

@@ -5,8 +5,9 @@ import {
     View,
     FlatList
 } from 'react-native'
-import globalStyles from '../../GlobalStyles'
+import globalStyles from '../../../GlobalStyles'
 import { Icon } from 'native-base'
+import { connect } from 'react-redux'
 
 const ListHeader = () => {
     return (
@@ -26,37 +27,43 @@ const renderListEmpty = () => {
 }
 
 const renderItem = props => {
+
+    const { item: { name, timez, content }, index } = props
+
     return (
-        <View style={styles.item}>
-            <Text >记录</Text>
+        <View key={index} style={styles.item}>
+            <Text style={globalStyles.midText}>{timez ? `${moment(timez).format('YYYY:MM:DD HH:mm')}` : ''} {name ? `[${name}]` : ''} {content ? `${content}` : ''}</Text>
         </View>
     )
 }
 
-export default class RecordForDemageInfo extends Component {
-    constructor(props) {
-        super(props)
-    }
+const RecordForDemageInfo = props => {
+    console.log('RecordForDemageInfoprops', props)
+    const { recordForDemageReducer: { data: { carInfoRecord: { comment } } } } = props
+    return (
+        <View style={{ flex: 1 }}>
+            <ListHeader />
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                data={comment}
+                renderItem={renderItem}
+                ListEmptyComponent={renderListEmpty} />
+        </View>
 
-    componentDidMount() {
+    )
+}
 
-    }
-
-    render() {
-        return (
-            <View style={{ flex: 1 }}>
-                <ListHeader />
-                <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={[]}
-                    renderItem={renderItem}
-                    ListEmptyComponent={renderListEmpty} />
-            </View>
-
-        )
+const mapStateToProps = (state) => {
+    return {
+        recordForDemageReducer: state.recordForDemageReducer
     }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecordForDemageInfo)
 const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',

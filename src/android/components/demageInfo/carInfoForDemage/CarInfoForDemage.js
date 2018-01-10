@@ -5,15 +5,11 @@ import {
     View
 } from 'react-native'
 import { Icon } from 'native-base'
-import globalStyles from '../../GlobalStyles'
+import globalStyles from '../../../GlobalStyles'
 import { connect } from 'react-redux'
 
 const CarInfoForDemageInfo = props => {
-    console.log('props', props)
-    const { initParam: { id }, demageListReducer: { data: { demageList } } } = props
-    console.log('props',  demageList.filter(item => item.id == id))
-    
-    const { vin,make_name,en_short_name,re_short_name } = demageList.find(item => item.id == id)
+    const { carInfoForDemageReducer: { data: { carInfo: { vin, addr_name, en_short_name, make_name, route_end, route_start, re_short_name } } } } = props
     return (
         <View style={styles.container}>
             <View style={[styles.headerContainer]}>
@@ -22,16 +18,16 @@ const CarInfoForDemageInfo = props => {
             </View>
             <View style={styles.itemContainer}>
                 <View style={styles.item}>
-                    <Text style={globalStyles.midText}><Text style={styles.ItemTilte}>品牌：</Text>奥迪</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.ItemTilte}>品牌：</Text>{make_name ? `${make_name}` : ''}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={globalStyles.midText}><Text style={styles.ItemTilte}>委托方：</Text>安盛船务</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.ItemTilte}>委托方：</Text>{en_short_name ? `${en_short_name}` : ''}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={globalStyles.midText}><Text style={styles.ItemTilte}>出发地：</Text>城市+地址</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.ItemTilte}>出发地：</Text>{route_start ? `${route_start}` : ''}{addr_name ? `(${addr_name})` : ''}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={globalStyles.midText}><Text style={styles.ItemTilte}>目的地：</Text>城市+经销商</Text>
+                    <Text style={globalStyles.midText}><Text style={styles.ItemTilte}>目的地：</Text>{route_end ? `${route_end}` : ''}{re_short_name ? `(${re_short_name})` : ''}</Text>
                 </View>
             </View>
         </View>
@@ -40,7 +36,7 @@ const CarInfoForDemageInfo = props => {
 
 const mapStateToProps = (state) => {
     return {
-        demageListReducer: state.demageListReducer
+        carInfoForDemageReducer: state.carInfoForDemageReducer
     }
 }
 

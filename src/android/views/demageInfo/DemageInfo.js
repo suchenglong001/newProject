@@ -7,8 +7,8 @@ import { fontSizeCoeff } from '../../../util/util'
 import { connect } from 'react-redux'
 import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, ListItem } from 'native-base'
 import globalStyles from '../../GlobalStyles'
-import CarInfoForDemage from '../../components/demageInfo/CarInfoForDemage'
-import RecordForDemage from '../../components/demageInfo/RecordForDemage'
+import CarInfoForDemage from '../../components/demageInfo/carInfoForDemage/CarInfoForDemage'
+import RecordForDemage from '../../components/demageInfo/recordForDemage/RecordForDemage'
 import ImageListForDemage from '../../components/demageInfo/ImageListForDemage'
 import DemageOpResult from '../../components/demageInfo/DemageOpResult'
 import DemageDetail from '../../components/demageInfo/DemageDetail'
@@ -23,11 +23,6 @@ class DemageInfo extends Component {
 
     }
 
-    // static defaultProps = {
-    //     ininitParam: {
-    //         id: 1
-    //     }
-    // }
 
     render() {
         const { initParam } = this.props
