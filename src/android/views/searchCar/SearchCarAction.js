@@ -3,9 +3,10 @@ import { base_host, file_host, record_host } from '../../../config/Host'
 import * as searchCarActionTypes from './SearchCarActionTypes'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
 import { getFormValues } from 'redux-form'
-import {ToastAndroid} from 'react-native'
+import { ToastAndroid } from 'react-native'
+import { sleep } from '../../../util/util'
 
-const pageSize = 50
+const pageSize = 1
 
 export const getCarList = (param) => async (dispatch, getState) => {
     dispatch({ type: searchCarActionTypes.get_CarList_waiting, payload: {} })
@@ -29,27 +30,31 @@ export const getCarList = (param) => async (dispatch, getState) => {
 
 export const getCarListMore = () => async (dispatch, getState) => {
     const state = getState()
-    const { searchCarReducer: { data: { carList, isComplete } } } = state
+    const { searchCarReducer: { data: { carList, isComplete } }, searchCarReducer } = state
     const { vinCode } = getFormValues('SearchCar')(state)
-    if (!isComplete) {
-        dispatch({ type: searchCarActionTypes.get_CarListMore_waiting, payload: {} })
-        try {
-            const url = `${base_host}/car${ObjectToUrl({ vinCode: vinCode, start: carList.length, size: pageSize })}`
-            const res = await httpRequest.get(url)
-            if (res.success) {
-                if (res.result.length % pageSize != 0 || res.result.length == 0) {
-                    dispatch({ type: searchCarActionTypes.get_CarListMore_sucess, payload: { carList: res.result, isComplete: true } })
-                } else {
-                    dispatch({ type: searchCarActionTypes.get_CarListMore_sucess, payload: { carList: res.result, isComplete: false } })
-                }
-            } else {
-                dispatch({ type: searchCarActionTypes.get_CarListMore_failed, payload: { failedMsg: res.msg } })
-            }
-        } catch (err) {
-            dispatch({ type: searchCarActionTypes.get_CarListMore_error, payload: { errorMsg: err } })
-        }
+    if (searchCarReducer.getCarListMore.isResultStatus == 1) {
+        await sleep(1000)
+        getCarListMore(dispatch, getState)
     } else {
-        ToastAndroid.showWithGravity('已全部加载完毕！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
+        if (!isComplete) {
+            dispatch({ type: searchCarActionTypes.get_CarListMore_waiting, payload: {} })
+            try {
+                const url = `${base_host}/car${ObjectToUrl({ vinCode: vinCode, start: carList.length, size: pageSize })}`
+                const res = await httpRequest.get(url)
+                if (res.success) {
+                    if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                        dispatch({ type: searchCarActionTypes.get_CarListMore_sucess, payload: { carList: res.result, isComplete: true } })
+                    } else {
+                        dispatch({ type: searchCarActionTypes.get_CarListMore_sucess, payload: { carList: res.result, isComplete: false } })
+                    }
+                } else {
+                    dispatch({ type: searchCarActionTypes.get_CarListMore_failed, payload: { failedMsg: res.msg } })
+                }
+            } catch (err) {
+                dispatch({ type: searchCarActionTypes.get_CarListMore_error, payload: { errorMsg: err } })
+            }
+        } else {
+            ToastAndroid.showWithGravity('已全部加载完毕！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
+        }
     }
-
 }

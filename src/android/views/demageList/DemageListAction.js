@@ -3,7 +3,7 @@ import { base_host, file_host, record_host } from '../../../config/Host'
 import * as demageListActionTypes from './DemageListActionTypes'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
 import { ToastAndroid } from 'react-native'
-
+import {sleep} from '../../../util/util'
 
 const pageSize = 50
 
@@ -12,7 +12,6 @@ export const getDemageList = () => async (dispatch, getState) => {
     try {
         const url = `${base_host}/damage${ObjectToUrl({ declareUserId: uid, start: 0, size: pageSize })}`
         const res = await httpRequest.get(url)
-        console.log('res', res)
         if (res.success) {
             if (res.result.length % pageSize != 0) {
                 dispatch({ type: demageListActionTypes.get_DemageList_success, payload: { demageList: res.result, isComplete: true } })
@@ -32,28 +31,35 @@ export const getDemageListWaiting = () => (dispatch, getState) => {
 }
 
 export const getDemageListMore = () => async (dispatch, getState) => {
+
     const {
         loginReducer: { data: { user: { uid } } },
-        demageListReducer: { data: { demageList, isComplete } } } = getState()
-    if (!isComplete) {
-        dispatch({ type: demageListActionTypes.get_DemageListMore_waiting, payload: {} })
-        try {
-            const url = `${base_host}/damage${ObjectToUrl({ declareUserId: uid, start: demageList.length, size: pageSize })}`
-            const res = await httpRequest.get(url)
-            console.log('res', res)
-            if (res.success) {
-                if (res.result.length % pageSize != 0 || res.result.length == 0) {
-                    dispatch({ type: demageListActionTypes.get_DemageListMore_success, payload: { demageList: res.result, isComplete: true } })
+        demageListReducer: { data: { demageList, isComplete } },
+        demageListReducer } = getState()
+    if(demageListReducer.getDemageListMore.isResultStatus==1){
+        await sleep(1000)
+        getDemageListMore(dispatch, getState)
+    } else{
+        if (!isComplete) {
+            dispatch({ type: demageListActionTypes.get_DemageListMore_waiting, payload: {} })
+            try {
+                const url = `${base_host}/damage${ObjectToUrl({ declareUserId: uid, start: demageList.length, size: pageSize })}`
+                const res = await httpRequest.get(url)
+                if (res.success) {
+                    if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                        dispatch({ type: demageListActionTypes.get_DemageListMore_success, payload: { demageList: res.result, isComplete: true } })
+                    } else {
+                        dispatch({ type: demageListActionTypes.get_DemageListMore_success, payload: { demageList: res.result, isComplete: false } })
+                    }
                 } else {
-                    dispatch({ type: demageListActionTypes.get_DemageListMore_success, payload: { demageList: res.result, isComplete: false } })
+                    dispatch({ type: demageListActionTypes.get_DemageListMore_failed, payload: { failedMsg: res.msg } })
                 }
-            } else {
-                dispatch({ type: demageListActionTypes.get_DemageListMore_failed, payload: { failedMsg: res.msg } })
+            } catch (err) {
+                dispatch({ type: demageListActionTypes.get_DemageListMore_error, payload: { errorMsg: err } })
             }
-        } catch (err) {
-            dispatch({ type: demageListActionTypes.get_DemageListMore_error, payload: { errorMsg: err } })
+        } else {
+            ToastAndroid.showWithGravity('已全部加载完毕！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
         }
-    } else {
-        ToastAndroid.showWithGravity('已全部加载完毕！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
     }
+
 }

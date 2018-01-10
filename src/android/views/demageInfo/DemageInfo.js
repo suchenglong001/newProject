@@ -23,7 +23,15 @@ class DemageInfo extends Component {
 
     }
 
+    // static defaultProps = {
+    //     ininitParam: {
+    //         id: 1
+    //     }
+    // }
+
     render() {
+        const { initParam } = this.props
+        console.log(this.props)
         return (
             <Container style={globalStyles.listBackgroundColor}>
                 <Tabs>
@@ -34,8 +42,7 @@ class DemageInfo extends Component {
                         textStyle={{ color: '#adc5d5' }}
                         heading="车辆">
                         <Container>
-                            {/* <DemageEditor /> */}
-                            <CarInfoForDemage />
+                            <CarInfoForDemage initParam={initParam} />
                             <RecordForDemage />
                         </Container>
                     </Tab>
@@ -58,7 +65,6 @@ class DemageInfo extends Component {
                         <Container>
                             <ImageListForDemage />
                         </Container>
-
                     </Tab>
                     <Tab
                         tabStyle={{ backgroundColor: '#36759e', }}

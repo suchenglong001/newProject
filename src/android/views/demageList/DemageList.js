@@ -4,7 +4,8 @@ import {
     Text,
     View,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Content, List, Left, ListItem, Thumbnail, Separator, Body, Right, Icon, Spinner } from 'native-base'
@@ -17,7 +18,7 @@ import moment from 'moment'
 const renderListItem = props => {
     const { item: { id, vin, damage_explain, make_name, created_on, damage_status }, index } = props
     return (
-        <TouchableOpacity style={styles.listItemContainer} onPress={Actions.demageInfo}>
+        <TouchableOpacity style={styles.listItemContainer} onPress={() => Actions.demageInfo({ initParam: { id } })}>
             <View style={styles.listItemTopContainer}>
                 <Text style={globalStyles.smallText}>编号：{id ? `${id}` : ''}</Text>
                 <View style={styles.itemGroup}>
@@ -55,14 +56,15 @@ const renderEmpty = () => {
 }
 const ListFooterComponent=()=>{
     return (
-        <View>
-            <Text>footer</Text>
+        <View style={styles.footerContainer}>
+            <ActivityIndicator color={styleColor} styleAttr='Small' />
+            <Text style={[globalStyles.smallText, styles.footerText]}>正在加载...</Text>
         </View>
     )
 }
 
 const DemageList = props => {
-    const { demageListReducer: { data: { demageList, isComplete }, getDemageList },getDemageListMore } = props
+    const { demageListReducer: { data: { demageList, isComplete }, getDemageList },demageListReducer,getDemageListMore } = props
     if (getDemageList.isResultStatus == 1) {
         return (
             <Container>
@@ -83,7 +85,7 @@ const DemageList = props => {
                             getDemageListMore()
                         }
                     }}
-                    ListFooterComponent={ListFooterComponent}
+                    ListFooterComponent={demageListReducer.getDemageListMore.isResultStatus == 1?ListFooterComponent:<View style={{height:10}}/>}
                     renderItem={renderListItem} />
             </Container>
         )
@@ -143,6 +145,15 @@ const styles = StyleSheet.create({
     alertIcon: {
         fontSize: 20,
         color: '#fa7376'
+    },
+    footerContainer: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        margin: 10,
+        alignItems: 'center'
+    },
+    footerText: {
+        paddingLeft: 10
     }
 })
 
