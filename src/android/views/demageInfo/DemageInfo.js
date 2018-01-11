@@ -19,6 +19,7 @@ const DemageInfo = props => {
         initParam,
         carInfoForDemageReducer: { getCarInfo },
         recordForDemageReducer: { getCarInfoRecord },
+        demageOpResultReducer: { getDemageOpResult },
         parent } = props
     return (
         <Container style={globalStyles.listBackgroundColor}>
@@ -45,8 +46,8 @@ const DemageInfo = props => {
                     textStyle={{ color: '#adc5d5' }}
                     heading="质损">
                     <Container>
-                        {damage_status == 1 && <DemageEditor initParam={initParam} parent={parent}/>}
-                        {damage_status != 1 && <DemageDetail />}
+                        {damage_status == 1 && <DemageEditor initParam={initParam} parent={parent} />}
+                        {damage_status != 1 && <DemageDetail initParam={initParam}/>}
                     </Container>
                 </Tab>
                 <Tab
@@ -65,9 +66,13 @@ const DemageInfo = props => {
                     activeTextStyle={{ color: '#fff' }}
                     textStyle={{ color: '#adc5d5' }}
                     heading="处理">
-                    <Container>
-                        <DemageOpResult />
-                    </Container>
+                    {(getDemageOpResult.isResultStatus == 1) ?
+                        <Container>
+                            <Spinner color={styleColor} />
+                        </Container>
+                        : <Container>
+                            <DemageOpResult damageStatus={damage_status}/>
+                        </Container>}
                 </Tab>}
             </Tabs>
         </Container>
@@ -76,9 +81,10 @@ const DemageInfo = props => {
 
 const mapStateToProps = (state) => {
     return {
-        demageInfoReducer: state.demageInfoReducer,
+        //demageInfoReducer: state.demageInfoReducer,
         carInfoForDemageReducer: state.carInfoForDemageReducer,
-        recordForDemageReducer: state.recordForDemageReducer
+        recordForDemageReducer: state.recordForDemageReducer,
+        demageOpResultReducer: state.demageOpResultReducer
     }
 }
 

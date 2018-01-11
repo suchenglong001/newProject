@@ -6,20 +6,23 @@ import {
 } from 'react-native'
 import globalStyles from '../../GlobalStyles'
 import { Icon } from 'native-base'
-import { connect } from 'react-redux'
+import moment from 'moment'
 
 const DemageDetail = props => {
-    console.log('props', props)
-
+    const { initParam: { id, damage_status, created_on, damage_explain, drive_name, truck_num } } = props
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerItem}>
-                    <Text style={[globalStyles.largeText, globalStyles.styleColor, {}]}>No.:123456789</Text>
-                    <Text style={globalStyles.smallText}>2017-05-12 11:30</Text>
+                    <Text style={[globalStyles.largeText, globalStyles.styleColor, {}]}>No.:{id ? `${id}` : ''}</Text>
+                    <Text style={globalStyles.smallText}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm')}` : ''}</Text>
                 </View>
                 <View style={styles.headerStatusItem}>
-                    <Text style={[globalStyles.midText]}>处理中</Text>
+                    <Text style={[globalStyles.midText]}>
+                        {damage_status == 1 && '未处理'}
+                        {damage_status == 2 && '处理中'}
+                        {damage_status == 3 && '已处理'}
+                    </Text>
                 </View>
             </View>
             <View style={styles.body}>
@@ -27,28 +30,17 @@ const DemageDetail = props => {
                     <Text style={[globalStyles.midText, globalStyles.styleColor]}>质损描述</Text>
                 </View>
                 <View style={styles.bodyItem}>
-                    <Text style={globalStyles.midText}>右后门,右后叶子板凹坑变形</Text>
+                    <Text style={globalStyles.midText}>{damage_explain ? `${damage_explain}` : ''}</Text>
                 </View>
             </View>
             <View style={styles.footer}>
-                <Text style={globalStyles.midText}><Text style={globalStyles.styleColor}>货车司机：</Text>张宝全（辽B12345）</Text>
+                <Text style={globalStyles.midText}><Text style={globalStyles.styleColor}>货车司机：</Text>{drive_name ? `${drive_name}` : ''}{truck_num ? `(${truck_num})` : ''}</Text>
             </View>
         </View>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        demageListReducer: state.demageListReducer
-    }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DemageDetail)
-
+export default DemageDetail
 
 const styles = StyleSheet.create({
     container: {
