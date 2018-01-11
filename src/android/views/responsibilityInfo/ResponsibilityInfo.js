@@ -10,7 +10,7 @@ import globalStyles from '../../GlobalStyles'
 import CarInfoForDemage from '../../components/demageInfo/carInfoForDemage/CarInfoForDemage'
 import RecordForDemage from '../../components/demageInfo/recordForDemage/RecordForDemage'
 import ImageListForDemage from '../../components/demageInfo/ImageListForDemage'
-import DemageOpResult from '../../components/demageInfo/DemageOpResult'
+import DemageOpResult from '../../components/demageInfo/demageOpResult/DemageOpResult'
 import DemageDetail from '../../components/demageInfo/DemageDetail'
 
 class DemageInfo extends Component {

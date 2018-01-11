@@ -5,13 +5,14 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    InteractionManager
+    InteractionManager,
+    ActivityIndicator
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import * as routerDirection from '../../../../util/RouterDirection'
 import { Container, Content, Input, Label, Icon, Button } from 'native-base'
-import globalStyles, { textColor } from '../../../GlobalStyles'
+import globalStyles, { textColor,styleColor } from '../../../GlobalStyles'
 import * as selectDriverAction from '../../../views/select/driver/SelectDriverAction'
 import * as demageEditorAction from './DemageEditorAction'
 import moment from 'moment'
@@ -54,7 +55,12 @@ const SelectDriver = props => {
 }
 
 const DemageEditor = props => {
-    const { getSelectDriverList, getSelectDriverListWaiting, updateDamage, parent, initParam: { id, created_on, car_id, vin } } = props
+    const { getSelectDriverList,
+        getSelectDriverListWaiting,
+        updateDamage,
+        demageEditorReducer: { updateDamage: { isResultStatus } },
+        parent,
+        initParam: { id, created_on, car_id, vin } } = props
     return (
         <Container>
             <Content showsVerticalScrollIndicator={false}>
@@ -76,15 +82,18 @@ const DemageEditor = props => {
                     getSelectDriverList={getSelectDriverList}
                     getSelectDriverListWaiting={getSelectDriverListWaiting}
                     parent={parent} />
-                <Button full
-                    style={[globalStyles.styleBackgroundColor, { margin: 15 }]}
+                <View style={{ margin: 15 }}>
+                {isResultStatus != 1 && <Button full
+                    style={[globalStyles.styleBackgroundColor]}
                     onPress={() => updateDamage({
                         damageId: id,
                         carId: car_id,
                         vin
                     })}>
                     <Text style={[globalStyles.midText, { color: '#fff' }]}>修改</Text>
-                </Button>
+                </Button>}
+                {isResultStatus == 1 && <ActivityIndicator color={styleColor} size='large'/>}
+                </View>  
             </Content>
         </Container>
     )
@@ -158,7 +167,7 @@ const mapStateToProps = (state, ownProps) => {
                 truck_num
             }
         },
-        formReducer: state.form
+        demageEditorReducer: state.demageEditorReducer
     }
 }
 

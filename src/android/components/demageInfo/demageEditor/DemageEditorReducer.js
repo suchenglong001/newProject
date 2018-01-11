@@ -12,7 +12,6 @@ const initialState = {
 //isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(错误)，4(执行失败),5(服务器未处理错误)]
 export default handleActions({
     [demageEditorActionTypes.update_Damage_success]: (state, action) => {
-        console.log(1111)
         return {
             ...state,
             updateDamage: {

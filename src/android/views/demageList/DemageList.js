@@ -15,6 +15,7 @@ import { Actions } from 'react-native-router-flux'
 import * as demageListAction from './DemageListAction'
 import * as carInfoForDemageAction from '../../components/demageInfo/carInfoForDemage/CarInfoForDemageAction'
 import * as recordForDemageAction from '../../components/demageInfo/recordForDemage/RecordForDemageAction'
+import * as demageOpResultAction from '../../components/demageInfo/demageOpResult/DemageOpResultAction'
 import moment from 'moment'
 
 //damage_status cancel :    ready_process : 1, in_process : 2, completed : 3
@@ -25,15 +26,19 @@ const renderListItem = props => {
         getCarInfo,
         getCarInfoWaiting,
         getCarInfoRecordWaiting,
-        getCarInfoRecord } = props
+        getCarInfoRecord,
+        getDemageOpResult,
+        getDemageOpResultWaiting } = props
     return (
         <TouchableOpacity style={styles.listItemContainer} onPress={() => {
             getCarInfoWaiting()
             getCarInfoRecordWaiting()
+            getDemageOpResultWaiting()
             Actions.demageInfo({ initParam: item })
             InteractionManager.runAfterInteractions(() => {
                 getCarInfo({ car_id })
                 getCarInfoRecord({ car_id })
+                getDemageOpResult({ id })
             })
         }}>
             <View style={styles.listItemTopContainer}>
@@ -87,7 +92,9 @@ const DemageList = props => {
         getCarInfo,
         getCarInfoWaiting,
         getCarInfoRecordWaiting,
-        getCarInfoRecord } = props
+        getCarInfoRecord,
+        getDemageOpResult,
+        getDemageOpResultWaiting } = props
     if (getDemageList.isResultStatus == 1) {
         return (
             <Container>
@@ -115,7 +122,9 @@ const DemageList = props => {
                         getCarInfo,
                         getCarInfoWaiting,
                         getCarInfoRecordWaiting,
-                        getCarInfoRecord
+                        getCarInfoRecord,
+                        getDemageOpResult,
+                        getDemageOpResultWaiting
                     })} />
             </Container>
         )
@@ -208,6 +217,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getCarInfoRecordWaiting: () => {
         dispatch(recordForDemageAction.getCarInfoRecordWaiting())
+    },
+    getDemageOpResult: (param) => {
+        dispatch(demageOpResultAction.getDemageOpResult(param))
+    },
+    getDemageOpResultWaiting: () => {
+        dispatch(demageOpResultAction.getDemageOpResultWaiting())
     }
 })
 
