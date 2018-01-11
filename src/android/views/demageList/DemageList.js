@@ -16,6 +16,7 @@ import * as demageListAction from './DemageListAction'
 import * as carInfoForDemageAction from '../../components/demageInfo/carInfoForDemage/CarInfoForDemageAction'
 import * as recordForDemageAction from '../../components/demageInfo/recordForDemage/RecordForDemageAction'
 import * as demageOpResultAction from '../../components/demageInfo/demageOpResult/DemageOpResultAction'
+import * as imageListForDemageAction from '../../components/demageInfo/imageListForDemage/ImageListForDemageAction'
 import moment from 'moment'
 
 //damage_status cancel :    ready_process : 1, in_process : 2, completed : 3
@@ -28,17 +29,21 @@ const renderListItem = props => {
         getCarInfoRecordWaiting,
         getCarInfoRecord,
         getDemageOpResult,
-        getDemageOpResultWaiting } = props
+        getDemageOpResultWaiting,
+        getDamageImageListWaiting,
+        getDamageImageList } = props
     return (
         <TouchableOpacity style={styles.listItemContainer} onPress={() => {
             getCarInfoWaiting()
             getCarInfoRecordWaiting()
             getDemageOpResultWaiting()
+            getDamageImageListWaiting()
             Actions.demageInfo({ initParam: item })
             InteractionManager.runAfterInteractions(() => {
                 getCarInfo({ car_id })
                 getCarInfoRecord({ car_id })
                 getDemageOpResult({ id })
+                getDamageImageList({ id })
             })
         }}>
             <View style={styles.listItemTopContainer}>
@@ -94,7 +99,9 @@ const DemageList = props => {
         getCarInfoRecordWaiting,
         getCarInfoRecord,
         getDemageOpResult,
-        getDemageOpResultWaiting } = props
+        getDemageOpResultWaiting,
+        getDamageImageListWaiting,
+        getDamageImageList } = props
     if (getDemageList.isResultStatus == 1) {
         return (
             <Container>
@@ -124,7 +131,9 @@ const DemageList = props => {
                         getCarInfoRecordWaiting,
                         getCarInfoRecord,
                         getDemageOpResult,
-                        getDemageOpResultWaiting
+                        getDemageOpResultWaiting,
+                        getDamageImageListWaiting,
+                        getDamageImageList
                     })} />
             </Container>
         )
@@ -223,6 +232,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getDemageOpResultWaiting: () => {
         dispatch(demageOpResultAction.getDemageOpResultWaiting())
+    },
+    getDamageImageListWaiting: (param) => {
+        dispatch(imageListForDemageAction.getDamageImageListWaiting())
+    },
+    getDamageImageList: (param) => {
+        dispatch(imageListForDemageAction.getDamageImageList(param))
     }
 })
 

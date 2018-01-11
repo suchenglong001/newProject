@@ -5,8 +5,8 @@ import {
     View,
     FlatList
 } from 'react-native'
-import ImageItem from '../share/ImageItem'
-import globalStyles from '../../GlobalStyles'
+import ImageItem from '../../share/ImageItem'
+import globalStyles from '../../../GlobalStyles'
 
 const renderItem = props => {
     return (
@@ -24,26 +24,19 @@ const renderListEmpty = () => {
     )
 }
 
-export default class ImageListForDemageInfo extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount() {
-
-    }
-
-    render() {
-        return (
-            <FlatList
-                style={styles.flatList}
-                data={[]}
-                numColumns={2}
-                ListEmptyComponent={renderListEmpty}
-                renderItem={renderItem} />
-        )
-    }
+const ImageListForDemageInfo = props => {
+    return (
+        <FlatList
+            style={styles.flatList}
+            data={[]}
+            numColumns={2}
+            ListEmptyComponent={renderListEmpty}
+            renderItem={renderItem} />
+    )
 }
+
+export default ImageListForDemageInfo
+
 
 const styles = StyleSheet.create({
     itemContainer: {

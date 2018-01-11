@@ -9,7 +9,7 @@ import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, ListItem } from '
 import globalStyles from '../../GlobalStyles'
 import CarInfoForDemage from '../../components/demageInfo/carInfoForDemage/CarInfoForDemage'
 import RecordForDemage from '../../components/demageInfo/recordForDemage/RecordForDemage'
-import ImageListForDemage from '../../components/demageInfo/ImageListForDemage'
+import ImageListForDemage from '../../components/demageInfo/imageListForDemage/ImageListForDemage'
 import DemageOpResult from '../../components/demageInfo/demageOpResult/DemageOpResult'
 import DemageDetail from '../../components/demageInfo/DemageDetail'
 
