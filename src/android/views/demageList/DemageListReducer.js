@@ -4,14 +4,14 @@ import * as demageListActionTypes from './DemageListActionTypes'
 const initialState = {
     data: {
         demageList: [],
-        isComplete:false
+        isComplete: false
     },
-    getDemageList:{
+    getDemageList: {
         errorMsg: '',
         failedMsg: '',
         isResultStatus: 0
     },
-    getDemageListMore:{
+    getDemageListMore: {
         errorMsg: '',
         failedMsg: '',
         isResultStatus: 0
@@ -112,5 +112,29 @@ export default handleActions({
                 errorMsg
             }
         }
+    },
+
+    [demageListActionTypes.update_Demage]: (state, action) => {
+        const { payload: { id, truck_id, truck_num, drive_id, drive_name, damage_explain } } = action    
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                demageList: state.data.demageList.map(item => {
+                    if (item.id == id) {
+                        item = {
+                            ...item,
+                            truck_id,
+                            truck_num,
+                            drive_id,
+                            drive_name,
+                            damage_explain
+                        }
+                    }
+                    return item
+                })
+            }
+        }
     }
+
 }, initialState)

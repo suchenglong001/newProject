@@ -20,7 +20,6 @@ const DemageInfo = props => {
         carInfoForDemageReducer: { getCarInfo },
         recordForDemageReducer: { getCarInfoRecord },
         parent } = props
-    console.log('initParam', initParam)
     return (
         <Container style={globalStyles.listBackgroundColor}>
             <Tabs>

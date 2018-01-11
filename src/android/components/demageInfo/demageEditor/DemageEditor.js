@@ -10,12 +10,14 @@ import {
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import * as routerDirection from '../../../../util/RouterDirection'
-import { Container, Content, Input, Label, Icon } from 'native-base'
+import { Container, Content, Input, Label, Icon, Button } from 'native-base'
 import globalStyles, { textColor } from '../../../GlobalStyles'
 import * as selectDriverAction from '../../../views/select/driver/SelectDriverAction'
+import * as demageEditorAction from './DemageEditorAction'
+import moment from 'moment'
 
 const DamageRemark = props => {
-    const { input: { onChange, ...restProps }, meta: { error, touched } } = props
+    const { input: { onChange, ...restProps }, meta: { error } } = props
     return (
         <View style={styles.item}>
             <Label style={[styles.label, globalStyles.midText, globalStyles.styleColor]}>质损描述</Label>
@@ -24,13 +26,13 @@ const DamageRemark = props => {
                 style={[styles.inputArea, globalStyles.midText]}
                 onChangeText={onChange}
                 {...restProps} />
-            {touched && error && <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
+            {error && <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
         </View>
     )
 }
 
 const SelectDriver = props => {
-    const { input: { onChange, value }, meta: { error, touched }, getSelectDriverList, getSelectDriverListWaiting, parent } = props
+    const { input: { onChange, value }, meta: { error }, getSelectDriverList, getSelectDriverListWaiting, parent } = props
     return (
         <TouchableOpacity
             style={[styles.item, styles.itemSelectContainer]}
@@ -42,27 +44,24 @@ const SelectDriver = props => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Label style={globalStyles.midText}>货车司机：</Label>
                 <View style={styles.itemSelect}>
-                    <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}{value.tel ? `(${value.tel})` : ''}</Label>
+                    <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}</Label>
                     <Icon name='md-arrow-dropdown' style={globalStyles.formIcon} />
                 </View>
             </View>
-
-            {touched && error && <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
+            {error && <Text style={[globalStyles.errorText, { marginTop: 10 }]}>* {error}</Text>}
         </TouchableOpacity>
     )
 }
 
 const DemageEditor = props => {
-
-    console.log(props)
-    const { getSelectDriverList, getSelectDriverListWaiting, parent } = props
+    const { getSelectDriverList, getSelectDriverListWaiting, updateDamage, parent, initParam: { id, created_on, car_id, vin } } = props
     return (
         <Container>
-            <Content>
+            <Content showsVerticalScrollIndicator={false}>
                 <View style={[styles.item, styles.header]}>
                     <View style={styles.headerItem}>
-                        <Text style={[globalStyles.largeText, globalStyles.styleColor, {}]}>No.:123456789</Text>
-                        <Text style={globalStyles.smallText}>2017-05-12 11:30</Text>
+                        <Text style={[globalStyles.largeText, globalStyles.styleColor]}>No.：{id ? `${id}` : ''}</Text>
+                        <Text style={globalStyles.smallText}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm')}` : ''}</Text>
                     </View>
                     <View style={styles.headerStatusItem}>
                         <Text style={[globalStyles.midText]}>处理中</Text>
@@ -77,22 +76,36 @@ const DemageEditor = props => {
                     getSelectDriverList={getSelectDriverList}
                     getSelectDriverListWaiting={getSelectDriverListWaiting}
                     parent={parent} />
-                {/* 
-                <View style={styles.item}>
-                    <Label style={[styles.label, globalStyles.midText, globalStyles.styleColor]}>质损描述</Label>
-                    <Input multiline={true} style={[styles.inputArea, globalStyles.midText]} />
-                </View>
-                <View style={[styles.item, styles.itemSelectContainer]}>
-                    <Label style={globalStyles.midText}>货车司机：</Label>
-                    <View style={styles.itemSelect}>
-                        <Label style={globalStyles.midText}>王大雷(13838385438)</Label>
-                        <Icon name='md-arrow-dropdown' style={globalStyles.formIcon} />
-                    </View>
-                </View> */}
+                <Button full
+                    style={[globalStyles.styleBackgroundColor, { margin: 15 }]}
+                    onPress={() => updateDamage({
+                        damageId: id,
+                        carId: car_id,
+                        vin
+                    })}>
+                    <Text style={[globalStyles.midText, { color: '#fff' }]}>修改</Text>
+                </Button>
             </Content>
         </Container>
     )
 }
+
+const validate = values => {
+    const errors = { damageRemark: '', selectDriver: '' }
+    if (!values.damageRemark) {
+        errors.damageRemark = '必填'
+    }
+
+    if (!values.selectDriver) {
+        errors.selectDriver = '必选'
+    } else {
+        if (!values.selectDriver.truck_id) {
+            errors.selectDriver = '该司机未绑定车头'
+        }
+    }
+    return errors
+}
+
 
 const styles = StyleSheet.create({
     item: {
@@ -104,10 +117,7 @@ const styles = StyleSheet.create({
     itemSelectContainer: {
         borderBottomWidth: 0.3,
         borderColor: '#777',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingBottom: 15,
-        alignItems: 'center'
+        paddingBottom: 15
     },
     itemSelect: {
         flexDirection: 'row',
@@ -137,14 +147,15 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('ownProps', ownProps)
+    const { initParam: { damage_explain, drive_name, drive_id, truck_id, truck_num } } = ownProps
     return {
-        applyDamageReducer: state.applyDamageReducer,
         initialValues: {
-            damageRemark: '1111',
+            damageRemark: damage_explain,
             selectDriver: {
-                drive_name: '111',
-                tel: '1111'
+                id: drive_id,
+                drive_name,
+                truck_id,
+                truck_num
             }
         },
         formReducer: state.form
@@ -158,8 +169,12 @@ const mapDispatchToProps = (dispatch) => ({
     getSelectDriverListWaiting: () => {
         dispatch(selectDriverAction.getSelectDriverListWaiting())
     },
+    updateDamage: (param) => {
+        dispatch(demageEditorAction.updateDamage(param))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-    form: 'demageEditorForm'
+    form: 'demageEditorForm',
+    validate
 })(DemageEditor))

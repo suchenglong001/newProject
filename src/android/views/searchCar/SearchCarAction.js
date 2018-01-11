@@ -6,12 +6,12 @@ import { getFormValues } from 'redux-form'
 import { ToastAndroid } from 'react-native'
 import { sleep } from '../../../util/util'
 
-const pageSize = 1
+const pageSize = 50
 
 export const getCarList = (param) => async (dispatch, getState) => {
     dispatch({ type: searchCarActionTypes.get_CarList_waiting, payload: {} })
     try {
-        const url = `${base_host}/car${ObjectToUrl({ vinCode: param, start: 0, size: pageSize })}`
+        const url = `${base_host}/carList${ObjectToUrl({ vinCode: param, start: 0, size: pageSize })}`
         const res = await httpRequest.get(url)
         if (res.success) {
             if (res.result.length % pageSize != 0) {
@@ -39,7 +39,7 @@ export const getCarListMore = () => async (dispatch, getState) => {
         if (!isComplete) {
             dispatch({ type: searchCarActionTypes.get_CarListMore_waiting, payload: {} })
             try {
-                const url = `${base_host}/car${ObjectToUrl({ vinCode: vinCode, start: carList.length, size: pageSize })}`
+                const url = `${base_host}/carList${ObjectToUrl({ vinCode: vinCode, start: carList.length, size: pageSize })}`
                 const res = await httpRequest.get(url)
                 if (res.success) {
                     if (res.result.length % pageSize != 0 || res.result.length == 0) {

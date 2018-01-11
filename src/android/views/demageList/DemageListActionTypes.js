@@ -7,3 +7,5 @@ export const get_DemageListMore_success= 'get_DemageListMore_success'
 export const get_DemageListMore_waiting = 'get_DemageListMore_waiting'
 export const get_DemageListMore_failed = 'get_DemageListMore_failed'
 export const get_DemageListMore_error = 'get_DemageListMore_error'
+
+export const update_Demage= 'update_Demage'
