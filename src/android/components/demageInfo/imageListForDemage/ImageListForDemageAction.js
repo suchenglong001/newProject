@@ -21,3 +21,11 @@ export const getDamageImageList = (param) => async (dispatch, getState) => {
 export const getDamageImageListWaiting = () => (dispatch, getState) => {
     dispatch({ type: imageListForDemageActionTypes.get_DamageImageList_waiting, payload: {} })
 }
+
+export const uploadDamageImageWating = () => (dispatch, getState) => {
+
+}
+
+export const uploadDamageImage = () => (dispatch, getState) => {
+
+}

@@ -10,6 +10,7 @@ import globalStyles, { styleColor } from '../../GlobalStyles'
 import CarInfoForDemage from '../../components/demageInfo/carInfoForDemage/CarInfoForDemage'
 import RecordForDemage from '../../components/demageInfo/recordForDemage/RecordForDemage'
 import ImageListForDemage from '../../components/demageInfo/imageListForDemage/ImageListForDemage'
+import ImageEditorForDemage from '../../components/demageInfo/imageListForDemage/ImageEditorForDemage'
 import DemageOpResult from '../../components/demageInfo/demageOpResult/DemageOpResult'
 import DemageDetail from '../../components/demageInfo/DemageDetail'
 import DemageEditor from '../../components/demageInfo/demageEditor/DemageEditor'
@@ -57,7 +58,8 @@ const DemageInfo = props => {
                     textStyle={{ color: '#adc5d5' }}
                     heading="照片">
                     <Container>
-                        <ImageListForDemage initParam={initParam}/>
+                        {/* <ImageListForDemage initParam={initParam}/> */}
+                        <ImageEditorForDemage initParam={initParam}/>
                     </Container>
                 </Tab>
                 {damage_status != 1 && <Tab

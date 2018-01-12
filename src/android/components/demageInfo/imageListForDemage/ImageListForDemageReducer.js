@@ -9,6 +9,11 @@ const initialState = {
         errorMsg: '',
         failedMsg: '',
         isResultStatus: 0
+    },
+    uploadDamageImage: {
+        errorMsg: '',
+        failedMsg: '',
+        isResultStatus: 0
     }
 }
 
@@ -53,6 +58,67 @@ export default handleActions({
             ...state,
             getDamageImageList: {
                 ...initialState.getDamageImageList,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
+
+
+    [imageListForDemageActionTypes.upload_ImageAtDemage_success]: (state, action) => {
+        const { payload: { demageImageList } } = action
+        return {
+            ...state,
+            data: {
+                demageImageList: [...state.data.demageImageList, ...demageImageList]
+            },
+            uploadDamageImage: {
+                ...initialState.uploadDamageImage,
+                isResultStatus: 2
+            }
+        }
+    },
+    [imageListForDemageActionTypes.upload_ImageAtDemage_partSuccess]: (state, action) => {
+        const { payload: { demageImageList, failedMsg } } = action
+        return {
+            ...state,
+            data: {
+                demageImageList: [...state.data.demageImageList, ...demageImageList]
+            },
+            uploadDamageImage: {
+                ...initialState.uploadDamageImage,
+                isResultStatus: 5,
+                failedMsg
+            }
+        }
+    },
+    [imageListForDemageActionTypes.upload_ImageAtDemage_waiting]: (state, action) => {
+        return {
+            ...state,
+            uploadDamageImage: {
+                ...initialState.uploadDamageImage,
+                isResultStatus: 1
+            }
+        }
+    },
+    [imageListForDemageActionTypes.upload_ImageAtDemage_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            uploadDamageImage: {
+                ...initialState.uploadDamageImage,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [imageListForDemageActionTypes.upload_ImageAtDemage_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            uploadDamageImage: {
+                ...initialState.uploadDamageImage,
                 isResultStatus: 3,
                 errorMsg
             }

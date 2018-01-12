@@ -100,7 +100,6 @@ const ApplyDamageUploadImage = props => {
     )
 }
 
-
 const styles = StyleSheet.create({
     cameraButtonContainer: {
         marginTop: 50
