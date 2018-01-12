@@ -2,10 +2,10 @@ import { handleActions } from 'redux-actions'
 import * as imageListForDemageActionTypes from './ImageListForDemageActionTypes'
 
 const initialState = {
-    data:{
-        demageImageList:[]
+    data: {
+        demageImageList: []
     },
-    getDamageImageList:{
+    getDamageImageList: {
         errorMsg: '',
         failedMsg: '',
         isResultStatus: 0
@@ -71,7 +71,7 @@ export default handleActions({
         return {
             ...state,
             data: {
-                demageImageList: [...state.data.demageImageList, ...demageImageList]
+                demageImageList: [...state.data.demageImageList, ...demageImageList.map(item => { return { url: item } })]
             },
             uploadDamageImage: {
                 ...initialState.uploadDamageImage,

@@ -3,19 +3,24 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList
+    FlatList,
+    TouchableOpacity
 } from 'react-native'
 import ImageItem from '../../share/ImageItem'
 import globalStyles from '../../../GlobalStyles'
 import { connect } from 'react-redux'
 import { file_host } from '../../../../config/Host'
+import * as routerDirection from '../../../../util/RouterDirection'
 
 const renderItem = props => {
-    const { item, index } = props
+    const { item, index, parent, demageImageList } = props
     return (
-        <View key={index} style={styles.itemContainer}>
+        <TouchableOpacity
+            key={index}
+            style={styles.itemContainer}
+            onPress={() => routerDirection.singlePhotoView(parent)({ initParam: { imageUrlList: demageImageList.map(url => `${file_host}/image/${url.url}`), index } })} >
             <ImageItem imageUrl={`${file_host}/image/${item.url}`} />
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -28,15 +33,14 @@ const renderListEmpty = () => {
 }
 
 const ImageListForDemageInfo = props => {
-    const { imageListForDemageReducer: { data: { demageImageList } } } = props
-    console.log(props)
+    const { imageListForDemageReducer: { data: { demageImageList } }, parent } = props
     return (
         <FlatList
             style={styles.flatList}
             data={demageImageList}
             numColumns={2}
             ListEmptyComponent={renderListEmpty}
-            renderItem={renderItem} />
+            renderItem={({ item, index }) => renderItem({ item, index, parent, demageImageList })} />
     )
 }
 

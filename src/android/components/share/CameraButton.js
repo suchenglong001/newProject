@@ -138,6 +138,8 @@ export default class CameraButton extends Component {
                     })
                 })
                 .catch((err) => {
+             console.log('err', err)
+             
                     reject({
                         success: false,
                         errMsg: err
@@ -155,9 +157,8 @@ export default class CameraButton extends Component {
             }))
             this.props.getImage(newImages)
         } catch (err) {
-            // console.log('err', err)
+             console.log('err', err)
         }
-
     }
 
     render() {

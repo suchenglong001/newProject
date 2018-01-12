@@ -48,7 +48,7 @@ const DemageInfo = props => {
                     heading="质损">
                     <Container>
                         {damage_status == 1 && <DemageEditor initParam={initParam} parent={parent} />}
-                        {damage_status != 1 && <DemageDetail initParam={initParam}/>}
+                        {damage_status != 1 && <DemageDetail initParam={initParam} />}
                     </Container>
                 </Tab>
                 <Tab
@@ -58,8 +58,8 @@ const DemageInfo = props => {
                     textStyle={{ color: '#adc5d5' }}
                     heading="照片">
                     <Container>
-                        {/* <ImageListForDemage initParam={initParam}/> */}
-                        <ImageEditorForDemage initParam={initParam}/>
+                        {damage_status != 1 && <ImageListForDemage initParam={initParam} parent={parent} />}
+                        {damage_status == 1 && <ImageEditorForDemage initParam={initParam} parent={parent} />}
                     </Container>
                 </Tab>
                 {damage_status != 1 && <Tab
@@ -73,7 +73,7 @@ const DemageInfo = props => {
                             <Spinner color={styleColor} />
                         </Container>
                         : <Container>
-                            <DemageOpResult damageStatus={damage_status}/>
+                            <DemageOpResult damageStatus={damage_status} />
                         </Container>}
                 </Tab>}
             </Tabs>
