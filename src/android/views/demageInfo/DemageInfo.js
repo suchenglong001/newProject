@@ -83,7 +83,6 @@ const DemageInfo = props => {
 
 const mapStateToProps = (state) => {
     return {
-        //demageInfoReducer: state.demageInfoReducer,
         carInfoForDemageReducer: state.carInfoForDemageReducer,
         recordForDemageReducer: state.recordForDemageReducer,
         demageOpResultReducer: state.demageOpResultReducer

@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        demageListReducer: state.demageListReducer
+        responsibilityListReducer: state.responsibilityListReducer
     }
 }
 
