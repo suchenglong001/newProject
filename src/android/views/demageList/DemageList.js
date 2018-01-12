@@ -118,7 +118,7 @@ const DemageList = props => {
                     data={demageList}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
-                        if (getDemageList.isResultStatus == 2) {
+                        if (getDemageList.isResultStatus == 2 && !isComplete) {
                             getDemageListMore()
                         }
                     }}

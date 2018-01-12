@@ -4,7 +4,7 @@ import * as loginActionTypes from './LoginActionTypes'
 const initialState = {
     data: {
         user: {
-            uid: 36,
+            uid: 0, //36 ,0 
             mobile: "123",
             real_name: "仓储小",
             type: 29

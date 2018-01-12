@@ -11,10 +11,11 @@ import FoundationIcon from 'react-native-vector-icons/dist/Foundation'
 import { Actions } from 'react-native-router-flux'
 import globalStyles from '../../GlobalStyles'
 import * as demageListAction from '../demageList/DemageListAction'
+import * as responsibilityListAction from '../responsibilityList/ResponsibilityListAction'
 
 
 const Setting = props => {
-    const { getDemageListWaiting, getDemageList } = props
+    const { getDemageListWaiting, getDemageList, getResponsibilityListWaiting, getResponsibilityList } = props
     return (
         <Container>
             <Content style={globalStyles.container}>
@@ -33,7 +34,9 @@ const Setting = props => {
                     <ListItem icon onPress={() => {
                         getDemageListWaiting()
                         Actions.demageList()
-                        InteractionManager.runAfterInteractions(getDemageList)
+                        InteractionManager.runAfterInteractions(() => {
+                            getDemageList()
+                        })
                     }}>
                         <Left>
                             <Icon name="ios-alert" style={globalStyles.styleColor} />
@@ -45,7 +48,13 @@ const Setting = props => {
                             <Icon name="arrow-forward" />
                         </Right>
                     </ListItem>
-                    <ListItem icon last onPress={Actions.responsibilityList}>
+                    <ListItem icon last onPress={() => {
+                        getResponsibilityListWaiting()
+                        Actions.responsibilityList()
+                        InteractionManager.runAfterInteractions(() => {
+                            getResponsibilityList()
+                        })
+                    }}>
                         <Left>
                             <Icon name="ios-umbrella" style={globalStyles.styleColor} />
                         </Left>
@@ -121,6 +130,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getDemageListWaiting: () => {
         dispatch(demageListAction.getDemageListWaiting())
+    },
+    getResponsibilityList: () => {
+        dispatch(responsibilityListAction.getResponsibilityList())
+    },
+    getResponsibilityListWaiting: () => {
+        dispatch(responsibilityListAction.getResponsibilityListWaiting())
     }
 })
 
