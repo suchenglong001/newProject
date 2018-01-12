@@ -57,7 +57,7 @@ const DemageInfo = props => {
                     textStyle={{ color: '#adc5d5' }}
                     heading="照片">
                     <Container>
-                        <ImageListForDemage />
+                        <ImageListForDemage initParam={initParam}/>
                     </Container>
                 </Tab>
                 {damage_status != 1 && <Tab

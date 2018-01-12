@@ -20,6 +20,7 @@ import carInfoForDemageReducer from './android/components/demageInfo/carInfoForD
 import recordForDemageReducer from './android/components/demageInfo/recordForDemage/RecordForDemageReducer'
 import demageEditorReducer from './android/components/demageInfo/demageEditor/DemageEditorReducer'
 import demageOpResultReducer from './android/components/demageInfo/demageOpResult/DemageOpResultReducer'
+import imageListForDemageReducer from './android/components/demageInfo/imageListForDemage/ImageListForDemageReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -42,5 +43,6 @@ export default combineReducers({
     carInfoForDemageReducer,
     recordForDemageReducer,
     demageEditorReducer,
-    demageOpResultReducer
+    demageOpResultReducer,
+    imageListForDemageReducer
 })

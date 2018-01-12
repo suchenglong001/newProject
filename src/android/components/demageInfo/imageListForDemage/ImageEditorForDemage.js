@@ -27,7 +27,7 @@ const renderListEmpty = () => {
     )
 }
 
-const ImageListForDemageInfo = props => {
+const ImageEditorForDemage = props => {
     const { imageListForDemageReducer: { data: { demageImageList } } } = props
     console.log(props)
     return (
@@ -50,7 +50,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImageListForDemageInfo)
+export default connect(mapStateToProps, mapDispatchToProps)(ImageEditorForDemage)
 
 const styles = StyleSheet.create({
     itemContainer: {
