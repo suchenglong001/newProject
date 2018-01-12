@@ -5,8 +5,8 @@ import {
 } from 'react-native'
 import { fontSizeCoeff } from '../../../util/util'
 import { connect } from 'react-redux'
-import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, ListItem } from 'native-base'
-import globalStyles from '../../GlobalStyles'
+import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, ListItem, Spinner } from 'native-base'
+import globalStyles, { styleColor } from '../../GlobalStyles'
 import CarInfoForDemage from '../../components/demageInfo/carInfoForDemage/CarInfoForDemage'
 import RecordForDemage from '../../components/demageInfo/recordForDemage/RecordForDemage'
 import ImageListForDemage from '../../components/demageInfo/imageListForDemage/ImageListForDemage'
@@ -14,10 +14,11 @@ import DemageOpResult from '../../components/demageInfo/demageOpResult/DemageOpR
 import DemageDetail from '../../components/demageInfo/DemageDetail'
 
 const DemageInfo = props => {
-    const { initParam,
-        // carInfoForDemageReducer: { getCarInfo },
-        // recordForDemageReducer: { getCarInfoRecord },
-        // demageOpResultReducer: { getDemageOpResult },
+    const { initParam: { damage_status },
+        initParam,
+        carInfoForDemageReducer: { getCarInfo },
+        recordForDemageReducer: { getCarInfoRecord },
+        demageOpResultReducer: { getDemageOpResult },
         parent } = props
     return (
         <Container style={globalStyles.listBackgroundColor}>
@@ -28,10 +29,14 @@ const DemageInfo = props => {
                     activeTextStyle={{ color: '#fff' }}
                     textStyle={{ color: '#adc5d5' }}
                     heading="车辆">
-                    <Container>
-                        <CarInfoForDemage />
-                        <RecordForDemage />
-                    </Container>
+                    {(getCarInfo.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) ?
+                        <Container>
+                            <Spinner color={styleColor} />
+                        </Container>
+                        : <Container>
+                            <CarInfoForDemage />
+                            <RecordForDemage />
+                        </Container>}
                 </Tab>
                 <Tab
                     tabStyle={{ backgroundColor: '#36759e' }}
@@ -59,9 +64,13 @@ const DemageInfo = props => {
                     activeTextStyle={{ color: '#fff' }}
                     textStyle={{ color: '#adc5d5' }}
                     heading="处理">
-                    <Container>
-                        <DemageOpResult />
-                    </Container>
+                    {(getDemageOpResult.isResultStatus == 1) ?
+                        <Container>
+                            <Spinner color={styleColor} />
+                        </Container>
+                        : <Container>
+                            <DemageOpResult damageStatus={damage_status} />
+                        </Container>}
                 </Tab>
             </Tabs>
         </Container>
@@ -70,7 +79,9 @@ const DemageInfo = props => {
 
 const mapStateToProps = (state) => {
     return {
-        demageInfoReducer: state.demageInfoReducer
+        carInfoForDemageReducer: state.carInfoForDemageReducer,
+        recordForDemageReducer: state.recordForDemageReducer,
+        demageOpResultReducer: state.demageOpResultReducer
     }
 }
 

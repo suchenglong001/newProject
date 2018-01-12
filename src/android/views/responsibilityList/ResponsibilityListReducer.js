@@ -70,7 +70,6 @@ export default handleActions({
 
     [responsibilityListActionTypes.get_ResponsibilityListMore_success]: (state, action) => {
         const { payload: { responsibilityList, isComplete } } = action
-        console.log('responsibilityList',responsibilityList)
         return {
             ...state,
             data: {
