@@ -5,8 +5,7 @@ const initialState = {
     updatePersonalImage:{
         isResultStatus: 0,
         errorMsg: '',
-        failedMsg: '',
-        serviceFailedMsg: ''
+        failedMsg: ''
     }
 }
 

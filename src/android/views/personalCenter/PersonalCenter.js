@@ -28,7 +28,7 @@ class PersonalCenter extends Component {
                         imageType: 0
                     },
                     requiredParam: {
-                        userId: this.props.userReducer.data.user.userId
+                        userId: this.props.loginReducer.data.user.uid
                     },
                     postParam: {
                         key: 'image',
@@ -40,7 +40,7 @@ class PersonalCenter extends Component {
                 updateAvatarImage: {
                     putParam: {},
                     requiredParam: {
-                        userId: this.props.userReducer.data.user.userId
+                        userId: this.props.loginReducer.data.user.uid
                     }
                 }
             })
@@ -48,9 +48,7 @@ class PersonalCenter extends Component {
     }
 
     render() {
-        //{personalInfo.real_name ? personalInfo.real_name : ''}
-        //const { personalInfo } = this.props.settingReducer.data
-        //{personalInfo.mobile ? personalInfo.mobile : ''}
+        const { loginReducer: { data: { user: { real_name, avatar_image, mobile } } } } = this.props
         return <Container style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
                 <List>
@@ -61,17 +59,16 @@ class PersonalCenter extends Component {
                         </Left>
                         <Body style={{ borderBottomWidth: 0 }} />
                         <Right style={{ borderBottomWidth: 0 }}>
-                            <Thumbnail source={{ uri: `personalicon` }} />
-                            {/* <Thumbnail source={personalInfo.avatar_image ? { uri: `${file_host}/image/${personalInfo.avatar_image}` } : { uri: `personalicon` }} /> */}
+                            <Thumbnail source={avatar_image ? { uri: `${file_host}/image/${avatar_image}` } : { uri: `personalicon` }} />
                         </Right>
                     </ListItem>
                     <ListItem style={{ justifyContent: 'space-between' }}>
                         <Text>姓名</Text>
-                        <Text>张宝全</Text>
+                        <Text>{real_name ? `${real_name}` : ''}</Text>
                     </ListItem>
                     <ListItem style={{ borderBottomWidth: 0, justifyContent: 'space-between' }}>
                         <Text>电话</Text>
-                        <Text>13812345678</Text>
+                        <Text>{mobile ? `${mobile}` : ''}</Text>
                     </ListItem>
                 </List>
                 <Separator bordered style={{ flex: 1 }} />
@@ -83,8 +80,8 @@ class PersonalCenter extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        userReducer: state.userReducer,
-        settingReducer: state.settingReducer
+        loginReducer: state.loginReducer
+        //settingReducer: state.settingReducer
     }
 }
 

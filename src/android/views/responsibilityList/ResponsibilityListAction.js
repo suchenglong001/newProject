@@ -46,7 +46,6 @@ export const getResponsibilityListMore = () => async (dispatch, getState) => {
             dispatch({ type: responsibilityListActionTypes.get_ResponsibilityListMore_waiting, payload: {} })
             try {
                 const url = `${base_host}/damage${ObjectToUrl({ underUserId: uid, start: responsibilityList.length, size: pageSize })}`
-                console.log('url',url)
                 const res = await httpRequest.get(url)
                 if (res.success) {
                     if (res.result.length % pageSize != 0 || res.result.length == 0) {

@@ -12,10 +12,14 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles from '../../GlobalStyles'
 import * as demageListAction from '../demageList/DemageListAction'
 import * as responsibilityListAction from '../responsibilityList/ResponsibilityListAction'
-
+import { file_host } from '../../../config/Host'
 
 const Setting = props => {
-    const { getDemageListWaiting, getDemageList, getResponsibilityListWaiting, getResponsibilityList } = props
+    const { getDemageListWaiting,
+        getDemageList,
+        getResponsibilityListWaiting,
+        getResponsibilityList,
+        loginReducer: { data: { user: { real_name, avatar_image, mobile } } } } = props
     return (
         <Container>
             <Content style={globalStyles.container}>
@@ -23,10 +27,10 @@ const Setting = props => {
                     <Separator bordered />
                     <ListItem last onPress={Actions.personalCenter}>
                         <View style={styles.avatarContainer}>
-                            <Thumbnail source={{ uri: `personalicon` }} />
+                            <Thumbnail source={avatar_image ? { uri: `${file_host}/image/${avatar_image}` } : { uri: `personalicon` }} />
                             <View style={styles.userContainer}>
-                                <Text style={globalStyles.midText}>章保全</Text>
-                                <Text style={globalStyles.midText}>13889000000</Text>
+                                <Text style={globalStyles.midText}>{real_name ? `${real_name}` : ''}</Text>
+                                <Text style={globalStyles.midText}>{mobile ? `${mobile}` : ''}</Text>
                             </View>
                         </View>
                     </ListItem>
@@ -120,6 +124,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
+        loginReducer: state.loginReducer,
         settingReducer: state.settingReducer
     }
 }
