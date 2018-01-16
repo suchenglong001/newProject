@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
 
 const NavBar = props => {
-    const { title, layout, RightButton, LeftButton,parent } = props
+    const { title, layout, RightButton, LeftButton, parent } = props
     return (
         <View style={[styles.container, { width: layout.initWidth }]}>
             <StatusBar hidden={false} />
@@ -16,10 +16,10 @@ const NavBar = props => {
                     <LeftButton />
                 </Left>}
                 <Body>
-                    <Title>{title}</Title>
+                    <Title style={[globalStyles.largeText, { color: '#fff' }]}>{title}</Title>
                 </Body>
                 <Right>
-                    {RightButton &&<RightButton parent={parent}/>}
+                    {RightButton && <RightButton parent={parent} />}
                 </Right>
             </Header>
         </View>

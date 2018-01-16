@@ -5,7 +5,6 @@ import {
     View
 } from 'react-native'
 import { Button, Icon, Label } from 'native-base'
-import { fontSizeCoeff } from '../util/util'
 import { Scene, TabBar, Router, ActionConst, Actions, Switch, Reducer } from 'react-native-router-flux'
 
 import NavBar from './components/share/bar/NavBar'
@@ -71,6 +70,10 @@ export default class App extends Component {
         return (
             <Router getSceneStyle={getSceneStyle}>
                 <Scene key="root">
+                    <Scene key="loginBlock" >
+                        <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
+                        {/* <Scene key="retrievePassword" title='找回密码' component={RetrievePassword} hideTabBar hideNavBar={false} navBar={NavBar} /> */}
+                    </Scene>
                     <Scene
                         key="main"
                         tabs={true}
@@ -120,7 +123,7 @@ export default class App extends Component {
                                 navBar={NavBar} />
                             <Scene
                                 key="demageList"
-                                
+
                                 LeftButton={LeftButton}
                                 component={DemageList}
                                 title='我的质损'

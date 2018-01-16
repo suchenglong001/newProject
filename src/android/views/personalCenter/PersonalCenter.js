@@ -8,6 +8,7 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { Button, Container, Content, Header, Icon, Left, Body, Right, Title, List, ListItem, Thumbnail, Toast, Separator } from 'native-base'
 import * as personalCenterAction from './PersonalCenterAction'
 import { file_host } from '../../../config/Host'
+import globalStyles, { styleColor } from '../../GlobalStyles'
 
 class PersonalCenter extends Component {
     constructor(props) {
@@ -55,7 +56,7 @@ class PersonalCenter extends Component {
                     <Separator bordered />
                     <ListItem avatar style={{ borderBottomWidth: 0.3 }} onPress={this.openImage}>
                         <Left>
-                            <Text>头像</Text>
+                            <Text style={globalStyles.midText}>头像</Text>
                         </Left>
                         <Body style={{ borderBottomWidth: 0 }} />
                         <Right style={{ borderBottomWidth: 0 }}>
@@ -63,12 +64,12 @@ class PersonalCenter extends Component {
                         </Right>
                     </ListItem>
                     <ListItem style={{ justifyContent: 'space-between' }}>
-                        <Text>姓名</Text>
-                        <Text>{real_name ? `${real_name}` : ''}</Text>
+                        <Text style={globalStyles.midText}>姓名</Text>
+                        <Text style={globalStyles.midText}>{real_name ? `${real_name}` : ''}</Text>
                     </ListItem>
                     <ListItem style={{ borderBottomWidth: 0, justifyContent: 'space-between' }}>
-                        <Text>电话</Text>
-                        <Text>{mobile ? `${mobile}` : ''}</Text>
+                        <Text style={globalStyles.midText}>电话</Text>
+                        <Text style={globalStyles.midText}>{mobile ? `${mobile}` : ''}</Text>
                     </ListItem>
                 </List>
                 <Separator bordered style={{ flex: 1 }} />
@@ -81,7 +82,6 @@ class PersonalCenter extends Component {
 const mapStateToProps = (state) => {
     return {
         loginReducer: state.loginReducer
-        //settingReducer: state.settingReducer
     }
 }
 
