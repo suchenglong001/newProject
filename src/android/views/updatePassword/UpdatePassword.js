@@ -6,13 +6,13 @@ import {
 } from 'react-native'
 import { fontSizeCoeff } from '../../../util/util'
 import { connect } from 'react-redux'
-import { Container, Content, List, Left, ListItem, Form, Thumbnail, Separator, Body, Right, Icon, Input, Item, Label, Button } from 'native-base'
+import { Container, Content, List, Left, Form, ListItem, Thumbnail, Separator, Body, Right, Icon, Input, Item, Label, Button } from 'native-base'
 import globalStyles from '../../GlobalStyles'
 import { Field, reduxForm } from 'redux-form'
 import * as updatePasswordAction from './UpdatePasswordAction'
 import TextBox from '../../components/share/form/TextBox'
 
-const UpdatePassword = (props) => {
+const UpdatePassword = props => {
     const { handleSubmit } = props
     return (
         <Container>
@@ -32,8 +32,7 @@ const UpdatePassword = (props) => {
 
 const styles = StyleSheet.create({
     list: {
-        backgroundColor: '#fff',
-
+        backgroundColor: '#fff'
     },
     body: {
         flexDirection: 'row',
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        updatePasswordReducer: state.updatePasswordReducer,
+        // updatePasswordReducer: state.updatePasswordReducer,
         formReducer: state.form
     }
 }
@@ -67,22 +66,26 @@ const validate = values => {
     const errors = { oldPassword: [], newPassword: [], confirmPassword: [] }
     if (!values.oldPassword) {
         errors.oldPassword = [...errors.oldPassword, '必填']
+    } else {
+        errors.oldPassword = null
     }
 
     if (!values.newPassword) {
         errors.newPassword = [...errors.newPassword, '必填']
+    } else {
+        errors.newPassword = null
     }
 
     if (!values.confirmPassword) {
         errors.confirmPassword = [...errors.confirmPassword, '必填']
+    } else {
+        errors.confirmPassword = null
     }
-
     return errors
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
     reduxForm({
-        form: 'updatePassword',
-        validate
-    })(UpdatePassword)
-)
+        form: 'updatePasswordForm',
+        validate,
+    })(UpdatePassword))

@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import { Button, Spinner } from 'native-base'
 import * as applyDamageSubmitAction from './ApplyDamageSubmitAction'
-import { submit } from 'redux-form';
+import { submit } from 'redux-form'
 
 const ApplyDamageSubmit = props => {
     const { createDamage, applyDamageSubmitReducer: { createDamage: { isResultStatus } } } = props
@@ -41,6 +41,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     createDamage: () => {
+       // console.log(submit('applyDamage'))
         dispatch(submit('applyDamage'))
     }
 })
