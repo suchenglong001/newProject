@@ -27,7 +27,7 @@ class Initialization extends Component {
 
     componentDidMount() {
         this.props.initApp()
-        //setTimeout(SplashScreen.hide, 2000)
+        setTimeout(SplashScreen.hide, 2000)
     }
 
     render() {

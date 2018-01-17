@@ -29,6 +29,7 @@ const TextBox = props => {
 }
 
 const Login = props => {
+    const {login} =props
     return (
         <Container style={styles.container}>
             <StatusBar hidden={true} />
@@ -59,7 +60,7 @@ const Login = props => {
                         placeholderText='请输入密码'
                         component={TextBox} />
                     <Button style={[styles.itemButton, globalStyles.styleBackgroundColor]}
-                        onPress={this.login}>
+                        onPress={login}>
                         <Text style={[globalStyles.midText, styles.buttonTittle]}>登录</Text>
                     </Button>
                 </View>

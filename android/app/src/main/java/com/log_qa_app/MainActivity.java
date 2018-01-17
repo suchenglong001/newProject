@@ -1,4 +1,5 @@
 package com.log_qa_app;
+
 import android.os.Bundle;
 
 import org.devio.rn.splashscreen.SplashScreen;
@@ -13,7 +14,7 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //SplashScreen.show(this,true);  // 添加这一句
+        SplashScreen.show(this,true); // 添加这一句
         super.onCreate(savedInstanceState);
     }
 

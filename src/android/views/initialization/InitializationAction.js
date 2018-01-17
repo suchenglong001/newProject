@@ -78,7 +78,7 @@ export const validateVersion = (tryCount = 1) => async (dispatch) => {
                 dispatch(initApp(currentStep + 1))
             }
         } else {
-            dispatch({ type: initializationActionTypesValdate_Version_Failed, payload: { failedMsg: res.msg, step: currentStep } })
+            dispatch({ type: initializationActionTypes.Valdate_Version_Failed, payload: { failedMsg: res.msg, step: currentStep } })
         }
     } catch (err) {
         if (err.message == 'Network request failed') {
@@ -96,8 +96,7 @@ export const validateVersion = (tryCount = 1) => async (dispatch) => {
 }
 
 //第二步：获取localStorage中的user数据
-export const loadLocalStorage = ( tryCount = 1) => async (dispatch) => {
-    //console.log('loadLocalStorage')
+export const loadLocalStorage = (tryCount = 1) => async (dispatch) => {
     const currentStep = 2
     try {
         // localStorage.save({
@@ -109,13 +108,13 @@ export const loadLocalStorage = ( tryCount = 1) => async (dispatch) => {
         // })
         //localStorage.remove({ key: localStorageKey.USER })
         const localStorageRes = await localStorage.load({ key: localStorageKey.USER })
-       // console.log('localStorageRes', localStorageRes)
+        // console.log('localStorageRes', localStorageRes)
         // console.log(localStorageRes)
-        if (localStorageRes.token && localStorageRes.userId) {
+        if (localStorageRes.token && localStorageRes.uid) {
             dispatch({ type: initializationActionTypes.Load_LocalStorage_Success, payload: { step: currentStep } })
             dispatch(initApp(currentStep + 1, 1, {
                 requiredParam: {
-                    userId: localStorageRes.userId,
+                    userId: localStorageRes.uid,
                     token: localStorageRes.token
                 }
             }))
@@ -126,7 +125,7 @@ export const loadLocalStorage = ( tryCount = 1) => async (dispatch) => {
             Actions.mainRoot()
         }
     } catch (err) {
-        //console.log(err)
+        console.log(err)
         if (err.name == 'NotFoundError') {
             dispatch({ type: initializationActionTypes.Load_LocalStorage_NotFoundError, payload: { step: currentStep } })
 
@@ -144,37 +143,35 @@ export const validateToken = (tryCount = 1, param) => async (dispatch) => {
     const currentStep = 3
     try {
         const url = `${base_host}/user/${param.requiredParam.userId}/token/${param.requiredParam.token}`
+        console.log(url)
         const res = await httpRequest.get(url)
-        // console.log('res', res)
+        console.log('res', res)
         if (res.success) {
-            //判断请求是否成功，如果成功，更新token
-            localStorage.save({
-                key: localStorageKey.USER,
-                data: {
-                    userId: res.result.userId,
-                    token: res.result.accessToken,
-                    userType: res.result.type,
-                    userStatus: res.result.userStatus,
-                    mobile: res.result.phone
+            const getUserInfoUrl = `${base_host}/user${ObjectToUrl({ userId: param.requiredParam.userId })}`
+            const getUserInfoRes = await httpRequest.get(getUserInfoUrl)
+            console.log('getUserInfoRes', getUserInfoRes)
+
+            if (getUserInfoRes.success) {
+                const { uid, mobile, real_name, type, gender, avatar_image, status } = getUserInfoRes.result[0]
+                const user = {
+                    uid, mobile, real_name, type, gender, avatar_image, status,
+                    token: param.requiredParam.token,
                 }
-            })
-            requestHeaders.set('auth-token', res.result.accessToken)
-            requestHeaders.set('user-type', res.result.type)
-            requestHeaders.set('user-name', res.result.phone)
-            dispatch({
-                type: loginActionTypes.Set_UserInfo, payload: {
-                    user: {
-                        userId: res.result.userId,
-                        token: res.result.accessToken,
-                        userType: res.result.type,
-                        userStatus: res.result.userStatus,
-                        mobile: res.result.phone,
-                    }
-                }
-            })
-            dispatch({ type: initializationActionTypes.validate_token_Success, payload: { step: currentStep } })
-            //console.log('res',res)
-            Actions.mainRoot()
+                //判断请求是否成功，如果成功，更新token
+                localStorage.save({ key: localStorageKey.USER, data: user })
+                requestHeaders.set('auth-token', res.result.accessToken)
+                requestHeaders.set('user-type', type)
+                requestHeaders.set('user-name', mobile)
+                console.log('requestHeaders', requestHeaders)
+                console.log('user', user)
+                dispatch({ type: loginActionTypes.Set_UserInfo, payload: { user } })
+                dispatch({ type: initializationActionTypes.validate_token_Success, payload: { step: currentStep } })
+                //console.log('res',res)
+                Actions.mainRoot()
+            } else {
+                ToastAndroid.showWithGravity(`登陆失败：无法获取用户信息！`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
+                dispatch({ type: initializationActionTypes.validate_token_Failed, payload: { failedMsg: '无法获取用户信息！' } })
+            }
         }
         else {
             //判断请求是否成功，如果失败，跳转到登录页
@@ -182,12 +179,12 @@ export const validateToken = (tryCount = 1, param) => async (dispatch) => {
             Actions.mainRoot()
         }
     } catch (err) {
-        //console.log(err)
+        console.log(err)
         if (err.message == 'Network request failed') {
             //尝试20次
             if (tryCount < 20) {
                 await sleep(1000)
-                dispatch(initApp(currentStep, tryCount + 1,param ))
+                dispatch(initApp(currentStep, tryCount + 1, param))
             } else {
                 dispatch({ type: initializationActionTypesvalidate_token_NetWorkError, payload: { param, step: currentStep } })
             }
@@ -196,18 +193,4 @@ export const validateToken = (tryCount = 1, param) => async (dispatch) => {
             Actions.mainRoot()
         }
     }
-}
-
-
-
-export const initAppWaiting = () => (dispatch) => {
-    dispatch({ type: initializationActionTypes.INIT_App_Waiting, payload: {} })
-}
-
-export const resetInitialization = () => (dispatch) => {
-    dispatch({ type: initializationActionTypes.RESET_INITIALIZATION, payload: {} })
-}
-
-export const resetGetVersion = () => (dispatch) => {
-    dispatch({ type: initializationActionTypes.RESET_GETVERSION, payload: {} })
 }

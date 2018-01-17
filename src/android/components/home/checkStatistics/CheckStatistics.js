@@ -22,7 +22,7 @@ class CheckStatistics extends Component {
 
     render() {
         const { data: { check_count, d_count } } = this.props.checkStatisticsReducer
-        const { data: { user: { real_name } } } = this.props.loginReducer
+        const { data: { user: { real_name },user } } = this.props.loginReducer
         return (
             <View style={[globalStyles.styleBackgroundColor, styles.container]}>
                 <View style={styles.item}>

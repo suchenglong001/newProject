@@ -34,6 +34,7 @@ import ResponsibilityInfo from './views/responsibilityInfo/ResponsibilityInfo'
 import ResponsibilityList from './views/responsibilityList/ResponsibilityList'
 import SelectDriver from './views/select/driver/SelectDriver'
 import SinglePhotoView from './views/SinglePhotoView'
+import RetrievePassword from './views/retrievePassword/RetrievePassword'
 
 import Orientation from 'react-native-orientation'
 
@@ -93,9 +94,9 @@ export default class App extends Component {
                             const { user } = props.loginReducer.data
                             if (user.mobile
                                 && user.token
-                                && user.userId
-                                && user.userStatus
-                                && user.userType) {
+                                && user.uid
+                                && user.status
+                                && user.type) {
                                 return 'main'
                             } else {
                                 return 'loginBlock'
@@ -104,15 +105,15 @@ export default class App extends Component {
                     >
                         <Scene key="loginBlock" >
                             <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
-                            {/* <Scene key="retrievePassword" title='找回密码' component={RetrievePassword} hideTabBar hideNavBar={false} navBar={NavBar} /> */}
+                            <Scene key="retrievePassword" title='找回密码' component={RetrievePassword} hideTabBar hideNavBar={false} navBar={NavBar} />
                         </Scene>
                         <Scene
                             key="main"
                             tabs={true}
                             tabBarStyle={styles.tabBarStyle}
                             tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
-                            <Scene key="homeBlock" icon={TabIcon} online='ios-home' outline='ios-home-outline' >
-                                <Scene key="home" component={Home} title='首页' hideNavBar={false} navBar={SearchBar} />
+                            <Scene key="homeBlock" icon={TabIcon} initial={true} online='ios-home' outline='ios-home-outline' >
+                                <Scene key="home" component={Home} initial={true} title='首页' hideNavBar={false} navBar={SearchBar} />
                                 <Scene key="carInfoAtHomeBlock" component={CarInfo} LeftButton={LeftButton} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
                                 <Scene key="searchCarAtHomeBlock" component={SearchCar} hideNavBar={false} hideTabBar navBar={SearchCarBar} />
                                 <Scene key="selectDriverAtHomeBlock" component={SelectDriver} hideNavBar={false} hideTabBar navBar={SearchDriverBar} />
@@ -122,13 +123,8 @@ export default class App extends Component {
                                 <Scene key="applyDamageUploadImageAtHomeBlock" component={ApplyDamageUploadImage} LeftButton={LeftButton} RightButton={ApplyDamageUploadImageSubmit}
                                     title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
                             </Scene>
-                            <Scene
-                                initial={true}
-                                key="settingBlock"
-                                icon={TabIcon}
-                                online='ios-settings'
-                                outline='ios-settings-outline' >
-                                <Scene key="setting" component={Setting} initial={true} title='设置' hideNavBar={false} navBar={SearchBar} />
+                            <Scene key="settingBlock" icon={TabIcon} online='ios-settings' outline='ios-settings-outline' >
+                                <Scene key="setting" component={Setting} title='设置' hideNavBar={false} navBar={SearchBar} />
                                 <Scene key="carInfoAtSettingBlock" component={CarInfo} LeftButton={LeftButton} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
                                 <Scene key="searchCarAtSettingBlock" component={SearchCar} hideNavBar={false} hideTabBar navBar={SearchCarBar} />
                                 <Scene key="selectDriverAtSettingBlock" component={SelectDriver} hideNavBar={false} hideTabBar navBar={SearchDriverBar} />
@@ -137,13 +133,13 @@ export default class App extends Component {
                                     title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
                                 <Scene key="applyDamageUploadImageAtSettingBlock" component={ApplyDamageUploadImage} LeftButton={LeftButton} RightButton={ApplyDamageUploadImageSubmit}
                                     title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
-                                <Scene   key="updatePassword" LeftButton={LeftButton} component={UpdatePassword} title='修改密码'
-                                    hideTabBar hideNavBar={false}navBar={NavBar} />
-                                <Scene key="demageInfo" LeftButton={LeftButton} component={DemageInfo}title='质损详情' hideTabBar
-                                    hideNavBar={false}navBar={NavBar} />
+                                <Scene key="updatePassword" LeftButton={LeftButton} component={UpdatePassword} title='修改密码'
+                                    hideTabBar hideNavBar={false} navBar={NavBar} />
+                                <Scene key="demageInfo" LeftButton={LeftButton} component={DemageInfo} title='质损详情' hideTabBar
+                                    hideNavBar={false} navBar={NavBar} />
                                 <Scene key="demageList" LeftButton={LeftButton} component={DemageList} title='我的质损' hideTabBar
-                                    hideNavBar={false}navBar={NavBar} />
-                                <Scene key="responsibilityInfo" LeftButton={LeftButton} component={ResponsibilityInfo}title='责任详情'
+                                    hideNavBar={false} navBar={NavBar} />
+                                <Scene key="responsibilityInfo" LeftButton={LeftButton} component={ResponsibilityInfo} title='责任详情'
                                     hideTabBar hideNavBar={false} navBar={NavBar} />
                                 <Scene key="responsibilityList" LeftButton={LeftButton} component={ResponsibilityList} title='我的责任'
                                     hideTabBar hideNavBar={false} navBar={NavBar} />
