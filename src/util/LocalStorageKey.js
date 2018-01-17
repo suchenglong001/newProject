@@ -1,6 +1,5 @@
 const localStorageKey = {
-    USER: 'log-operator-app-user',
-    BASEADDR: 'log-operator-app-baseaddr'
+    USER: 'log-qa-app-user'
 }
 
 export default localStorageKey

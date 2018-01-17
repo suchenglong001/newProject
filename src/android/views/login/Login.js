@@ -4,65 +4,71 @@ import { connect } from 'react-redux'
 import { Button, Icon, Form, Item, Text, Label, Input, Left, Body, Right, Title, List, ListItem, Container } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../GlobalStyles'
+import { Field, reduxForm } from 'redux-form'
+import * as loginAction from './LoginAction'
+
 
 const window = Dimensions.get('window')
 const ImageWidth = window.width
 const ImageHeight = window.width / 9 * 16
 
+const TextBox = props => {
+    const { iconName, placeholderText, input: { onChange, ...restProps }, secureTextEntry = false } = props
+    return (
+        <Item rounded style={styles.item}>
+            <Icon active name={iconName} style={styles.itemIcon} />
+            <Input placeholder={placeholderText}
+                placeholderTextColor='#9ECEF1'
+                selectionColor='#9ECEF1'
+                style={[globalStyles.largeText, styles.input]}
+                onChangeText={onChange}
+                secureTextEntry={secureTextEntry}
+                {...restProps} />
+        </Item>
+    )
+}
 
-class Login extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <Container style={styles.container}>
-                <StatusBar hidden={true} />
-                <Image
-                    source={{ uri: 'login_back' }}
-                    style={styles.backgroundImage} />
-                <View style={styles.connectContainer}>
-                    <View style={styles.logoContainer}>
-                        <Image
-                            source={{ uri: 'logo' }}
-                            style={styles.logo} />
-                    </View>
-                    <View>
-                        <Image
-                            source={{ uri: 'app_name' }}
-                            style={styles.appname} />
-                    </View>
-                    <View style={styles.formContainer}>
-                        <Item rounded style={styles.item}>
-                            <Icon active name='md-person' style={styles.itemIcon} />
-                            <Input placeholder='请输入用户名'
-                                placeholderTextColor='#9ECEF1'
-                                style={[globalStyles.largeText, styles.input]}
-                                onChangeText={(text) => console.log(text)}
-                                value={''} />
-                        </Item>
-                        <Item rounded style={styles.item}>
-                            <Icon active name='md-lock' style={styles.itemIcon} />
-                            <Input placeholder='请输入密码'
-                                placeholderTextColor='#9ECEF1'
-                                style={[globalStyles.largeText, styles.input]}
-                                secureTextEntry
-                                onChangeText={(text) => console.log(text)}
-                                value={''} />
-                        </Item>
-                        <Button style={[styles.itemButton, globalStyles.largeText, globalStyles.styleBackgroundColor]}
-                            onPress={this.login}>
-                            <Text style={[globalStyles.largeText, styles.buttonTittle]}>登录</Text>
-                        </Button>
-                    </View>
-                    <TouchableOpacity style={styles.linkButton} onPress={() => Actions.retrievePassword()}>
-                        <Text style={[globalStyles.midText, styles.linkButtonTittle]}>忘记密码？</Text>
-                    </TouchableOpacity>
+const Login = props => {
+    return (
+        <Container style={styles.container}>
+            <StatusBar hidden={true} />
+            <Image
+                source={{ uri: 'login_back' }}
+                style={styles.backgroundImage} />
+            <View style={styles.connectContainer}>
+                <View style={styles.logoContainer}>
+                    <Image
+                        source={{ uri: 'logo' }}
+                        style={styles.logo} />
                 </View>
-            </Container>
-        )
-    }
+                <View>
+                    <Image
+                        source={{ uri: 'app_name' }}
+                        style={styles.appname} />
+                </View>
+                <View style={styles.formContainer}>
+                    <Field
+                        name='username'
+                        iconName='md-person'
+                        placeholderText='请输入用户名'
+                        component={TextBox} />
+                    <Field
+                        name='password'
+                        secureTextEntry={true}
+                        iconName='md-lock'
+                        placeholderText='请输入密码'
+                        component={TextBox} />
+                    <Button style={[styles.itemButton, globalStyles.styleBackgroundColor]}
+                        onPress={this.login}>
+                        <Text style={[globalStyles.midText, styles.buttonTittle]}>登录</Text>
+                    </Button>
+                </View>
+                <TouchableOpacity style={styles.linkButton} onPress={() => Actions.retrievePassword()}>
+                    <Text style={[globalStyles.midText, styles.linkButtonTittle]}>忘记密码？</Text>
+                </TouchableOpacity>
+            </View>
+        </Container>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -128,8 +134,8 @@ const styles = StyleSheet.create({
         height: 38,
         marginTop: 20
     },
-    formContainer:{
-        marginTop:30
+    formContainer: {
+        marginTop: 30
     }
 })
 
@@ -141,7 +147,12 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+    login: () => {
+        dispatch(loginAction.login())
+    }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(
+    reduxForm({
+        form: 'loginForm'
+    })(Login))
