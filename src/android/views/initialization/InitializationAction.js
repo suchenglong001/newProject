@@ -108,8 +108,6 @@ export const loadLocalStorage = (tryCount = 1) => async (dispatch) => {
         // })
         //localStorage.remove({ key: localStorageKey.USER })
         const localStorageRes = await localStorage.load({ key: localStorageKey.USER })
-        // console.log('localStorageRes', localStorageRes)
-        // console.log(localStorageRes)
         if (localStorageRes.token && localStorageRes.uid) {
             dispatch({ type: initializationActionTypes.Load_LocalStorage_Success, payload: { step: currentStep } })
             dispatch(initApp(currentStep + 1, 1, {
@@ -120,7 +118,11 @@ export const loadLocalStorage = (tryCount = 1) => async (dispatch) => {
             }))
         }
         else {
-            //localStorage.remove({ key: localStorageKey.USER })
+            if (localStorageRes.mobile) {
+                dispatch({ type: loginActionTypes.Set_UserInfo, payload: { user: { mobile: localStorageRes.mobile } } })
+            } else {
+                dispatch({ type: loginActionTypes.Set_UserInfo, payload: { user: {} } })
+            }
             dispatch({ type: initializationActionTypes.Load_LocalStorage_Failed, payload: { step: currentStep } })
             Actions.mainRoot()
         }
@@ -143,14 +145,10 @@ export const validateToken = (tryCount = 1, param) => async (dispatch) => {
     const currentStep = 3
     try {
         const url = `${base_host}/user/${param.requiredParam.userId}/token/${param.requiredParam.token}`
-        console.log(url)
         const res = await httpRequest.get(url)
-        console.log('res', res)
         if (res.success) {
             const getUserInfoUrl = `${base_host}/user${ObjectToUrl({ userId: param.requiredParam.userId })}`
             const getUserInfoRes = await httpRequest.get(getUserInfoUrl)
-            console.log('getUserInfoRes', getUserInfoRes)
-
             if (getUserInfoRes.success) {
                 const { uid, mobile, real_name, type, gender, avatar_image, status } = getUserInfoRes.result[0]
                 const user = {
@@ -162,11 +160,8 @@ export const validateToken = (tryCount = 1, param) => async (dispatch) => {
                 requestHeaders.set('auth-token', res.result.accessToken)
                 requestHeaders.set('user-type', type)
                 requestHeaders.set('user-name', mobile)
-                console.log('requestHeaders', requestHeaders)
-                console.log('user', user)
                 dispatch({ type: loginActionTypes.Set_UserInfo, payload: { user } })
                 dispatch({ type: initializationActionTypes.validate_token_Success, payload: { step: currentStep } })
-                //console.log('res',res)
                 Actions.mainRoot()
             } else {
                 ToastAndroid.showWithGravity(`登陆失败：无法获取用户信息！`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
@@ -179,7 +174,6 @@ export const validateToken = (tryCount = 1, param) => async (dispatch) => {
             Actions.mainRoot()
         }
     } catch (err) {
-        console.log(err)
         if (err.message == 'Network request failed') {
             //尝试20次
             if (tryCount < 20) {

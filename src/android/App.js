@@ -104,8 +104,8 @@ export default class App extends Component {
                         }}
                     >
                         <Scene key="loginBlock" >
-                            <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
-                            <Scene key="retrievePassword" title='找回密码' component={RetrievePassword} hideTabBar hideNavBar={false} navBar={NavBar} />
+                            <Scene key="login" component={Login} hideNavBar hideTabBar />
+                            <Scene key="retrievePassword"  initial={true} title='找回密码' component={RetrievePassword} hideTabBar hideNavBar={false} LeftButton={LeftButton} navBar={NavBar} />
                         </Scene>
                         <Scene
                             key="main"

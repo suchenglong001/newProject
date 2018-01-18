@@ -12,6 +12,7 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles from '../../GlobalStyles'
 import * as demageListAction from '../demageList/DemageListAction'
 import * as responsibilityListAction from '../responsibilityList/ResponsibilityListAction'
+import * as loginAction from '../login/LoginAction'
 import { file_host } from '../../../config/Host'
 
 const Setting = props => {
@@ -19,6 +20,7 @@ const Setting = props => {
         getDemageList,
         getResponsibilityListWaiting,
         getResponsibilityList,
+        cleanLogin,
         loginReducer: { data: { user: { real_name, avatar_image, mobile } } } } = props
     return (
         <Container>
@@ -92,7 +94,7 @@ const Setting = props => {
                             <Icon name="arrow-forward" />
                         </Right>
                     </ListItem>
-                    <ListItem last icon onPress={() => { }} >
+                    <ListItem last icon onPress={cleanLogin} >
                         <Left>
                             <Icon name="ios-log-out" style={globalStyles.styleColor} />
                         </Left>
@@ -141,6 +143,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getResponsibilityListWaiting: () => {
         dispatch(responsibilityListAction.getResponsibilityListWaiting())
+    },
+    cleanLogin: () => {
+        dispatch(loginAction.cleanLogin())
     }
 })
 

@@ -6,7 +6,8 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Field, reduxForm } from 'redux-form'
 import * as loginAction from './LoginAction'
-
+import localStorageKey from '../../../util/LocalStorageKey'
+import localStorage from '../../../util/LocalStorage'
 
 const window = Dimensions.get('window')
 const ImageWidth = window.width
@@ -29,7 +30,10 @@ const TextBox = props => {
 }
 
 const Login = props => {
-    const {login} =props
+    const { login, loginReducer ,initialValues,formReducer} = props 
+    console.log(loginReducer)
+    console.log(formReducer)
+    console.log('initialValues',initialValues)
     return (
         <Container style={styles.container}>
             <StatusBar hidden={true} />
@@ -49,7 +53,7 @@ const Login = props => {
                 </View>
                 <View style={styles.formContainer}>
                     <Field
-                        name='username'
+                        name='mobile'
                         iconName='md-person'
                         placeholderText='请输入用户名'
                         component={TextBox} />
@@ -143,7 +147,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        loginReducer: state.loginReducer
+        loginReducer: state.loginReducer,
+        initialValues: state.loginReducer.data.user,
+        formReducer:state.form
     }
 }
 

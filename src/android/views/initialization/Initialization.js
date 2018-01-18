@@ -18,7 +18,7 @@ import * as initializationAction from './InitializationAction'
 
 const window = Dimensions.get('window')
 const ImageWidth = window.width
-const ImageHeight = window.height 
+const ImageHeight = window.height
 
 class Initialization extends Component {
     constructor(props) {
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    initApp:()=>{
+    initApp: () => {
         dispatch(initializationAction.initApp())
     }
 })

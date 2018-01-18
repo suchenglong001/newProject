@@ -2,7 +2,7 @@ import * as httpRequest from '../../../util/HttpRequest'
 import { base_host } from '../../../config/Host'
 import * as loginActionTypes from './LoginActionTypes'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
-import { getFormValues } from 'redux-form'
+import { getFormValues, blur } from 'redux-form'
 import { Actions } from 'react-native-router-flux'
 import { ToastAndroid } from 'react-native'
 import requestHeaders from '../../../util/RequestHeaders'
@@ -11,22 +11,19 @@ import localStorage from '../../../util/LocalStorage'
 
 //登录
 export const login = (tryCount = 1) => async (dispatch, getState) => {
-    console.log(getState())
     dispatch({ type: loginActionTypes.login_waiting, payload: {} })
-    const { username, password } = getFormValues('loginForm')(getState())
+    const { mobile, password } = getFormValues('loginForm')(getState())
     try {
         const url = `${base_host}/userLogin`
         const res = await httpRequest.post(url, {
-            mobile: username,
+            mobile: mobile,
             password
         })
-        console.log(res)
         if (res.success) {
             if (res.result.type == 41 || res.result.type == 49) {
                 const getUserInfoUrl = `${base_host}/user${ObjectToUrl({ userId: res.result.userId })}`
                 const getUserInfoRes = await httpRequest.get(getUserInfoUrl)
                 if (getUserInfoRes.success) {
-
                     const { uid, mobile, real_name, type, gender, avatar_image, status } = getUserInfoRes.result[0]
                     const user = {
                         uid, mobile, real_name, type, gender, avatar_image, status,
@@ -70,8 +67,18 @@ export const login = (tryCount = 1) => async (dispatch, getState) => {
             dispatch({ type: loginActionTypes.login_error, payload: { errorMsg: err } })
         }
     }
+
 }
 
-export const cleanLogin = () => (dispatch) => {
-    dispatch({ type: loginActionTypes.clean_login, payload: {} })
+export const cleanLogin = () => (dispatch, getState) => {
+    const { loginReducer: { data: { user: { mobile } } } } = getState()
+    localStorage.save({
+        key: localStorageKey.USER,
+        data: { mobile }
+    })
+
+    dispatch({ type: loginActionTypes.Set_UserInfo, payload: { user: { mobile } } })
+   // Actions.popTo('main')
 }
+
+
