@@ -6,79 +6,72 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Field, reduxForm } from 'redux-form'
 import SendSMS from '../../components/retrievePassword/sendSMS/SendSMS'
+import * as retrievePasswordAction from './RetrievePasswordAction'
 
 const TextBox = props => {
-    const { input: { onChange, ...restProps } } = props
+    const { input: { onChange, ...restProps },
+        title = '',
+        icon = '',
+        isRequired = false,
+        meta: { error, touched } } = props
     return (
-        <TextInput
-            style={[globalStyles.midText, styles.itemInput]}
-            onChangeText={onChange}
-            {...restProps }
-            placeholder='请输入验证码'
-            underlineColorAndroid='transparent'
-            placeholderTextColor='#ccc' />
+        <View style={styles.itemContainer}>
+            <View style={styles.item}>
+                <Icon name={icon} style={[styles.itemIcon, globalStyles.styleColor]} />
+                <Text style={[globalStyles.midText, styles.itemText]}>{title}</Text>
+                <TextInput
+                    style={[globalStyles.midText, styles.itemInput]}
+                    onChangeText={onChange}
+                    {...restProps }
+                    placeholder='请输入验证码'
+                    underlineColorAndroid='transparent'
+                    placeholderTextColor='#ccc' />
+            </View >
+            {touched && (error && <View>
+                <Text style={[globalStyles.smallText,styles.warnText]}>{error}</Text>
+            </View>)}
+        </View>
+
     )
 }
 
-class RetrievePassword extends Component {
-    constructor(props) {
-        super(props)
-    }
 
-    componentDidMount() {
+const RetrievePassword = props => {
+    const { handleSubmit } = props
+    return (
+        <Container style={styles.container}>
+            <View>
+                <SendSMS />
+                <Field name='vCode' component={TextBox} title='验证码：' icon='ios-key' />
+                <Field name='firstPassword' component={TextBox} title='新密码：' icon='ios-lock' />
+                <Field name='secondPassword' component={TextBox} title='确认密码：' icon='ios-lock' />
+            </View>
+            <View>
+                <Button
+                    full
+                    style={globalStyles.styleBackgroundColor}
+                    onPress={handleSubmit}>
+                    <Text style={{ color: '#fff' }}>确认</Text>
+                </Button>
 
-    }
-
-    render() {
-        return (
-            <Container style={styles.container}>
-                <View>
-                    <SendSMS />
-                    <View style={styles.item}>
-                        <Icon name='ios-key' style={[styles.itemIcon, globalStyles.styleColor]} />
-                        <Text style={[globalStyles.midText, styles.itemText]}>验证码：</Text>
-                        <Field name='vCode' component={TextBox} />
-                    </View>
-                    <View style={styles.item}>
-                        <Icon name='ios-lock' style={[styles.itemIcon, globalStyles.styleColor]} />
-                        <Text style={[globalStyles.midText, styles.itemText]}>新密码：</Text>
-                        <Field name='firstPassword' component={TextBox} />
-                    </View>
-                    <View style={styles.item}>
-                        <Icon name='ios-lock' style={[styles.itemIcon, globalStyles.styleColor]} />
-                        <Text style={[globalStyles.midText, styles.itemText]}>确认密码：</Text>
-                        <Field name='secondPassword' component={TextBox} />
-                    </View>
-                </View>
-                <View>
-                    <Button
-                        full
-                        //disabled={!(this.state.firstPassword && this.state.secondPassword && this.state.vCode && this.state.mobile)}
-                        //style={this.state.firstPassword && this.state.secondPassword && this.state.vCode && this.state.mobile ? { backgroundColor: '#00cade' } : {}}
-                        onPress={() => { }}>
-                        <Text style={{ color: '#fff' }}>确认</Text>
-                    </Button>
-                    <Button
-                        full
-                        style={{ backgroundColor: '#00cade', marginTop: 10 }} onPress={Actions.pop}>
-                        <Text style={{ color: '#fff' }}>返回</Text>
-                    </Button>
-                </View>
-            </Container>
-        )
-    }
+            </View>
+        </Container>
+    )
 }
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'space-between',
-        padding: 10
+        margin: 15,
+        justifyContent: 'space-between'
+    },
+    itemContainer: {
+        borderBottomWidth: 1,
+        borderColor: '#eee'
     },
     item: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomWidth: 1,
-        borderColor: '#eee'
+
     },
     itemIcon: {
         fontSize: 14
@@ -89,6 +82,10 @@ const styles = StyleSheet.create({
     itemInput: {
         flex: 1,
         marginLeft: 5
+    },
+    warnText: {
+        marginBottom: 10,
+        color: 'red'
     }
 })
 
@@ -99,10 +96,29 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+    onSubmit: () => {
+        dispatch(retrievePasswordAction.retrieve())
+    }
 })
+
+const validate = values => {
+    const errors = { vCode: null, firstPassword: null, secondPassword: null }
+    if (!values.vCode) {
+        errors.vCode = '必填'
+    }
+
+    if (!values.firstPassword) {
+        errors.firstPassword = '必填'
+    }
+
+    if (!values.secondPassword) {
+        errors.secondPassword = '必填'
+    }
+    return errors
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(
     reduxForm({
-        form: 'retrievePasswordForm'
+        form: 'retrievePasswordForm',
+        validate
     })(RetrievePassword))
