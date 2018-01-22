@@ -31,9 +31,9 @@ const TextBox = props => {
 
 const Login = props => {
     const { login, loginReducer ,initialValues,formReducer} = props 
-    console.log(loginReducer)
-    console.log(formReducer)
-    console.log('initialValues',initialValues)
+    // console.log(loginReducer)
+    // console.log(formReducer)
+    // console.log('initialValues',initialValues)
     return (
         <Container style={styles.container}>
             <StatusBar hidden={true} />

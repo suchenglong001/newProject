@@ -30,15 +30,15 @@ import { Actions } from 'react-native-router-flux'
 export const initApp = (currentStep = 1, tryCount = 1, param = null) => (dispatch) => {
     if (currentStep == 1) {
         //执行第一步
-        console.log(`========执行第${currentStep}步    第${tryCount}次尝试========`)
+        //console.log(`========执行第${currentStep}步    第${tryCount}次尝试========`)
         dispatch(validateVersion(tryCount))
     } else if (currentStep == 2) {
         //执行第二步
-        console.log(`========执行第${currentStep}步    第${tryCount}次尝试========`)
+        //console.log(`========执行第${currentStep}步    第${tryCount}次尝试========`)
         dispatch(loadLocalStorage(tryCount))
     } else if (currentStep == 3) {
         //执行第三步
-        console.log(`========执行第${currentStep}步    第${tryCount}次尝试========`)
+        //console.log(`========执行第${currentStep}步    第${tryCount}次尝试========`)
         dispatch(validateToken(tryCount, param))
     }
 }

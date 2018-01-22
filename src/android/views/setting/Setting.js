@@ -3,7 +3,9 @@ import {
     StyleSheet,
     View,
     Text,
-    InteractionManager
+    InteractionManager,
+    TouchableOpacity,
+    Linking
 } from 'react-native'
 import { Container, Content, List, Left, ListItem, Thumbnail, Separator, Body, Right, Icon } from 'native-base'
 import { connect } from 'react-redux'
@@ -21,7 +23,10 @@ const Setting = props => {
         getResponsibilityListWaiting,
         getResponsibilityList,
         cleanLogin,
-        loginReducer: { data: { user: { real_name, avatar_image, mobile } } } } = props
+        loginReducer: { data: { user: { real_name, avatar_image, mobile } } },
+        initializationReducer: { data: { version: { force_update, currentVersion, url } } }, initializationReducer } = props
+    console.log(force_update)
+    console.log(initializationReducer, initializationReducer)
     return (
         <Container>
             <Content style={globalStyles.container}>
@@ -77,10 +82,24 @@ const Setting = props => {
                             <Icon name="ios-cube-outline" style={globalStyles.styleColor} />
                         </Left>
                         <Body>
-                            <Text style={globalStyles.midText}>版本信息：v1.0.0</Text>
+                            <Text style={globalStyles.midText}>版本信息：v{currentVersion}</Text>
                         </Body>
-                        <Right>
-                            <FoundationIcon name="burst-new" size={30} color={'#ff0000'} />
+                        <Right >
+                            {force_update != 0 && <TouchableOpacity onPress={() => {
+                                if (url) {
+                                    Linking.canOpenURL(url)
+                                        .then(supported => {
+                                            if (!supported) {
+                                                console.log('Can\'t handle url: ' + url)
+                                            } else {
+                                                return Linking.openURL(url)
+                                            }
+                                        })
+                                        .catch(err => console.error('An error occurred', err))
+                                }
+                            }}>
+                                <FoundationIcon name="burst-new" size={30} color={'#ff0000'} />
+                            </TouchableOpacity>}
                         </Right>
                     </ListItem>
                     <ListItem icon onPress={Actions.updatePassword}>
@@ -127,7 +146,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         loginReducer: state.loginReducer,
-        settingReducer: state.settingReducer
+        settingReducer: state.settingReducer,
+        initializationReducer: state.initializationReducer
     }
 }
 
