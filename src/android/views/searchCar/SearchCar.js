@@ -91,6 +91,8 @@ const SearchCar = props => {
         getCarDetailWaiting,
         getCarListMore,
         parent } = props
+        // console.log('getCarList',getCarList)
+        // console.log('searchCarValues',searchCarValues)
     return (
         <FlatList
             showsVerticalScrollIndicator={false}

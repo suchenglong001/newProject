@@ -82,8 +82,9 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
+        initialValues: ownProps.initParam
     }
 }
 

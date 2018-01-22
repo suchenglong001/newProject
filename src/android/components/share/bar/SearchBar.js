@@ -1,39 +1,73 @@
 import React, { Component } from 'react'
 import { Header, Title, Button, Icon, Right, Left, Body, Label, Item, Input, Text } from 'native-base'
-import { View, StatusBar, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight } from 'react-native'
+import { View, StatusBar, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight, Modal, InteractionManager } from 'react-native'
 import * as routerDirection from '../../../../util/RouterDirection'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
+import QRCodeScreen from '../../../views/QRCodeScreen'
+import * as RouterDirection from '../../../../util/RouterDirection'
+import * as searchCarAction from '../../../views/searchCar/SearchCarAction'
+import { connect } from 'react-redux'
 
-const SearchBar = props => {
-    //console.log('props',props)
-    const { title, layout, parent } = props
-    return (
-        <View style={[styles.container, { width: layout.initWidth }]}>
-            <StatusBar hidden={false} />
-            <Header style={globalStyles.styleBackgroundColor}>
-                <Left style={styles.left}>
-                    <Button small transparent>
-                        <Icon name="ios-qr-scanner" style={styles.leftIcon} />
-                    </Button>
-                </Left>
-                <Body style={styles.body}>
-                    <TouchableHighlight
-                        underlayColor={'rgba(255, 255, 255, 0)'}
-                        onPress={routerDirection.searchCar(parent)}
-                        style={styles.bodyTouch}>
-                        <View style={styles.bodyTouchChild}>
-                            <View style={styles.input} >
-                                <Text></Text>
+class SearchBar extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            modalVisible: false
+        }
+        this.barcodeReceived = this.barcodeReceived.bind(this)
+    }
+
+
+    barcodeReceived(e) {
+        this.setState({ modalVisible: false })
+        InteractionManager.runAfterInteractions(() => {
+            RouterDirection.searchCar(this.props.parent)({ initParam: { vinCode: e.data } })
+            InteractionManager.runAfterInteractions(() => {
+                e.data.length > 5 && this.props.getCarList(e.data)
+            })
+        })
+    }
+
+    render() {
+        const { title, layout, parent } = this.props
+        return (
+            <View style={[styles.container, { width: layout.initWidth }]}>
+                <StatusBar hidden={false} />
+                <Header style={globalStyles.styleBackgroundColor}>
+                    <Left style={styles.left}>
+                        <Button small transparent onPress={() => this.setState({ modalVisible: true })}>
+                            <Icon name="ios-qr-scanner" style={styles.leftIcon} />
+                        </Button>
+                    </Left>
+                    <Body style={styles.body}>
+                        <TouchableHighlight
+                            underlayColor={'rgba(255, 255, 255, 0)'}
+                            onPress={routerDirection.searchCar(parent)}
+                            style={styles.bodyTouch}>
+                            <View style={styles.bodyTouchChild}>
+                                <View style={styles.input} >
+                                    <Text></Text>
+                                </View>
+                                <Icon name="ios-search" style={[globalStyles.textColor, styles.inputIcon]} />
                             </View>
-                            <Icon name="ios-search" style={[globalStyles.textColor, styles.inputIcon]} />
-                        </View>
-                    </TouchableHighlight>
-                </Body>
-            </Header>
-        </View>
-    )
+                        </TouchableHighlight>
+                    </Body>
+                </Header>
+                <Modal
+                    animationType={"fade"}
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => this.setState({ modalVisible: false })}
+                >
+                    <QRCodeScreen barcodeReceived={this.barcodeReceived} />
+                </Modal>
+
+            </View>
+        )
+    }
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -76,4 +110,17 @@ const styles = StyleSheet.create({
 
 })
 
-export default SearchBar
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    getCarList: (param) => {
+        dispatch(searchCarAction.getCarList(param))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)

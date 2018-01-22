@@ -35,7 +35,7 @@ import ResponsibilityList from './views/responsibilityList/ResponsibilityList'
 import SelectDriver from './views/select/driver/SelectDriver'
 import SinglePhotoView from './views/SinglePhotoView'
 import RetrievePassword from './views/retrievePassword/RetrievePassword'
-
+import QRCodeScreen from './views/QRCodeScreen'
 import Orientation from 'react-native-orientation'
 
 
@@ -104,8 +104,9 @@ export default class App extends Component {
                         }}
                     >
                         <Scene key="loginBlock" >
-                            <Scene key="login" initial={true}  component={Login} hideNavBar hideTabBar />
+                            <Scene key="login" initial={true} component={Login} hideNavBar hideTabBar />
                             <Scene key="retrievePassword" title='找回密码' component={RetrievePassword} hideTabBar hideNavBar={false} LeftButton={LeftButton} navBar={NavBar} />
+                            <Scene key="qrCodeScreen" title='扫一扫' component={QRCodeScreen} hideNavBar={false} hideTabBar navBar={NavBar} />
                         </Scene>
                         <Scene
                             key="main"
