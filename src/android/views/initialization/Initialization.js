@@ -31,27 +31,25 @@ class Initialization extends Component {
     }
 
     render() {
-        //const { data, initAPP, loadLocalStorage, validateToken, validateVersion } = this.props.InitializationReducer
-        // {(validateVersion.isResultStatus == 3 || validateToken.isResultStatus == 3) && 
-        // }
-        //                 {(validateVersion.isResultStatus == 5 || validateToken.isResultStatus == 5) && }
-
-        //                 {initAPP.isResultStatus == 2 && data.version.force_update == 1 && }
+        const { data, initAPP, loadLocalStorage, validateToken, validateVersion } = this.props.initializationReducer
         return (
             <View style={styles.container}>
                 <StatusBar hidden={true} />
                 <Image source={{ uri: 'init_back' }}
                     style={styles.image}
                 />
-                <Button block onPress={() => { }} style={styles.button}>
-                    <Text style={styles.buttonTiltle}>联系管理员</Text>
-                </Button>
-                <Button block onPress={() => this.initApp()} style={styles.button}>
-                    <Text style={styles.buttonTiltle}>重试</Text>
-                </Button>
-                <Button block onPress={() => this.linkDownload(data.version.url)} style={styles.button}>
-                    <Text style={styles.buttonTiltle}>立即更新</Text>
-                </Button>
+                {(validateVersion.isResultStatus == 3 || validateToken.isResultStatus == 3) &&
+                    <Button block onPress={() => { }} style={styles.button}>
+                        <Text style={styles.buttonTiltle}>联系管理员</Text>
+                    </Button>}
+                {(validateVersion.isResultStatus == 5 || validateToken.isResultStatus == 5) &&
+                    <Button block onPress={() => this.initApp()} style={styles.button}>
+                        <Text style={styles.buttonTiltle}>重试</Text>
+                    </Button>}
+                {initAPP.isResultStatus == 2 && data.version.force_update == 1 &&
+                    <Button block onPress={() => this.linkDownload(data.version.url)} style={styles.button}>
+                        <Text style={styles.buttonTiltle}>立即更新</Text>
+                    </Button>}
             </View>
         )
     }

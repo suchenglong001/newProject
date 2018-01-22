@@ -127,7 +127,7 @@ export const loadLocalStorage = (tryCount = 1) => async (dispatch) => {
             Actions.mainRoot()
         }
     } catch (err) {
-        console.log(err)
+       // console.log(err)
         if (err.name == 'NotFoundError') {
             dispatch({ type: initializationActionTypes.Load_LocalStorage_NotFoundError, payload: { step: currentStep } })
 
