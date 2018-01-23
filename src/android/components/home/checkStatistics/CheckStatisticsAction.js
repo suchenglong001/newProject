@@ -2,12 +2,14 @@ import * as httpRequest from '../../../../util/HttpRequest'
 import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as checkStatisticsActionTypes from './CheckStatisticsActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
-
+import moment from 'moment'
 
 export const getCheckStatistics = () => async (dispatch, getState) => {
     try {
-        const urls = [`${base_host}/damageMonthStat${ObjectToUrl({ declareUserId: 1, yearMonth: 201712 })}`,
-        `${base_host}/damageCheckMonthStat${ObjectToUrl({ underUserId: 0, yearMonth: 201712 })}`]
+        const { loginReducer: { data: { user: { uid } } } } = getState()
+        const urls = [`${base_host}/damageMonthStat${ObjectToUrl({ declareUserId: uid, yearMonth: moment().format('YYYYMM') })}`,
+        `${base_host}/damageCheckMonthStat${ObjectToUrl({ underUserId: uid, yearMonth: moment().format('YYYYMM') })}`]
+        console.log('urls',urls)
         const res = await Promise.all(urls.map(url => httpRequest.get(url)))
         if (res[0].success && res[1].success) {
             dispatch({

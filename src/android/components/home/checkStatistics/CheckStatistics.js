@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import globalStyles from '../../../GlobalStyles'
 import { Thumbnail } from 'native-base'
 import * as checkStatisticsAction from './CheckStatisticsAction'
-
+import { file_host } from '../../../../config/Host'
 
 class CheckStatistics extends Component {
     constructor(props) {
@@ -22,7 +22,9 @@ class CheckStatistics extends Component {
 
     render() {
         const { data: { check_count, d_count } } = this.props.checkStatisticsReducer
-        const { data: { user: { real_name },user } } = this.props.loginReducer
+        const { data: { user: { real_name, avatar_image }, user } } = this.props.loginReducer
+        console.log('avatar_image',avatar_image)
+        console.log('user',user)
         return (
             <View style={[globalStyles.styleBackgroundColor, styles.container]}>
                 <View style={styles.item}>
@@ -32,7 +34,7 @@ class CheckStatistics extends Component {
                     </View>
                 </View>
                 <View style={styles.item}>
-                    <Thumbnail source={{ uri: `personalicon` }} style={styles.thumbnail} />
+                    <Thumbnail source={{ uri: `${file_host}/image/${avatar_image}` }} style={styles.thumbnail} />
                     <Text style={[globalStyles.midText, styles.text]}>{real_name ? `${real_name}` : ''}</Text>
                 </View>
                 <View style={styles.item}>

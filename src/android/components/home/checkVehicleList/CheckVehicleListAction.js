@@ -6,7 +6,8 @@ import { isEqualArr } from '../../../../util/IsObjectValueEqual'
 
 export const getCheckVehicleList = () => async (dispatch, getState) => {
     try {
-        const url = `${base_host}/damage${ObjectToUrl({ declareUserId: 36 })}`
+        const { loginReducer: { data: { user: { uid } } } } = getState()
+        const url = `${base_host}/damage${ObjectToUrl({ declareUserId: uid })}`
         const res = await httpRequest.get(url)
         if (res.success) {
             dispatch({

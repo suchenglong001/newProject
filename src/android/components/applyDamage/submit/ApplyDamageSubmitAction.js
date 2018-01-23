@@ -8,7 +8,7 @@ import * as carInfoRecordAction from '../../carInfo/carInfoRecord/CarInfoRecordA
 import * as routerDirection from '../../../../util/RouterDirection'
 
 export const createDamage = (parent) => async (dispatch, getState) => {
-    console.log('createDamage')
+    //console.log('createDamage')
     dispatch({ type: applyDamageSubmitActionTypes.create_Damage_waiting, payload: {} })
     const state = getState()
     const { loginReducer: { data: { user } },

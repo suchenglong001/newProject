@@ -25,8 +25,8 @@ const Setting = props => {
         cleanLogin,
         loginReducer: { data: { user: { real_name, avatar_image, mobile } } },
         initializationReducer: { data: { version: { force_update, currentVersion, url } } }, initializationReducer } = props
-    console.log(force_update)
-    console.log(initializationReducer, initializationReducer)
+    // console.log(force_update)
+    // console.log(initializationReducer, initializationReducer)
     return (
         <Container>
             <Content style={globalStyles.container}>

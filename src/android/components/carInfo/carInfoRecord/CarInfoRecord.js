@@ -17,7 +17,7 @@ const renderListItem = props => {
 
     return (
         <View key={index} style={styles.listItemContainer}>
-            <Text style={globalStyles.midText}>{timez ? `${moment(timez).format('YYYY:MM:DD HH:mm')}` : ''} {name ? `[${name}]` : ''} {content ? `${content}` : ''}</Text>
+            <Text style={globalStyles.midText}>{timez ? `${moment(timez).format('YYYY-MM-DD HH:mm:ss')}` : ''} {name ? `[${name}]` : ''} {content ? `${content}` : ''}</Text>
         </View>
     )
 }

@@ -32,7 +32,7 @@ const renderListItem = props => {
         }}>
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
-                <Text style={[globalStyles.smallText, styles.text]}>{check_start_date ? `${moment(check_start_date).format('YYYY-MM-DD HH:mm')}` : ''}</Text>
+                <Text style={[globalStyles.smallText, styles.text]}>{check_start_date ? `${moment(check_start_date).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
             </View>
             <View style={styles.itemBodyContainer}>
                 <View style={styles.itemBodyLeft}>
