@@ -24,10 +24,10 @@ const DemageInfo = props => {
         <Container style={globalStyles.listBackgroundColor}>
             <Tabs>
                 <Tab
-                    tabStyle={{ backgroundColor: '#36759e' }}
-                    activeTabStyle={{ backgroundColor: '#36759e' }}
-                    activeTextStyle={{ color: '#fff' }}
-                    textStyle={{ color: '#adc5d5' }}
+                    tabStyle={globalStyles.styleBackgroundColor}
+                    activeTabStyle={globalStyles.styleBackgroundColor}
+                    activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
+                    textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                     heading="车辆">
                     {(getCarInfo.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) ?
                         <Container>
@@ -39,30 +39,30 @@ const DemageInfo = props => {
                         </Container>}
                 </Tab>
                 <Tab
-                    tabStyle={{ backgroundColor: '#36759e' }}
-                    activeTabStyle={{ backgroundColor: '#36759e' }}
-                    activeTextStyle={{ color: '#fff' }}
-                    textStyle={{ color: '#adc5d5' }}
+                    tabStyle={globalStyles.styleBackgroundColor}
+                    activeTabStyle={globalStyles.styleBackgroundColor}
+                    activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
+                    textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                     heading="质损">
                     <Container>
                         <DemageDetail initParam={initParam} />
                     </Container>
                 </Tab>
                 <Tab
-                    tabStyle={{ backgroundColor: '#36759e' }}
-                    activeTabStyle={{ backgroundColor: '#36759e' }}
-                    activeTextStyle={{ color: '#fff' }}
-                    textStyle={{ color: '#adc5d5' }}
+                    tabStyle={globalStyles.styleBackgroundColor}
+                    activeTabStyle={globalStyles.styleBackgroundColor}
+                    activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
+                    textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                     heading="照片">
                     <Container>
                         <ImageListForDemage initParam={initParam} parent={parent} />
                     </Container>
                 </Tab>
                 <Tab
-                    tabStyle={{ backgroundColor: '#36759e', }}
-                    activeTabStyle={{ backgroundColor: '#36759e' }}
-                    activeTextStyle={{ color: '#fff' }}
-                    textStyle={{ color: '#adc5d5' }}
+                    tabStyle={globalStyles.styleBackgroundColor}
+                    activeTabStyle={globalStyles.styleBackgroundColor}
+                    activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
+                    textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
                     heading="处理">
                     {(getDemageOpResult.isResultStatus == 1) ?
                         <Container>

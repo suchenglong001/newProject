@@ -18,7 +18,7 @@ import * as carInfoRecordAction from '../../../components/carInfo/carInfoRecord/
 import moment from 'moment'
 
 const renderListItem = props => {
-    const { item: { vin, make_name, check_start_date, car_id }, index, getCarDetail,parent, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
+    const { item: { vin, make_name, created_on, car_id }, index, getCarDetail,parent, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
     return (
         <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => {
             getCarInfoRecordWaiting()
@@ -32,7 +32,7 @@ const renderListItem = props => {
         }}>
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
-                <Text style={[globalStyles.smallText, styles.text]}>{check_start_date ? `${moment(check_start_date).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
+                <Text style={[globalStyles.smallText, styles.text]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
             </View>
             <View style={styles.itemBodyContainer}>
                 <View style={styles.itemBodyLeft}>
