@@ -14,7 +14,6 @@ import moment from 'moment'
 
 const renderListItem = props => {
     const { item: { name, timez, content }, index } = props
-
     return (
         <View key={index} style={styles.listItemContainer}>
             <Text style={globalStyles.midText}>{timez ? `${moment(timez).format('YYYY-MM-DD HH:mm:ss')}` : ''} {name ? `[${name}]` : ''} {content ? `${content}` : ''}</Text>

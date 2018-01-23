@@ -64,6 +64,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecordForDemageInfo)
+
 const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',

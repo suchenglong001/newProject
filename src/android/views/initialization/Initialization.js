@@ -23,11 +23,26 @@ const ImageHeight = window.height
 class Initialization extends Component {
     constructor(props) {
         super(props)
+        this.linkDownload = this.linkDownload.bind(this)
     }
 
     componentDidMount() {
         this.props.initApp()
         setTimeout(SplashScreen.hide, 2000)
+    }
+
+    linkDownload(url) {
+        if (url) {
+            Linking.canOpenURL(url)
+                .then(supported => {
+                    if (!supported) {
+                        console.log('Can\'t handle url: ' + url)
+                    } else {
+                        return Linking.openURL(url)
+                    }
+                })
+                .catch(err => console.error('An error occurred', err))
+        }
     }
 
     render() {
