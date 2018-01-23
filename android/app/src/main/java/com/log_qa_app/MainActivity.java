@@ -14,7 +14,7 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //SplashScreen.show(this,true); // 添加这一句
+        SplashScreen.show(this,true); // 添加这一句
         super.onCreate(savedInstanceState);
     }
 
