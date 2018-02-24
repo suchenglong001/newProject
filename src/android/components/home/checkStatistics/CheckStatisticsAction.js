@@ -7,15 +7,14 @@ import moment from 'moment'
 export const getCheckStatistics = () => async (dispatch, getState) => {
     try {
         const { loginReducer: { data: { user: { uid } } } } = getState()
-        const urls = [`${base_host}/damageMonthStat${ObjectToUrl({ declareUserId: uid, yearMonth: moment().format('YYYYMM') })}`,
-        `${base_host}/damageCheckMonthStat${ObjectToUrl({ underUserId: uid, yearMonth: moment().format('YYYYMM') })}`]
-         console.log('urls',urls)
+        const urls = [`${base_host}/damageNotCheckCount${ObjectToUrl({ declareUserId: uid, yearMonth: moment().format('YYYYMM') })}`,
+        `${base_host}/damageCheckUnderMonthStat${ObjectToUrl({ underUserId: uid, yearMonth: moment().format('YYYYMM') })}`]
         const res = await Promise.all(urls.map(url => httpRequest.get(url)))
         if (res[0].success && res[1].success) {
             dispatch({
                 type: checkStatisticsActionTypes.get_checkStatistics_success, payload: {
-                    d_count: res[0].result[0].d_count,
-                    check_count: res[1].result[0].check_count
+                    d_count: res[0].result.reduce((acc, cur) => acc + cur.damage_count, 0),
+                    check_count: res[1].result.reduce((acc, cur) => acc + cur.under_count, 0)
                 }
             })
         } else {
