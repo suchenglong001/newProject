@@ -9,7 +9,7 @@ export const getCheckStatistics = () => async (dispatch, getState) => {
         const { loginReducer: { data: { user: { uid } } } } = getState()
         const urls = [`${base_host}/damageMonthStat${ObjectToUrl({ declareUserId: uid, yearMonth: moment().format('YYYYMM') })}`,
         `${base_host}/damageCheckMonthStat${ObjectToUrl({ underUserId: uid, yearMonth: moment().format('YYYYMM') })}`]
-        // console.log('urls',urls)
+         console.log('urls',urls)
         const res = await Promise.all(urls.map(url => httpRequest.get(url)))
         if (res[0].success && res[1].success) {
             dispatch({

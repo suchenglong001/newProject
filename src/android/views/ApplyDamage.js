@@ -16,7 +16,7 @@ import * as selectDriverAction from './select/driver/SelectDriverAction'
 import * as applyDamageSubmitAction from '../components/applyDamage/submit/ApplyDamageSubmitAction'
 
 const DamageRemark = props => {
-    const { input: { onChange, ...restProps }, meta: { error, touched } } = props
+    const { input: { onChange, ...restProps }, meta: { error, touched,valid } } = props
     return (
         <View style={styles.item}>
             <Label style={[styles.label, globalStyles.midText, globalStyles.styleColor]}>质损描述</Label>
@@ -56,6 +56,7 @@ const SelectDriver = props => {
 
 const ApplyDamage = props => {
     const { getSelectDriverList, getSelectDriverListWaiting,parent } = props
+    console.log('ApplyDamageprops',props)
     return (
         <Container>
             <Content>
