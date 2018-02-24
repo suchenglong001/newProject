@@ -18,7 +18,7 @@ import * as carInfoRecordAction from '../../../components/carInfo/carInfoRecord/
 import moment from 'moment'
 
 const renderListItem = props => {
-    const { item: { vin, make_name, created_on, car_id }, index, getCarDetail,parent, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
+    const { item: { vin, comment, created_on, car_id }, index, getCarDetail,parent, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
     return (
         <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => {
             getCarInfoRecordWaiting()
@@ -39,8 +39,9 @@ const renderListItem = props => {
                     <Icon name="ios-car" style={[globalStyles.styleColor, styles.itemBodyIcon]} />
                     <Text style={[globalStyles.midText, styles.text]}>{vin ? `${vin}` : ''}</Text>
                 </View>
-                <Text style={globalStyles.midText}>{make_name ? `${make_name}` : ''}</Text>
+                <Text style={globalStyles.smallText}>{comment ? `${comment}` : ''}</Text>
             </View>
+
         </TouchableOpacity>
     )
 }
