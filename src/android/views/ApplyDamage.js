@@ -56,7 +56,6 @@ const SelectDriver = props => {
 
 const ApplyDamage = props => {
     const { getSelectDriverList, getSelectDriverListWaiting,parent } = props
-    console.log('ApplyDamageprops',props)
     return (
         <Container>
             <Content>
