@@ -13,7 +13,7 @@ export const createDamage = (parent) => async (dispatch, getState) => {
     const state = getState()
     const { loginReducer: { data: { user } },
         carDetailReducer: { data: { carDetail } } } = state
-    const applyDamageForm = getFormValues('applyDamage')(state) ? getFormValues('applyDamage')(state) : {}
+    const applyDamageForm = getFormValues('applyDamage')(state) ? getFormValues('applyDamage')(state) : {selectDriver:{}}
     try {
         const url = `${base_host}/user/${user.uid}/damage`
         const res = await httpRequest.post(url, {

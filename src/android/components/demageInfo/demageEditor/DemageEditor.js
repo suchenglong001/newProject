@@ -105,13 +105,13 @@ const validate = values => {
         errors.damageRemark = '必填'
     }
 
-    if (!values.selectDriver) {
-        errors.selectDriver = '必选'
-    } else {
-        if (!values.selectDriver.truck_id) {
-            errors.selectDriver = '该司机未绑定车头'
-        }
-    }
+    // if (!values.selectDriver) {
+    //     errors.selectDriver = '必选'
+    // } else {
+    //     if (!values.selectDriver.truck_id) {
+    //         errors.selectDriver = '该司机未绑定车头'
+    //     }
+    // }
     return errors
 }
 

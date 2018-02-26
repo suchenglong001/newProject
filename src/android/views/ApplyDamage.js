@@ -16,7 +16,7 @@ import * as selectDriverAction from './select/driver/SelectDriverAction'
 import * as applyDamageSubmitAction from '../components/applyDamage/submit/ApplyDamageSubmitAction'
 
 const DamageRemark = props => {
-    const { input: { onChange, ...restProps }, meta: { error, touched,valid } } = props
+    const { input: { onChange, ...restProps }, meta: { error, touched, valid } } = props
     return (
         <View style={styles.item}>
             <Label style={[styles.label, globalStyles.midText, globalStyles.styleColor]}>质损描述</Label>
@@ -55,7 +55,7 @@ const SelectDriver = props => {
 
 
 const ApplyDamage = props => {
-    const { getSelectDriverList, getSelectDriverListWaiting,parent } = props
+    const { getSelectDriverList, getSelectDriverListWaiting, parent } = props
     return (
         <Container>
             <Content>
@@ -104,24 +104,25 @@ const validate = values => {
         errors.damageRemark = '必填'
     }
 
-    if (!values.selectDriver) {
-        errors.selectDriver = '必选'
-    } else {
-        if (!values.selectDriver.truck_id) {
-            errors.selectDriver = '该司机未绑定车头'
-        }
-    }
+    // if (!values.selectDriver) {
+    //     errors.selectDriver = '必选'
+    // } else {
+    //     if (!values.selectDriver.truck_id) {
+    //         errors.selectDriver = '该司机未绑定车头'
+    //     }
+    // }
     return errors
 }
 
 const mapStateToProps = (state) => {
     return {
         applyDamageReducer: state.applyDamageReducer,
-        selectDriverValues: getFormValues('applyDamage')(state)
+        initialValues: { selectDriver: {} }
+        // selectDriverValues: getFormValues('applyDamage')(state)
     }
 }
 
-const mapDispatchToProps = (dispatch,ownProps) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
     getSelectDriverList: () => {
         dispatch(selectDriverAction.getSelectDriverList())
     },
@@ -129,7 +130,7 @@ const mapDispatchToProps = (dispatch,ownProps) => ({
         dispatch(selectDriverAction.getSelectDriverListWaiting())
     },
     onSubmit: () => {
-        const { parent} =ownProps
+        const { parent } = ownProps
         dispatch(applyDamageSubmitAction.createDamage(parent))
     }
 })
