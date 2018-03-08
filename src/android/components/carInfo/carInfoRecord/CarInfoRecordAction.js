@@ -23,7 +23,3 @@ export const getCarInfoRecord = (param) => async (dispatch, getState) => {
 export const getCarInfoRecordWaiting = () => (dispatch) => {
     dispatch({ type: carInfoRecordActionTypes.get_carInfoRecord_waiting, payload: {} })
 }
-
-// export const getCarInfoRecordResetStatus = () => (dispatch) => {
-//     dispatch({ type: carInfoRecordActionTypes.get_carInfoRecord_resetStatus, payload: {} })
-// }

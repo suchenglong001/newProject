@@ -6,9 +6,9 @@ import { getFormValues } from 'redux-form'
 import { ToastAndroid, InteractionManager } from 'react-native'
 import * as carInfoRecordAction from '../../carInfo/carInfoRecord/CarInfoRecordAction'
 import * as routerDirection from '../../../../util/RouterDirection'
+import * as checkVehicleListAction from '../../home/checkVehicleList/CheckVehicleListAction'
 
 export const createDamage = (parent) => async (dispatch, getState) => {
-    //console.log('createDamage')
     dispatch({ type: applyDamageSubmitActionTypes.create_Damage_waiting, payload: {} })
     const state = getState()
     const { loginReducer: { data: { user } },
@@ -29,8 +29,8 @@ export const createDamage = (parent) => async (dispatch, getState) => {
             ToastAndroid.showWithGravity('提交成功！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
             dispatch({ type: applyDamageSubmitActionTypes.create_Damage_success, payload: { damageId: res.id } })
             routerDirection.applyDamageUploadImage(parent)()
-            carInfoRecordAction.getCarInfoRecordWaiting()(dispatch)
-            InteractionManager.runAfterInteractions(() => carInfoRecordAction.getCarInfoRecord({ car_id: carDetail.id })(dispatch, getState))
+            dispatch(carInfoRecordAction.getCarInfoRecord({ car_id: carDetail.id }))
+            dispatch(checkVehicleListAction.getCheckVehicleList())
         } else {
             ToastAndroid.showWithGravity(`提交失败！${res.msg}`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
             dispatch({ type: applyDamageSubmitActionTypes.create_Damage_failed, payload: { failedMsg: res.msg } })

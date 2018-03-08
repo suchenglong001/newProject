@@ -4,6 +4,7 @@ import * as carInfoActionTypes from './CarInfoActionTypes'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
 import { ToastAndroid } from 'react-native'
 import * as carInfoRecordAction from '../../components/carInfo/carInfoRecord/CarInfoRecordAction'
+import * as checkVehicleListAction from '../../components/home/checkVehicleList/CheckVehicleListAction'
 
 export const qualityAssurance = () => async (dispatch, getState) => {
     const {
@@ -18,7 +19,8 @@ export const qualityAssurance = () => async (dispatch, getState) => {
         if (res.success) {
             dispatch({ type: carInfoActionTypes.qualityAssurance_success, payload: {} })
             ToastAndroid.showWithGravity('提交成功！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
-            carInfoRecordAction.getCarInfoRecord({ car_id: carDetail.id })(dispatch, getState)
+            dispatch(carInfoRecordAction.getCarInfoRecord({ car_id: carDetail.id }))
+            dispatch(checkVehicleListAction.getCheckVehicleList())
         } else {
             dispatch({ type: carInfoActionTypes.qualityAssurance_success, payload: {} })
             ToastAndroid.showWithGravity(`提交失败！${res.msg}`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)

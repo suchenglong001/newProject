@@ -41,7 +41,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     createDamage: () => {
-       // console.log(submit('applyDamage'))
         dispatch(submit('applyDamage'))
     }
 })
