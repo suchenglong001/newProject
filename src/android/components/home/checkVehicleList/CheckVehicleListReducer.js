@@ -17,24 +17,16 @@ const initialState = {
 export default handleActions({
     [checkVehicleListActionTypes.get_checkVehicleList_success]: (state, action) => {
         const { payload: { checkVehicleList } } = action
-        if (!isEqualDispatch(checkVehicleList, state.data.checkVehicleList)) {
-            return {
-                ...state,
-                data: {
-                    checkVehicleList
-                },
-                getCheckVehicleList: {
-                    ...initialState.getCheckVehicleList,
-                    isResultStatus: 2,
-                }
+        return {
+            ...state,
+            data: {
+                checkVehicleList
+            },
+            getCheckVehicleList: {
+                ...initialState.getCheckVehicleList,
+                isResultStatus: 2,
             }
-        } else if(state.getCheckVehicleList.isResultStatus != 2){
-            state.getCheckVehicleList.isResultStatus = 2
-            return state
-        }else {
-            return state
         }
-
     },
     [checkVehicleListActionTypes.get_checkVehicleList_waiting]: (state, action) => {
         return {

@@ -6,11 +6,11 @@ import {
     Image,
     FlatList,
     TouchableOpacity,
-    InteractionManager
+    InteractionManager, RefreshControl
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Icon, Thumbnail } from 'native-base'
-import globalStyles from '../../../GlobalStyles'
+import globalStyles, { styleColor } from '../../../GlobalStyles'
 import * as routerDirection from '../../../../util/RouterDirection'
 import * as checkVehicleListAction from './CheckVehicleListAction'
 import * as carDetailAction from '../../../components/carInfo/carDetail/CarDetailAction'
@@ -28,7 +28,6 @@ const renderListItem = props => {
                 getCarDetail({ car_id: id })
                 getCarInfoRecord({ car_id: id })
             })
-
         }}>
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
@@ -65,10 +64,20 @@ class CheckVehicleList extends Component {
     }
 
     render() {
-        const { checkVehicleList } = this.props.checkVehicleListReducer.data
-        const { getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting, parent } = this.props
+        const { checkVehicleListReducer: { data: { checkVehicleList } }, checkVehicleListReducer,
+            getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting, parent, getCheckVehicleListWaiting, getCheckVehicleList
+         } = this.props
         return (
             <FlatList
+                refreshControl={<RefreshControl
+                    refreshing={checkVehicleListReducer.getCheckVehicleList.isResultStatus == 1}
+                    onRefresh={() => {
+                        getCheckVehicleListWaiting()
+                        getCheckVehicleList()
+                    }}
+                    colors={[styleColor]}
+                />}
+                keyExtractor={(item, index) => index}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmpty}
                 data={checkVehicleList}
@@ -128,6 +137,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     getCheckVehicleList: () => {
         dispatch(checkVehicleListAction.getCheckVehicleList())
+    },
+    getCheckVehicleListWaiting: () => {
+        dispatch(checkVehicleListAction.getCheckVehicleListWaiting())
     },
     getCarDetail: (param) => {
         dispatch(carDetailAction.getCarDetail(param))

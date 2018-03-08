@@ -8,7 +8,7 @@ export const getCheckVehicleList = () => async (dispatch, getState) => {
     try {
         const { loginReducer: { data: { user: { uid } } } } = getState()
         const url = `${record_host}/opRecord${ObjectToUrl({ userId: uid, op: 10, start: 0, size: 20 })}`
-        const res = await httpRequest.get(url)
+        const res = await httpRequest.get(url)      
         if (res.success) {
             dispatch({
                 type: checkVehicleListActionTypes.get_checkVehicleList_success, payload: {
@@ -20,6 +20,13 @@ export const getCheckVehicleList = () => async (dispatch, getState) => {
         }
     }
     catch (err) {
+        console.log('err',err)
         dispatch({ type: checkVehicleListActionTypes.get_checkVehicleList_error, payload: { errorMsg: err } })
     }
+}
+
+
+export const getCheckVehicleListWaiting = () => (dispatch) => {
+    console.log('getCheckVehicleListWaiting',getCheckVehicleListWaiting)
+    dispatch({ type: checkVehicleListActionTypes.get_checkVehicleList_waiting, payload: {} })
 }
