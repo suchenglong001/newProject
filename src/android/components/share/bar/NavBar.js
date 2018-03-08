@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import { Text, View, StatusBar, StyleSheet } from 'react-native'
+import { Text, View, StatusBar, StyleSheet,Dimensions } from 'react-native'
 import { Header, Title, Button, Icon, Right, Left, Body, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
 
+const {width} =Dimensions.get('window')
+
 const NavBar = props => {
-    const { title, layout, RightButton, LeftButton, parent } = props
+    const { title, RightButton, LeftButton, parent } = props
     return (
-        <View style={[styles.container, { width: layout.initWidth }]}>
+        <View style={[styles.container, { width: width }]}>
             <StatusBar hidden={false} />
             <Header
                 androidStatusBarColor={styleColor}

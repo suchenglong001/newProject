@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Header, Title, Button, Icon, Right, Left, Body, Label, Item, Input, Text } from 'native-base'
-import { View, StatusBar, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight, Modal, InteractionManager } from 'react-native'
+import { View, StatusBar, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight, Modal, InteractionManager, Dimensions } from 'react-native'
 import * as routerDirection from '../../../../util/RouterDirection'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
@@ -8,6 +8,8 @@ import QRCodeScreen from '../../../views/QRCodeScreen'
 import * as RouterDirection from '../../../../util/RouterDirection'
 import * as searchCarAction from '../../../views/searchCar/SearchCarAction'
 import { connect } from 'react-redux'
+
+const { width } = Dimensions.get('window')
 
 class SearchBar extends Component {
     constructor(props) {
@@ -30,11 +32,13 @@ class SearchBar extends Component {
     }
 
     render() {
-        const { title, layout, parent } = this.props
+        const { parent } = this.props
         return (
-            <View style={[styles.container, { width: layout.initWidth }]}>
+            <View style={[styles.container, { width: width }]}>
                 <StatusBar hidden={false} />
-                <Header style={globalStyles.styleBackgroundColor}>
+                <Header
+                    androidStatusBarColor={styleColor}
+                    style={globalStyles.styleBackgroundColor}>
                     <Left style={styles.left}>
                         <Button small transparent onPress={() => this.setState({ modalVisible: true })}>
                             <Icon name="ios-qr-scanner" style={styles.leftIcon} />

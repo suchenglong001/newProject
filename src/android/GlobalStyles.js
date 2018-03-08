@@ -17,19 +17,23 @@ const globalStyles = StyleSheet.create({
         color: '#777'
     },
     midText: {
-        fontSize: 4.5 * fontSizeCoeff,
+        fontSize: 15 * fontSizeCoeff,
         color: '#777'
     },
     smallText: {
-        fontSize: 4 * fontSizeCoeff,
+        fontSize: 12 * fontSizeCoeff,
+        color: '#777'
+    },
+    ssText: {
+        fontSize: 9 * fontSizeCoeff,
         color: '#777'
     },
     largeText:{
-        fontSize: 6 * fontSizeCoeff,
+        fontSize: 18 * fontSizeCoeff,
         color: '#777'
     },
     xlText:{
-        fontSize: 7 * fontSizeCoeff,
+        fontSize: 21 * fontSizeCoeff,
         color: '#777'
     },
     formIcon:{
@@ -41,7 +45,7 @@ const globalStyles = StyleSheet.create({
         backgroundColor: '#f8fafb'   
     },
     errorText:{
-        fontSize: 4 * fontSizeCoeff,
+        fontSize: 12 * fontSizeCoeff,
         color: 'red'
     }
 })
