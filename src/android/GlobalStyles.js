@@ -47,6 +47,9 @@ const globalStyles = StyleSheet.create({
     errorText:{
         fontSize: 12 * fontSizeCoeff,
         color: 'red'
+    },
+    separator:{
+        height:20
     }
 })
 

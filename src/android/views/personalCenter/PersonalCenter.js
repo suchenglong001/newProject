@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {
     Text,
-    View
+    View,
+    StyleSheet
 } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
@@ -50,10 +51,10 @@ class PersonalCenter extends Component {
 
     render() {
         const { loginReducer: { data: { user: { real_name, avatar_image, mobile } } } } = this.props
-        return <Container style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-                <List>
-                    <Separator bordered />
+        return <Container>
+            <Content style={globalStyles.container}>
+                <List  style={styles.list}>
+                    <Separator style={globalStyles.separator} />
                     <ListItem avatar style={{ borderBottomWidth: 0.3 }} onPress={this.openImage}>
                         <Left>
                             <Text style={globalStyles.midText}>头像</Text>
@@ -72,11 +73,30 @@ class PersonalCenter extends Component {
                         <Text style={globalStyles.midText}>{mobile ? `${mobile}` : ''}</Text>
                     </ListItem>
                 </List>
-                <Separator bordered style={{ flex: 1 }} />
-            </View>
+            </Content>
         </Container>
     }
 }
+
+const styles = StyleSheet.create({
+    list: {
+        backgroundColor: '#fff',
+    },
+    avatarContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    userContainer: {
+        marginLeft: 10
+    },
+    button: {
+        margin: 15,
+        marginTop: 40
+    },
+    buttonTitle: {
+        color: '#fff'
+    }
+})
 
 
 const mapStateToProps = (state) => {
