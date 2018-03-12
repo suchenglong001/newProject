@@ -48,6 +48,7 @@ const CarInfoRecord = props => {
     const { carInfoRecord: { comment } } = props.carInfoRecordReducer.data
     return (
         <FlatList
+            keyExtractor={(item, index) => index}
             showsVerticalScrollIndicator={false}
             data={comment ? comment : []}
             renderItem={renderListItem}

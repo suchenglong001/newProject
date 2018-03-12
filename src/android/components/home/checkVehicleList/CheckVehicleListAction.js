@@ -20,13 +20,11 @@ export const getCheckVehicleList = () => async (dispatch, getState) => {
         }
     }
     catch (err) {
-        console.log('err',err)
         dispatch({ type: checkVehicleListActionTypes.get_checkVehicleList_error, payload: { errorMsg: err } })
     }
 }
 
 
 export const getCheckVehicleListWaiting = () => (dispatch) => {
-    console.log('getCheckVehicleListWaiting',getCheckVehicleListWaiting)
     dispatch({ type: checkVehicleListActionTypes.get_checkVehicleList_waiting, payload: {} })
 }

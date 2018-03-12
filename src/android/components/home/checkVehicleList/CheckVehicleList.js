@@ -73,7 +73,7 @@ class CheckVehicleList extends Component {
                     refreshing={checkVehicleListReducer.getCheckVehicleList.isResultStatus == 1}
                     onRefresh={() => {
                         getCheckVehicleListWaiting()
-                        getCheckVehicleList()
+                        InteractionManager.runAfterInteractions(getCheckVehicleList)
                     }}
                     colors={[styleColor]}
                 />}

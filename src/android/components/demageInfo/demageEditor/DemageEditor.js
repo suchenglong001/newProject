@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import * as routerDirection from '../../../../util/RouterDirection'
 import { Container, Content, Input, Label, Icon, Button } from 'native-base'
-import globalStyles, { textColor,styleColor } from '../../../GlobalStyles'
+import globalStyles, { textColor, styleColor } from '../../../GlobalStyles'
 import * as selectDriverAction from '../../../views/select/driver/SelectDriverAction'
 import * as demageEditorAction from './DemageEditorAction'
 import moment from 'moment'
@@ -60,7 +60,7 @@ const DemageEditor = props => {
         updateDamage,
         demageEditorReducer: { updateDamage: { isResultStatus } },
         parent,
-        initParam: { id, created_on, car_id, vin } } = props
+        initParam: { id, created_on, car_id, vin, damage_status } } = props
     return (
         <Container>
             <Content showsVerticalScrollIndicator={false}>
@@ -70,7 +70,11 @@ const DemageEditor = props => {
                         <Text style={globalStyles.smallText}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm')}` : ''}</Text>
                     </View>
                     <View style={styles.headerStatusItem}>
-                        <Text style={[globalStyles.midText]}>处理中</Text>
+                        <Text style={[globalStyles.midText]}>
+                            {damage_status == 1 && '未处理'}
+                            {damage_status == 2 && '处理中'}
+                            {damage_status == 3 && '已处理'}
+                        </Text>
                     </View>
                 </View>
                 <Field
@@ -83,17 +87,17 @@ const DemageEditor = props => {
                     getSelectDriverListWaiting={getSelectDriverListWaiting}
                     parent={parent} />
                 <View style={{ margin: 15 }}>
-                {isResultStatus != 1 && <Button full
-                    style={[globalStyles.styleBackgroundColor]}
-                    onPress={() => updateDamage({
-                        damageId: id,
-                        carId: car_id,
-                        vin
-                    })}>
-                    <Text style={[globalStyles.midText, { color: '#fff' }]}>修改</Text>
-                </Button>}
-                {isResultStatus == 1 && <ActivityIndicator color={styleColor} size='large'/>}
-                </View>  
+                    {isResultStatus != 1 && <Button full
+                        style={[globalStyles.styleBackgroundColor]}
+                        onPress={() => updateDamage({
+                            damageId: id,
+                            carId: car_id,
+                            vin
+                        })}>
+                        <Text style={[globalStyles.midText, { color: '#fff' }]}>修改</Text>
+                    </Button>}
+                    {isResultStatus == 1 && <ActivityIndicator color={styleColor} size='large' />}
+                </View>
             </Content>
         </Container>
     )

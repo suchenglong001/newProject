@@ -50,28 +50,54 @@ export const validateVersion = (tryCount = 1) => async (dispatch) => {
         const url = `${base_host}/app${ObjectToUrl({ app: 4, type: 1 })}`
         const res = await httpRequest.get(url)
         if (res.success) {
-            let data = {
+            const data = {
                 currentVersion: android_app.version,
+                newestVersion: '',
+                url: '',
+                remark: '',
+                force_update: 0
             }
-            const newestVersionInfo = res.result.sort((a, b) => b.id - a.id)[0]
-            if (newestVersionInfo) {
-                data.newestVersion = newestVersionInfo.version
-                data.url = newestVersionInfo.url
-                data.remark = newestVersionInfo.remark
-                const currentVersionArr = android_app.version.split('.')
-                const newestVersionArr = newestVersionInfo.version.split('.')
-                if (currentVersionArr[0] < newestVersionArr[0] || currentVersionArr[1] < newestVersionArr[1] || currentVersionArr[2] < newestVersionArr[2]) {
-                    if (newestVersionInfo.force_update == 1) {
-                        data.force_update = 1
+            const currentVersionArr = android_app.version.split('.')
+            let versionList = res.result
+                .filter(item => {
+                    const itemArr = item.version.split('.')
+                    if (currentVersionArr[0] < itemArr[0]) {
+                        return true
+                    } else if (currentVersionArr[0] == itemArr[0] && currentVersionArr[1] < itemArr[1]) {
+                        return true
+                    } else if (currentVersionArr[0] == itemArr[0] && currentVersionArr[1] == itemArr[1] && currentVersionArr[2] < itemArr[2]) {
+                        return true
                     } else {
-                        data.force_update = 2 //force_update:0(版本为最新版), 1(版本需要太旧，强制更新), 2(版本需要太旧，但不需要强制更新)
+                        return false
                     }
+                })
+
+            if (versionList.length > 0) {
+                if (versionList.some(item => item.force_update == 1)) {
+                    data.force_update = 1
                 } else {
-                    data.force_update = 0
+                    data.force_update = 2
                 }
+                versionList = versionList.sort((a, b) => {
+                    const aArr = a.version.split('.')
+                    const bArr = b.version.split('.')
+                    if (aArr[0] < bArr[0]) {
+                        return true
+                    } else if (aArr[0] == bArr[0] && aArr[1] < bArr[1]) {
+                        return true
+                    } else if (aArr[0] == bArr[0] && aArr[1] == bArr[1] && aArr[2] < bArr[2]) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                data.newestVersion = versionList[0].version
+                data.url = versionList[0].url
+                data.remark = versionList[0].remark
+
             } else {
                 data.force_update = 0
-                data.newestVersion = android_app.version
+                data.newestVersion = data.currentVersion
             }
             dispatch({ type: initializationActionTypes.Valdate_Version_Success, payload: { data, step: currentStep } })
             if (data.force_update != 1) {
@@ -127,7 +153,7 @@ export const loadLocalStorage = (tryCount = 1) => async (dispatch) => {
             Actions.mainRoot()
         }
     } catch (err) {
-       // console.log(err)
+        // console.log(err)
         if (err.name == 'NotFoundError') {
             dispatch({ type: initializationActionTypes.Load_LocalStorage_NotFoundError, payload: { step: currentStep } })
 
