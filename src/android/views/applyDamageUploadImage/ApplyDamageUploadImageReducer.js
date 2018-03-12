@@ -71,5 +71,10 @@ export default handleActions({
                 errorMsg
             }
         }
-    },
+    },   
+    [applyDamageUploadImageActionTypes.clean_upload_DamageImage]: (state, action) => {
+        return {
+            ...initialState
+        }
+    }
 }, initialState)
