@@ -41,10 +41,10 @@ import Orientation from 'react-native-orientation'
 
 const styles = StyleSheet.create({
     tabBarStyle: {
-        backgroundColor: '#d3dde2',
+        backgroundColor: '#E0E4E7',
     },
     tabBarSelectedItemStyle: {
-        backgroundColor: '#d3dde2',
+        backgroundColor: '#E0E4E7',
     }
 })
 
