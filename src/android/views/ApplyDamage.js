@@ -32,6 +32,7 @@ const DamageRemark = props => {
 
 const SelectDriver = props => {
     const { input: { onChange, value }, meta: { error, touched }, getSelectDriverList, getSelectDriverListWaiting, parent } = props
+    console.log('value',value)
     return (
         <TouchableOpacity
             style={[styles.item, styles.itemSelectContainer]}
@@ -43,7 +44,7 @@ const SelectDriver = props => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Label style={globalStyles.midText}>货车司机：</Label>
                 <View style={styles.itemSelect}>
-                    <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}{value.tel ? `(${value.tel})` : ''}</Label>
+                    <Label style={globalStyles.midText}>{value.drive_name ? `${value.drive_name}` : ''}{value.mobile ? `(${value.mobile})` : ''}</Label>
                     <Icon name='md-arrow-dropdown' style={globalStyles.formIcon} />
                 </View>
             </View>

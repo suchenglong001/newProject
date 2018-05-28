@@ -13,17 +13,17 @@ import { Field, reduxForm, getFormValues } from 'redux-form'
 import { Actions } from 'react-native-router-flux'
 
 const renderListItem = props => {
-    const { item: { drive_name, tel, id, truck_id, truck_num }, index, onChange } = props
+    const { item: { drive_name, mobile, id, truck_id, truck_num }, index, onChange } = props
     return (
         <TouchableOpacity
             key={index}
             style={styles.item}
             onPress={() => {
-                onChange({ drive_name, tel, id, truck_id, truck_num })
+                onChange({ drive_name, mobile, id, truck_id, truck_num })
                 Actions.pop()
             }}>
             <Text style={globalStyles.midText}>{drive_name ? `${drive_name}` : ''}</Text>
-            <Text style={globalStyles.midText}>{tel ? `${tel}` : ''}</Text>
+            <Text style={globalStyles.midText}>{mobile ? `${mobile}` : ''}</Text>
         </TouchableOpacity>
     )
 }
@@ -44,7 +44,7 @@ const SelectDriver = props => {
             <Container>
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    data={searchDriverValues ? driverList.filter(item => item.drive_name.indexOf(searchDriverValues.keyword) >= 0 || item.tel.indexOf(searchDriverValues.keyword) >= 0) : driverList}
+                    data={searchDriverValues ? driverList.filter(item => item.drive_name.indexOf(searchDriverValues.keyword) >= 0 || (item.mobile && item.mobile.indexOf(searchDriverValues.keyword) >= 0)) : driverList}
                     renderItem={(param) => renderListItem({ onChange, ...param })} />
             </Container>
         )
