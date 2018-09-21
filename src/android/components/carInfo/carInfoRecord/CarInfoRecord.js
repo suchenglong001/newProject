@@ -45,12 +45,14 @@ const renderListFooter = () => {
 
 
 const CarInfoRecord = props => {
-    const { carInfoRecord: { comment } } = props.carInfoRecordReducer.data
+    const { carInfoRecord } = props.carInfoRecordReducer.data
+    // console.log('props.carInfoRecordReducer.data', props.carInfoRecordReducer.data)
+    // console.log('carInfoRecord.comment', carInfoRecord.comment)
     return (
         <FlatList
             keyExtractor={(item, index) => index}
             showsVerticalScrollIndicator={false}
-            data={comment ? comment : []}
+            data={carInfoRecord && carInfoRecord.comment ? carInfoRecord.comment : []}
             renderItem={renderListItem}
             ListEmptyComponent={renderListEmpty}
             ListHeaderComponent={renderListHeader}

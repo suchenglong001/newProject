@@ -15,6 +15,11 @@ const DemageOpResult = props => {
     const { demageOpResultReducer: { data: { demageOpResult: {
         op_user_name, company_cost, under_cost, profit, penalty_cost, reduction_cost, transport_cost, repair_cost, refund_user_name, under_user_name, damage_type, damage_link_type } } },
         damageStatus } = props
+    // console.log('props', props)
+
+    // console.log('damageLinkTypeList', damageLinkTypeList)
+
+    // console.log('damage_link_type', damage_link_type)
     return (
         <Content showsVerticalScrollIndicator={false} style={{ backgroundColor: '#eaeef1' }}>
             {damageStatus == 3 && <View style={styles.body}>

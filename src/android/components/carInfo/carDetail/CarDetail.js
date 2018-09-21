@@ -13,6 +13,7 @@ import * as carDetailAction from './CarDetailAction'
 
 const CarDetail = props => {
     const { carDetail: { make_name, en_short_name, route_start, route_end, vin, addr_name, re_short_name } } = props.carDetailReducer.data
+    // console.log('props.carDetailReducer.data', props.carDetailReducer.data)
     return (
         <View>
             <ListItem>
