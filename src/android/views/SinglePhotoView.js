@@ -10,7 +10,6 @@ import Swiper from 'react-native-swiper'
 import PhotoView from 'react-native-photo-view'
 import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
-import { file_host } from '../../config/Host'
 
 const { width, height } = Dimensions.get('window')
 
@@ -50,6 +49,7 @@ export default class SinglePhotoView extends Component {
 
     renderPhoteView() {
         const {initParam} =this.props
+        
         return initParam.imageUrlList.map((item, i) => {
             return <View key={i} style={{ flex: 1 }} >
                 <PhotoView
@@ -64,8 +64,7 @@ export default class SinglePhotoView extends Component {
         })
     }
 
-    render() {
-        
+    render() {    
         return (
             <View style={{ flex: 1, backgroundColor: '#000' }}>
                 <Swiper
@@ -89,6 +88,7 @@ export default class SinglePhotoView extends Component {
         )
     }
 }
+
 
 var styles = {
     wrapper: {

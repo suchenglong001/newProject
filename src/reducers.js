@@ -23,6 +23,8 @@ import demageOpResultReducer from './android/components/demageInfo/demageOpResul
 import imageListForDemageReducer from './android/components/demageInfo/imageListForDemage/ImageListForDemageReducer'
 import responsibilityListReducer from './android/views/responsibilityList/ResponsibilityListReducer'
 import sendSMSReducer from './android/components/retrievePassword/sendSMS/SendSMSReducer'
+import checkVehicleAllListRudcer from './android/views/checkVehicleAllList/checkVehicleAllListRudcer'
+import communicationSettingReducer from './android/views/communicationSetting/communicationSettingReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -48,5 +50,7 @@ export default combineReducers({
     demageOpResultReducer,
     imageListForDemageReducer,
     responsibilityListReducer,
-    sendSMSReducer
+    sendSMSReducer,
+    checkVehicleAllListRudcer,
+    communicationSettingReducer
 })

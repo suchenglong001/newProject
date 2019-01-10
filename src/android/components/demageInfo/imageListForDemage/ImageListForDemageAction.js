@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as imageListForDemageActionTypes from './ImageListForDemageActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 import { ToastAndroid } from 'react-native'
@@ -7,6 +6,7 @@ import { ToastAndroid } from 'react-native'
 export const getDamageImageList = (param) => async (dispatch, getState) => {
     const { id } = param
     try {
+        const { communicationSettingReducer: { data: { record_host } } } = getState()
         const url = `${record_host}/damageRecord${ObjectToUrl({ damageId: id })}`
         const res = await httpRequest.get(url)
         if (res.success) {
@@ -19,16 +19,17 @@ export const getDamageImageList = (param) => async (dispatch, getState) => {
     }
 }
 
-export const getDamageImageListWaiting = () => (dispatch, getState) => {
+export const getDamageImageListWaiting = () => (dispatch) => {
     dispatch({ type: imageListForDemageActionTypes.get_DamageImageList_waiting, payload: {} })
 }
 
-export const uploadDamageImageWaiting = () => (dispatch, getState) => {
+export const uploadDamageImageWaiting = () => (dispatch) => {
     dispatch({ type: imageListForDemageActionTypes.upload_ImageAtDemage_waiting, payload: {} })
 }
 
 export const uploadDamageImage = param => async (dispatch, getState) => {
     try {
+        const { communicationSettingReducer: { data: { file_host, record_host } } } = getState()
         const { cameraReses, damageId } = param
         const cameraSuccessReses = cameraReses.filter(item => item.success)
         if (cameraSuccessReses.length > 0) {

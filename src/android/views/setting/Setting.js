@@ -14,8 +14,8 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles from '../../GlobalStyles'
 import * as demageListAction from '../demageList/DemageListAction'
 import * as responsibilityListAction from '../responsibilityList/ResponsibilityListAction'
+import * as checkVehicleAllListActions from '../checkVehicleAllList/checkVehicleAllListActions'
 import * as loginAction from '../login/LoginAction'
-import { file_host } from '../../../config/Host'
 import ConfirmModal from '../../components/share/ConfirmModal'
 
 
@@ -49,8 +49,11 @@ class Setting extends Component {
             getResponsibilityListWaiting,
             getResponsibilityList,
             cleanLogin,
+            getCheckVehicleAllList,
+            getCheckVehicleAllListWaiting,
             loginReducer: { data: { user: { real_name, avatar_image, mobile } } },
             initializationReducer: { data: { version: { force_update, currentVersion, url } } }, initializationReducer } = this.props
+        const { communicationSettingReducer: { data: {  file_host } } } = this.props
         return (
             <Container>
                 <Content style={globalStyles.container}>
@@ -66,6 +69,23 @@ class Setting extends Component {
                             </View>
                         </ListItem>
                         <Separator style={globalStyles.separator} />
+                        <ListItem icon onPress={() => {
+                            getCheckVehicleAllListWaiting()
+                            Actions.checkVehicleAllList()
+                            InteractionManager.runAfterInteractions(() => {
+                                getCheckVehicleAllList()
+                            })
+                        }}>
+                            <Left>
+                                <Icon name="md-magnet" style={globalStyles.styleColor} />
+                            </Left>
+                            <Body>
+                                <Text style={globalStyles.midText}>检车记录</Text>
+                            </Body>
+                            <Right>
+                                <Icon name="arrow-forward" />
+                            </Right>
+                        </ListItem>
                         <ListItem icon onPress={() => {
                             getDemageListWaiting()
                             Actions.demageList()
@@ -179,7 +199,8 @@ const mapStateToProps = (state) => {
     return {
         loginReducer: state.loginReducer,
         settingReducer: state.settingReducer,
-        initializationReducer: state.initializationReducer
+        initializationReducer: state.initializationReducer,
+        communicationSettingReducer:state.communicationSettingReducer
     }
 }
 
@@ -195,6 +216,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getResponsibilityListWaiting: () => {
         dispatch(responsibilityListAction.getResponsibilityListWaiting())
+    },
+    getCheckVehicleAllList: req => {
+        dispatch(checkVehicleAllListActions.getCheckVehicleAllList(req))
+    },
+    getCheckVehicleAllListWaiting: () => {
+        dispatch(checkVehicleAllListActions.getCheckVehicleAllListWaiting())
     },
     cleanLogin: () => {
         dispatch(loginAction.cleanLogin())

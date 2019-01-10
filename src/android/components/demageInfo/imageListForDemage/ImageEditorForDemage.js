@@ -13,7 +13,6 @@ import ImageItem from '../../share/ImageItem'
 import globalStyles from '../../../GlobalStyles'
 import { connect } from 'react-redux'
 import CameraButton from '../../../components/share/CameraButton'
-import { file_host } from '../../../../config/Host'
 import { Container, Content, Input, Label, Icon } from 'native-base'
 import * as  imageListForDemageAction from './ImageListForDemageAction'
 import * as routerDirection from '../../../../util/RouterDirection'
@@ -23,7 +22,7 @@ const containerWidth = window.width / 2
 const containerHeight = containerWidth / 16 * 9
 
 const renderItem = props => {
-    const { item, index, uploadDamageImageWaiting, uploadDamageImage, demageImageList, parent, damageId } = props
+    const { item, index, uploadDamageImageWaiting, uploadDamageImage, demageImageList, parent, damageId, file_host } = props
     if (item == 'isCameraButton') {
         return renderItemCameraButton({ index, uploadDamageImageWaiting, uploadDamageImage, damageId })
     } else {
@@ -75,6 +74,7 @@ const ImageEditorForDemage = props => {
         uploadDamageImage,
         imageListForDemageReducer: { data: { demageImageList }, uploadDamageImage: { isResultStatus } },
         initParam: { id } } = props
+    const { communicationSettingReducer: { data: { base_host, file_host, record_host } } } = props
     return (
         <Container >
             <FlatList
@@ -83,7 +83,7 @@ const ImageEditorForDemage = props => {
                 data={demageImageList.length > 0 ? [...demageImageList, 'isCameraButton'] : demageImageList}
                 numColumns={2}
                 ListEmptyComponent={() => renderListEmpty({ uploadDamageImageWaiting, uploadDamageImage, damageId: id })}
-                renderItem={({ item, index }) => renderItem({ parent, item, index, demageImageList, uploadDamageImageWaiting, uploadDamageImage, damageId: id })} />
+                renderItem={({ item, index }) => renderItem({ parent, item, index, file_host, demageImageList, uploadDamageImageWaiting, uploadDamageImage, damageId: id })} />
             <Modal
                 animationType={"fade"}
                 transparent={true}
@@ -158,9 +158,11 @@ const styles = StyleSheet.create({
     }
 })
 
+
 const mapStateToProps = (state) => {
     return {
-        imageListForDemageReducer: state.imageListForDemageReducer
+        imageListForDemageReducer: state.imageListForDemageReducer,
+        communicationSettingReducer: state.communicationSettingReducer
     }
 }
 

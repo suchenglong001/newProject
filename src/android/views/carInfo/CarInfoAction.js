@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../config/Host'
 import * as carInfoActionTypes from './CarInfoActionTypes'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
 import { ToastAndroid } from 'react-native'
@@ -10,6 +9,7 @@ export const qualityAssurance = () => async (dispatch, getState) => {
     const {
         loginReducer: { data: { user } },
         carDetailReducer: { data: { carDetail } } } = getState()
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
     try {
         const url = `${base_host}/user/${user.uid}/qualityAssurance`
         const res = await httpRequest.post(url, {

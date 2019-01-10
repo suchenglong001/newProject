@@ -27,7 +27,7 @@ class Initialization extends Component {
     }
 
     componentDidMount() {
-        this.props.initApp()
+        this.props.getCommunicationSetting()
         //setTimeout(SplashScreen.hide, 2000)
     }
 
@@ -58,7 +58,7 @@ class Initialization extends Component {
                         <Text style={styles.buttonTiltle}>联系管理员</Text>
                     </Button>}
                 {(validateVersion.isResultStatus == 5 || validateToken.isResultStatus == 5) &&
-                    <Button block onPress={() => this.initApp()} style={styles.button}>
+                    <Button block onPress={() => this.props.initApp()} style={styles.button}>
                         <Text style={styles.buttonTiltle}>重试</Text>
                     </Button>}
                 {initAPP.isResultStatus == 2 && data.version.force_update == 1 &&
@@ -104,6 +104,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     initApp: () => {
         dispatch(initializationAction.initApp())
+    },
+    getCommunicationSetting: () => {
+        dispatch(initializationAction.getCommunicationSetting())
     }
 })
 

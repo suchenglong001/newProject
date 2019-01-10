@@ -1,11 +1,11 @@
 import * as httpRequest from '../../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as checkStatisticsActionTypes from './CheckStatisticsActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 import moment from 'moment'
 
 export const getCheckStatistics = () => async (dispatch, getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const { loginReducer: { data: { user: { uid } } } } = getState()
         const urls = [`${base_host}/damageNotCheckCount${ObjectToUrl({ declareUserId: uid, yearMonth: moment().format('YYYYMM') })}`,
         `${base_host}/damageCheckUnderMonthStat${ObjectToUrl({ underUserId: uid, yearMonth: moment().format('YYYYMM') })}`]

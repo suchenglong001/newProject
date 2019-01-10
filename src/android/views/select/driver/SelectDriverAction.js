@@ -1,10 +1,10 @@
 import * as httpRequest from '../../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as selectDriverActionTypes from './SelectDriverActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 
 export const getSelectDriverList = () => async (dispatch, getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${base_host}/drive?driveStatus=1`
         const res = await httpRequest.get(url)
         if (res.success) {

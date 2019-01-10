@@ -8,7 +8,6 @@ import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
 import { Button, Container, Content, Header, Icon, Left, Body, Right, Title, List, ListItem, Thumbnail, Toast, Separator } from 'native-base'
 import * as personalCenterAction from './PersonalCenterAction'
-import { file_host } from '../../../config/Host'
 import globalStyles, { styleColor } from '../../GlobalStyles'
 
 class PersonalCenter extends Component {
@@ -51,6 +50,7 @@ class PersonalCenter extends Component {
 
     render() {
         const { loginReducer: { data: { user: { real_name, avatar_image, mobile } } } } = this.props
+        const { communicationSettingReducer: { data: { file_host } } } = this.props
         return <Container>
             <Content style={globalStyles.container}>
                 <List  style={styles.list}>
@@ -98,10 +98,10 @@ const styles = StyleSheet.create({
     }
 })
 
-
 const mapStateToProps = (state) => {
     return {
-        loginReducer: state.loginReducer
+        loginReducer: state.loginReducer,
+        communicationSettingReducer:state.communicationSettingReducer
     }
 }
 

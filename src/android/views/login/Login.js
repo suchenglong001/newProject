@@ -30,10 +30,7 @@ const TextBox = props => {
 }
 
 const Login = props => {
-    const { login, loginReducer ,initialValues,formReducer} = props 
-    // console.log(loginReducer)
-    // console.log(formReducer)
-    // console.log('initialValues',initialValues)
+    const { login } = props
     return (
         <Container style={styles.container}>
             <StatusBar hidden={true} />
@@ -52,6 +49,11 @@ const Login = props => {
                         style={styles.appname} />
                 </View>
                 <View style={styles.formContainer}>
+                    <Field
+                        name='server'
+                        iconName='md-globe'
+                        placeholderText='请输入服务器域名'
+                        component={TextBox} />
                     <Field
                         name='mobile'
                         iconName='md-person'
@@ -147,9 +149,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        loginReducer: state.loginReducer,
-        initialValues: state.loginReducer.data.user,
-        formReducer:state.form
+        initialValues:{
+            mobile:state.loginReducer.data.user.mobile,
+            server:state.communicationSettingReducer.data.host
+        } 
     }
 }
 
@@ -161,5 +164,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(
     reduxForm({
-        form: 'loginForm'
+        form: 'loginForm',
+        enableReinitialize:true
     })(Login))

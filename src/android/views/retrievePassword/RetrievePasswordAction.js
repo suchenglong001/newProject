@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../config/Host'
 import * as retrievePasswordActionTypes from './RetrievePasswordActionTypes'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
 import { getFormValues } from 'redux-form'
@@ -22,6 +21,7 @@ export const retrieve = () => async (dispatch, getState) => {
     }
 
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${base_host}/phone/${sendSMSFormValues.mobile}/password`
         const res = await httpRequest.put(url, {
             captcha: retrievePasswordFormValues.vCode,

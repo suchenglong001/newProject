@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as checkVehicleListActionTypes from './CheckVehicleListActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 import { isEqualArr } from '../../../../util/IsObjectValueEqual'
@@ -7,6 +6,7 @@ import { isEqualArr } from '../../../../util/IsObjectValueEqual'
 export const getCheckVehicleList = () => async (dispatch, getState) => {
     try {
         const { loginReducer: { data: { user: { uid } } } } = getState()
+        const { communicationSettingReducer: { data: { record_host } } } = getState()
         const url = `${record_host}/opRecord${ObjectToUrl({ userId: uid, op: 10, start: 0, size: 20 })}`
         const res = await httpRequest.get(url)      
         if (res.success) {

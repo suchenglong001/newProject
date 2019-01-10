@@ -1,5 +1,4 @@
 import * as  httpRequest from '../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../config/Host'
 import * as searchCarActionTypes from './SearchCarActionTypes'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
 import { getFormValues } from 'redux-form'
@@ -11,6 +10,7 @@ const pageSize = 50
 export const getCarList = (param) => async (dispatch, getState) => {
     dispatch({ type: searchCarActionTypes.get_CarList_waiting, payload: {} })
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${base_host}/carList${ObjectToUrl({ vinCode: param, start: 0, size: pageSize })}`
         const res = await httpRequest.get(url)
         if (res.success) {
@@ -31,6 +31,7 @@ export const getCarList = (param) => async (dispatch, getState) => {
 export const getCarListMore = () => async (dispatch, getState) => {
     const state = getState()
     const { searchCarReducer: { data: { carList, isComplete } }, searchCarReducer } = state
+    const { communicationSettingReducer: { data: { base_host } } } = getState()
     const { vinCode } = getFormValues('SearchCar')(state)
     if (searchCarReducer.getCarListMore.isResultStatus == 1) {
         await sleep(1000)

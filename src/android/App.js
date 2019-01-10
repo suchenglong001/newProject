@@ -16,6 +16,7 @@ import SearchDriverBar from './components/share/bar/SearchDriverBar'
 import TabIcon from './components/share/TabIcon'
 import LeftButton from './components/share/bar/LeftButton'
 import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
+import CheckVehicleAllListToolButton from './components/toolButton/CheckVehicleAllListToolButton'
 import ApplyDamageUploadImageSubmit from './components/applyDamageUploadImage/ApplyDamageUploadImageSubmit'
 
 import Home from './views/Home'
@@ -35,6 +36,7 @@ import ResponsibilityList from './views/responsibilityList/ResponsibilityList'
 import SelectDriver from './views/select/driver/SelectDriver'
 import SinglePhotoView from './views/SinglePhotoView'
 import RetrievePassword from './views/retrievePassword/RetrievePassword'
+import CheckVehicleAllList from './views/checkVehicleAllList/CheckVehicleAllList'
 import QRCodeScreen from './views/QRCodeScreen'
 import Orientation from 'react-native-orientation'
 
@@ -138,6 +140,8 @@ export default class App extends Component {
                                     hideTabBar hideNavBar={false} navBar={NavBar} />
                                 <Scene key="demageInfo" LeftButton={LeftButton} component={DemageInfo} title='质损详情' hideTabBar
                                     hideNavBar={false} navBar={NavBar} />
+                                <Scene key="checkVehicleAllList" LeftButton={LeftButton} component={CheckVehicleAllList} title='检车记录' hideTabBar
+                                    hideNavBar={false} navBar={NavBar} RightButton={CheckVehicleAllListToolButton}/>
                                 <Scene key="demageList" LeftButton={LeftButton} component={DemageList} title='我的质损' hideTabBar
                                     hideNavBar={false} navBar={NavBar} />
                                 <Scene key="responsibilityInfo" LeftButton={LeftButton} component={ResponsibilityInfo} title='责任详情'

@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../../util/HttpRequest'
-import { base_host } from '../../../../config/Host'
 import * as sendSMSActionTypes from './SendSMSActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 import { sleep } from '../../../../util/util'
@@ -29,7 +28,7 @@ export const getVCode = () => async (dispatch, getState) => {
     const sendSMSFormValues = getFormValues('sendSMSForm')(getState())
     if (sendSMSFormValues && sendSMSFormValues.mobile) {
         try {
-
+            const { communicationSettingReducer: { data: { base_host } } } = getState()
             const url = `${base_host}/phone/${sendSMSFormValues.mobile}/passwordSms`
             const res = await httpRequest.post(url, {})
             if (res.success) {

@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import globalStyles from '../../../GlobalStyles'
 import { Thumbnail } from 'native-base'
 import * as checkStatisticsAction from './CheckStatisticsAction'
-import { file_host } from '../../../../config/Host'
+
 
 class CheckStatistics extends Component {
     constructor(props) {
@@ -23,6 +23,7 @@ class CheckStatistics extends Component {
     render() {
         const { data: { check_count, d_count } } = this.props.checkStatisticsReducer
         const { data: { user: { real_name, avatar_image }, user } } = this.props.loginReducer
+        const { communicationSettingReducer: { data: {  file_host } } } = this.props
         // console.log('avatar_image',avatar_image)
         // console.log('user',user)
         return (
@@ -78,10 +79,13 @@ const styles = StyleSheet.create({
     }
 })
 
+
+
 const mapStateToProps = (state) => {
     return {
         checkStatisticsReducer: state.checkStatisticsReducer,
-        loginReducer: state.loginReducer
+        loginReducer: state.loginReducer,
+        communicationSettingReducer:state.communicationSettingReducer
     }
 }
 

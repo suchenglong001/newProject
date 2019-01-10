@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as demageEditorActionTypes from './DemageEditorActionTypes'
 import * as demageListActionTypes from '../../../views/demageList/DemageListActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
@@ -11,6 +10,7 @@ export const updateDamage = (param) => async (dispatch, getState) => {
     const { damageId, carId, vin } = param
     const state = getState()
     const { loginReducer: { data: { user } } } = state
+    const { communicationSettingReducer: { data: { base_host } } } = getState()
     const applyDamageForm = getFormValues('demageEditorForm')(state) ? getFormValues('demageEditorForm')(state) : {}
     const { damageRemark, selectDriver: { drive_name, id, truck_id, truck_num } } = applyDamageForm
     try {

@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as carInfoRecordActionTypes from './CarInfoRecordActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 
@@ -7,6 +6,7 @@ export const getCarInfoRecord = (param) => async (dispatch, getState) => {
     const { car_id } = param
     const { loginReducer: { data: { user: { uid } } } } = getState()
     try {
+        const { communicationSettingReducer: { data: {  record_host } } } = getState()
         const url = `${record_host}/user/${uid}/car/${car_id}/record`
         // console.log('url',url)
         const res = await httpRequest.get(url)

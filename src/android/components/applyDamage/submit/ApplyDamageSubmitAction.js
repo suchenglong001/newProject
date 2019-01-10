@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../../util/HttpRequest'
-import { base_host, file_host, record_host } from '../../../../config/Host'
 import * as applyDamageSubmitActionTypes from './ApplyDamageSubmitActionTypes'
 import * as applyDamageUploadImageTypes from '../../../views/applyDamageUploadImage/ApplyDamageUploadImageActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
@@ -14,7 +13,8 @@ export const createDamage = (parent) => async (dispatch, getState) => {
     const state = getState()
     const { loginReducer: { data: { user } },
         carDetailReducer: { data: { carDetail } } } = state
-    const applyDamageForm = getFormValues('applyDamage')(state) ? getFormValues('applyDamage')(state) : {selectDriver:{}}
+    const { communicationSettingReducer: { data: { base_host } } } = state
+    const applyDamageForm = getFormValues('applyDamage')(state) ? getFormValues('applyDamage')(state) : { selectDriver: {} }
     try {
         const url = `${base_host}/user/${user.uid}/damage`
         const res = await httpRequest.post(url, {
@@ -29,13 +29,12 @@ export const createDamage = (parent) => async (dispatch, getState) => {
         if (res.success) {
             ToastAndroid.showWithGravity('提交成功！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
             dispatch({ type: applyDamageSubmitActionTypes.create_Damage_success, payload: { damageId: res.id } })
-            dispatch({ type: applyDamageUploadImageTypes.clean_upload_DamageImage, payload: {  } })
+            dispatch({ type: applyDamageUploadImageTypes.clean_upload_DamageImage, payload: {} })
             routerDirection.applyDamageUploadImage(parent)()
-            InteractionManager.runAfterInteractions(()=>{
+            InteractionManager.runAfterInteractions(() => {
                 dispatch(carInfoRecordAction.getCarInfoRecord({ car_id: carDetail.id }))
                 dispatch(checkVehicleListAction.getCheckVehicleList())
             })
-
         } else {
             ToastAndroid.showWithGravity(`提交失败！${res.msg}`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
             dispatch({ type: applyDamageSubmitActionTypes.create_Damage_failed, payload: { failedMsg: res.msg } })
