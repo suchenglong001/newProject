@@ -1,4 +1,4 @@
-// import * as actionTypes from '../../../actionTypes/index'
+import * as communicationSettingActionTypes from './communicationSettingActionTypes'
 import localStorageKey from '../../../util/LocalStorageKey'
 import localStorage from '../../../util/LocalStorage'
 import { ToastAndroid } from 'react-native'
@@ -7,7 +7,7 @@ import { ToastAndroid } from 'react-native'
 
 export const saveCommunicationSetting = param => (dispatch) => {
     const { url } = param
-    console.log('url',url)
+    // console.log('url',url)
     localStorage.save({
         key: localStorageKey.SERVERADDRESS,
         data: {
@@ -18,7 +18,7 @@ export const saveCommunicationSetting = param => (dispatch) => {
         }
     })
     dispatch({ 
-        type: actionTypes.communicationSetting.save_communicationSetting_success, payload: {
+        type: communicationSettingActionTypes.save_communicationSetting_success, payload: {
             base_host: `http://api.${url}/api`,
             file_host: `http://files.${url}/api`,
             record_host: `http://records.${url}/api`,
