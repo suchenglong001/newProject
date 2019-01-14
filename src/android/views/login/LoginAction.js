@@ -17,12 +17,12 @@ export const login = (tryCount = 1) => async (dispatch, getState) => {
     const base_host =`http://api.${server}/api`
     try {
         const url = `${base_host}/userLogin`
-        console.log('url', url)
+        // console.log('url', url)
         const res = await httpRequest.post(url, {
             mobile: mobile,
             password
         })
-        console.log('res', res)
+        // console.log('res', res)
         if (res.success) {
             if (res.result.type == 41 || res.result.type == 49) {
                 const getUserInfoUrl = `${base_host}/user${ObjectToUrl({ userId: res.result.userId })}`
