@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { View, Image, Dimensions, ToastAndroid, StatusBar, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Image, Linking, Dimensions, ToastAndroid, StatusBar, TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { Button, Icon, Form, Item, Text, Label, Input, Left, Body, Right, Title, List, ListItem, Container } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Field, reduxForm } from 'redux-form'
 import * as loginAction from './LoginAction'
-import localStorageKey from '../../../util/LocalStorageKey'
-import localStorage from '../../../util/LocalStorage'
+import * as android_app from '../../../android_app.json'
 
 const window = Dimensions.get('window')
 const ImageWidth = window.width
@@ -30,13 +29,16 @@ const TextBox = props => {
 }
 
 const Login = props => {
-    const { login } = props
+    const { login, initializationReducer: { validateVersion, data: { version: { force_update, url } } } } = props
+    // console.log('force_update', force_update)
+    console.log('props', props)
     return (
         <Container style={styles.container}>
             <StatusBar hidden={true} />
             <Image
                 source={{ uri: 'login_back' }}
                 style={styles.backgroundImage} />
+            <Text style={[globalStyles.smallText, { color: 'rgba(255,255,255,0.1)', position: 'absolute', bottom: 5, right: 5 }]}>{android_app.version}</Text>
             <View style={styles.connectContainer}>
                 <View style={styles.logoContainer}>
                     <Image
@@ -48,7 +50,7 @@ const Login = props => {
                         source={{ uri: 'app_name' }}
                         style={styles.appname} />
                 </View>
-                <View style={styles.formContainer}>
+                {force_update != 1 && <View style={styles.formContainer}>
                     <Field
                         name='server'
                         iconName='md-globe'
@@ -69,10 +71,29 @@ const Login = props => {
                         onPress={login}>
                         <Text style={[globalStyles.midText, styles.buttonTittle]}>登录</Text>
                     </Button>
-                </View>
-                <TouchableOpacity style={styles.linkButton} onPress={() => Actions.retrievePassword()}>
+
+                </View>}
+                {force_update == 1 && <View style={styles.formContainer}>
+                    <Button style={[globalStyles.styleBackgroundColor, { marginTop: 50 }]} onPress={() => {
+                        if (url) {
+                            Linking.canOpenURL(url)
+                                .then(supported => {
+                                    if (!supported) {
+                                        console.log('Can\'t handle url: ' + url)
+                                    } else {
+                                        return Linking.openURL(url)
+                                    }
+                                })
+                                .catch(err => console.error('An error occurred', err))
+                        }
+                    }}>
+                        <Text style={[globalStyles.midText, styles.buttonTittle]}>请下载最新版本</Text>
+                    </Button>
+                </View>}
+                {force_update != 1 && <TouchableOpacity style={styles.linkButton} onPress={() => Actions.retrievePassword()}>
                     <Text style={[globalStyles.midText, styles.linkButtonTittle]}>忘记密码？</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
+
             </View>
         </Container>
     )
@@ -149,21 +170,22 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        initialValues:{
-            mobile:state.loginReducer.data.user.mobile,
-            server:state.communicationSettingReducer.data.host
-        } 
+        initialValues: {
+            mobile: state.loginReducer.data.user.mobile,
+            server: state.communicationSettingReducer.data.host
+        },
+        initializationReducer: state.initializationReducer
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     login: () => {
-        dispatch(loginAction.login())
+        dispatch(loginAction.validateVersion())
     }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
     reduxForm({
         form: 'loginForm',
-        enableReinitialize:true
+        enableReinitialize: true
     })(Login))

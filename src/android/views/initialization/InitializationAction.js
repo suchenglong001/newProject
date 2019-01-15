@@ -56,6 +56,7 @@ export const getCommunicationSetting = () => async (dispatch) => {
                 }
             })
             dispatch(validateVersion())
+     
         } else {
             Actions.mainRoot()
         }
@@ -148,7 +149,7 @@ export const validateVersion = (tryCount = 1) => async (dispatch, getState) => {
 }
 
 //第二步：获取localStorage中的user数据
-export const loadLocalStorage = (tryCount = 1) => async (dispatch) => {
+export const loadLocalStorage = () => async (dispatch) => {
     const currentStep = 2
     try {
         // localStorage.save({
