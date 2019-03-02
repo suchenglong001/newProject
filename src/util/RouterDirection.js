@@ -29,3 +29,20 @@ export const applyDamageUploadImage = (parent) => {
     if (parent === 'settingBlock') return Actions.applyDamageUploadImageAtSettingBlock
     if (parent === 'homeBlock') return Actions.applyDamageUploadImageAtHomeBlock
 }
+
+
+export const pictureRecording = (parent) => {
+    if (parent === 'settingBlock') return param => Actions.pictureRecordingAtSettingBlock(param)
+    if (parent === 'homeBlock') return param => Actions.pictureRecordingAtHomeBlock(param)
+}
+
+
+export const showImageForApplyDamage = (parent) => {
+    if (parent === 'settingBlock') return Actions.showImageForApplyDamageAtSettingBlock
+    if (parent === 'homeBlock') return Actions.showImageForApplyDamageAtHomeBlock
+}
+
+export const showVideoForApplyDamage = (parent) => {
+    if (parent === 'settingBlock') return Actions.showVideoForApplyDamageAtSettingBlock
+    if (parent === 'homeBlock') return Actions.showVideoForApplyDamageAtHomeBlock
+}

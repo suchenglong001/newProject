@@ -32,7 +32,7 @@ const DamageRemark = props => {
 
 const SelectDriver = props => {
     const { input: { onChange, value }, meta: { error, touched }, getSelectDriverList, getSelectDriverListWaiting, parent } = props
-    console.log('value',value)
+    // console.log('value',value)
     return (
         <TouchableOpacity
             style={[styles.item, styles.itemSelectContainer]}

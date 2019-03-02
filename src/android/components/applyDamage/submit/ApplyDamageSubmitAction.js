@@ -8,6 +8,7 @@ import * as carInfoRecordAction from '../../carInfo/carInfoRecord/CarInfoRecordA
 import * as routerDirection from '../../../../util/RouterDirection'
 import * as checkVehicleListAction from '../../home/checkVehicleList/CheckVehicleListAction'
 
+
 export const createDamage = (parent) => async (dispatch, getState) => {
     dispatch({ type: applyDamageSubmitActionTypes.create_Damage_waiting, payload: {} })
     const state = getState()
@@ -27,21 +28,27 @@ export const createDamage = (parent) => async (dispatch, getState) => {
             damageExplain: applyDamageForm.damageRemark
         })
         if (res.success) {
-            ToastAndroid.showWithGravity('提交成功！', ToastAndroid.CENTER, ToastAndroid.BOTTOM)
+            ToastAndroid.show('提交成功！', 10)
             dispatch({ type: applyDamageSubmitActionTypes.create_Damage_success, payload: { damageId: res.id } })
-            dispatch({ type: applyDamageUploadImageTypes.clean_upload_DamageImage, payload: {} })
+            // dispatch({ type: applyDamageUploadImageTypes.clean_upload_DamageImage, payload: {} })
             routerDirection.applyDamageUploadImage(parent)()
             InteractionManager.runAfterInteractions(() => {
                 dispatch(carInfoRecordAction.getCarInfoRecord({ car_id: carDetail.id }))
                 dispatch(checkVehicleListAction.getCheckVehicleList())
             })
         } else {
-            ToastAndroid.showWithGravity(`提交失败！${res.msg}`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
+            ToastAndroid.show(`提交失败！${res.msg}`, 10)
             dispatch({ type: applyDamageSubmitActionTypes.create_Damage_failed, payload: { failedMsg: res.msg } })
         }
     }
     catch (err) {
-        ToastAndroid.showWithGravity(`提交失败！${err}`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
+        // console.log(err)
+        ToastAndroid.show(`提交失败！${err}`, 10)
         dispatch({ type: applyDamageSubmitActionTypes.create_Damage_error, payload: { errorMsg: err } })
     }
+}
+
+
+export const cleanCreateDamage = () => (dispatch) => {
+    dispatch({ type: applyDamageSubmitActionTypes.clean_applyDamage, payload: {} })
 }

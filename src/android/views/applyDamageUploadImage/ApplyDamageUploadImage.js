@@ -10,27 +10,36 @@ import {
     TouchableOpacity
 } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Content, Input, Label, Icon } from 'native-base'
-import CameraButton from '../../components/share/CameraButton'
-import globalStyles from '../../GlobalStyles'
+import { Container, Spinner } from 'native-base'
+import CameraButton from '../../components/share/CameraVideoButton'
+import globalStyles, { styleColor } from '../../GlobalStyles'
+import * as routerDirection from '../../../util/RouterDirection'
 import * as applyDamageUploadImageAction from './ApplyDamageUploadImageAction'
 import ImageItem from '../../components/share/ImageItem'
-import * as routerDirection from '../../../util/RouterDirection'
+import { file_host } from '../../../config/Host'
+import { Actions } from 'react-native-router-flux'
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 
 const window = Dimensions.get('window')
 const containerWidth = window.width / 2
 const containerHeight = containerWidth / 16 * 9
 
 const renderItem = props => {
-    const { item, index, uploadDamageImageWating, uploadDamageImage,file_host, imageList, parent } = props
+    const { item, index, uploadImageForApplyDamageWaiting, videoUrl, parent,
+        uploadImageForApplyDamage, setIndexForUploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting } = props
     if (item == 'isCameraButton') {
-        return renderItemCameraButton({ index, uploadDamageImageWating, uploadDamageImage })
+        return renderItemCameraButton({ index, parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting })
+    } else if (item == 'isVideo') {
+        
+        return renderVideo({ videoUrl, parent,  uploadVideoForApplyDamage })
     } else {
         return (
             <TouchableOpacity
-                key={index}
                 style={styles.itemContainer}
-                onPress={() =>routerDirection.singlePhotoView(parent)({ initParam: { imageUrlList: imageList.map(url => `${file_host}/image/${url}`), index } })} >
+                onPress={() => {
+                    setIndexForUploadImageForApplyDamage({ index })
+                    routerDirection.showImageForApplyDamage(parent)()
+                }} >
                 <ImageItem imageUrl={`${file_host}/image/${item}`} />
             </TouchableOpacity>
         )
@@ -38,28 +47,60 @@ const renderItem = props => {
 }
 
 const renderItemCameraButton = props => {
-    const { index, uploadDamageImageWating, uploadDamageImage } = props
+    const { index, parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage,
+        uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting } = props
+        console.log('uploadVideoForApplyDamageWaiting',uploadVideoForApplyDamageWaiting)
     return (
         <View key={index} style={styles.itemCameraButton}>
             <CameraButton
-                getImage={uploadDamageImage}
-                _cameraStart={uploadDamageImageWating}
+                parent={parent}
+                getImage={param => uploadImageForApplyDamage({ cameraReses: param })}
+                getVideo={uploadVideoForApplyDamage}
+                _cameraStart={uploadImageForApplyDamageWaiting}
+                _videoStart={uploadVideoForApplyDamageWaiting}
             />
         </View>
     )
 }
 
+const renderVideo = props => {
+    const { videoUrl,parent, uploadVideoForApplyDamage } = props
+    if (videoUrl) {
+        return (
+            <TouchableOpacity style={styles.itemCameraButton} onPress={() => {
+                routerDirection.showVideoForApplyDamage(parent)()
+            }}>
+                <FontAwesomeIcon name='film' style={{ fontSize: 50, color: styleColor }} />
+            </TouchableOpacity>
+        )
+    } else {
+        return (
+            <TouchableOpacity style={styles.itemCameraButton} onPress={() => {
+                routerDirection.pictureRecording(parent)({ uploadVideo: uploadVideoForApplyDamage })
+            }}>
+                <FontAwesomeIcon name='video-camera' style={{ fontSize: 50, color: styleColor }} />
+            </TouchableOpacity>
+        )
+    }
+}
+
 const renderListEmpty = props => {
-    const { uploadDamageImageWating, uploadDamageImage } = props
+    const { parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting } = props
+    // console.log('uploadVideoForApplyDamageWaiting',uploadVideoForApplyDamageWaiting)
     return (
         <View>
             <View style={styles.cameraButtonContainer}>
                 <CameraButton
-                    getImage={uploadDamageImage}
-                    _cameraStart={uploadDamageImageWating} />
+                    parent={parent}
+                    getImage={param => {
+                        uploadImageForApplyDamage({ cameraReses: param })
+                    }}
+                    getVideo={uploadVideoForApplyDamage}
+                    _cameraStart={uploadImageForApplyDamageWaiting}
+                    _videoStart={uploadVideoForApplyDamageWaiting} />
             </View>
             <View style={styles.titleContainer}>
-                <Text style={[globalStyles.largeText, globalStyles.styleColor]}>点击按钮上传质损图片</Text>
+                <Text style={[globalStyles.largeText, globalStyles.styleColor]}>点击按钮上传车辆视频或照片</Text>
             </View>
             <View style={styles.subtitleContainer}>
                 <Text style={[globalStyles.smallText, globalStyles.styleColor]}>若不进行此选项操作可直接点击“<Text style={styles.tagText}>完成</Text>”</Text>
@@ -69,35 +110,62 @@ const renderListEmpty = props => {
 }
 
 const ApplyDamageUploadImage = props => {
-    const { parent, uploadDamageImageWating, uploadDamageImage, applyDamageUploadImageReducer: { data: { imageList }, uploadDamageImage: { isResultStatus } } } = props
-    const { communicationSettingReducer: { data: { file_host } } } = props
-    return (
-        <Container >
-            <FlatList
-                style={styles.flatList}
-                showsVerticalScrollIndicator={false}
-                data={imageList.length > 0 ? [...imageList, 'isCameraButton'] : imageList}
-                numColumns={2}
-                ListEmptyComponent={() => renderListEmpty({ uploadDamageImageWating, uploadDamageImage })}
-                renderItem={({ item, index }) => renderItem({ parent, item, index, imageList,file_host, uploadDamageImageWating, uploadDamageImage })} />
-            <Modal
-                animationType={"fade"}
-                transparent={true}
-                visible={isResultStatus == 1}
-                onRequestClose={() => { }}>
-                <View style={styles.modalContainer} >
-                    <View style={styles.modalItem}>
-                        <ActivityIndicator
-                            animating={isResultStatus == 1}
-                            style={styles.modalActivityIndicator}
-                            size="large"
-                        />
-                        <Text style={styles.modalText}>正在上传图片...</Text>
+    const { parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage, setIndexForUploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting,
+        applyDamageUploadImageReducer: { data: { imageList, videoUrl }, uploadImageForApplyDamage: { isResultStatus }, getImageForCreateCar }, applyDamageUploadImageReducer } = props
+    if (getImageForCreateCar.isResultStatus == 1) {
+        return (
+            <Container>
+                <Spinner color={styleColor} />
+            </Container>
+        )
+    } else {
+        return (
+            <Container >
+                <FlatList
+                    style={styles.flatList}
+                    keyExtractor={(item, index) => index}
+                    data={imageList.length > 0 || videoUrl ? ['isCameraButton', 'isVideo', ...imageList] : imageList}
+                    numColumns={2}
+                    ListEmptyComponent={() => renderListEmpty({ parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting })}
+                    renderItem={({ item, index }) => renderItem({
+                        parent, item, index, videoUrl, imageList, uploadImageForApplyDamageWaiting, uploadVideoForApplyDamage,
+                        uploadVideoForApplyDamageWaiting, uploadImageForApplyDamage, setIndexForUploadImageForApplyDamage
+                    })} />
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={isResultStatus == 1}
+                    onRequestClose={() => { }}>
+                    <View style={styles.modalContainer} >
+                        <View style={styles.modalItem}>
+                            <ActivityIndicator
+                                animating={isResultStatus == 1}
+                                style={styles.modalActivityIndicator}
+                                size="large"
+                            />
+                            <Text style={styles.modalText}>正在上传图片...</Text>
+                        </View>
                     </View>
-                </View>
-            </Modal>
-        </Container>
-    )
+                </Modal>
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={applyDamageUploadImageReducer.uploadVideoForApplyDamage.isResultStatus == 1}
+                    onRequestClose={() => { }}>
+                    <View style={styles.modalContainer} >
+                        <View style={styles.modalItem}>
+                            <ActivityIndicator
+                                animating={applyDamageUploadImageReducer.uploadVideoForApplyDamage.isResultStatus == 1}
+                                style={styles.modalActivityIndicator}
+                                size="large"
+                            />
+                            <Text style={styles.modalText}>正在上传视频...</Text>
+                        </View>
+                    </View>
+                </Modal>
+            </Container>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -156,17 +224,25 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        applyDamageUploadImageReducer: state.applyDamageUploadImageReducer,
-        communicationSettingReducer:state.communicationSettingReducer
+        applyDamageUploadImageReducer: state.applyDamageUploadImageReducer
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    uploadDamageImage: (param) => {
-        dispatch(applyDamageUploadImageAction.uploadDamageImage(param))
+    uploadImageForApplyDamage: (param) => {
+        dispatch(applyDamageUploadImageAction.uploadImageForApplyDamage(param))
     },
-    uploadDamageImageWating: () => {
-        dispatch(applyDamageUploadImageAction.uploadDamageImageWating())
+    uploadImageForApplyDamageWaiting: () => {
+        dispatch(applyDamageUploadImageAction.uploadImageForApplyDamageWaiting())
+    },
+    setIndexForUploadImageForApplyDamage: param => {
+        dispatch(applyDamageUploadImageAction.setIndexForUploadImageForApplyDamage(param))
+    },
+    uploadVideoForApplyDamageWaiting: () => {
+        dispatch(applyDamageUploadImageAction.uploadVideoForApplyDamageWaiting())
+    },
+    uploadVideoForApplyDamage: (param) => {
+        dispatch(applyDamageUploadImageAction.uploadVideoForApplyDamage(param))
     }
 })
 

@@ -15,9 +15,15 @@ import SearchCarBar from './components/share/bar/SearchCarBar'
 import SearchDriverBar from './components/share/bar/SearchDriverBar'
 import TabIcon from './components/share/TabIcon'
 import LeftButton from './components/share/bar/LeftButton'
+import ApplyDamageUploadImageLeftButton from './components/share/bar/ApplyDamageUploadImageLeftButton'
 import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
 import CheckVehicleAllListToolButton from './components/toolButton/CheckVehicleAllListToolButton'
 import ApplyDamageUploadImageSubmit from './components/applyDamageUploadImage/ApplyDamageUploadImageSubmit'
+import PhotoViewNavBar from './components/share/PhotoViewNavBar'
+import ShowImageForApplyDamage from './views/ShowImageForApplyDamage'
+import ShowVideoForApplyDamage from './views/ShowVideoForApplyDamage'
+import ShowImageForDamage from './views/ShowImageForDamage'
+
 
 import Home from './views/Home'
 import Setting from './views/setting/Setting'
@@ -39,6 +45,8 @@ import RetrievePassword from './views/retrievePassword/RetrievePassword'
 import CheckVehicleAllList from './views/checkVehicleAllList/CheckVehicleAllList'
 import QRCodeScreen from './views/QRCodeScreen'
 import Orientation from 'react-native-orientation'
+import PictureRecording from '../android/views/PictureRecording'
+import ShowVideoForDamage from '../android/views/ShowVideoForDamage'
 
 
 const styles = StyleSheet.create({
@@ -121,20 +129,69 @@ export default class App extends Component {
                                 <Scene key="searchCarAtHomeBlock" component={SearchCar} hideNavBar={false} hideTabBar navBar={SearchCarBar} />
                                 <Scene key="selectDriverAtHomeBlock" component={SelectDriver} hideNavBar={false} hideTabBar navBar={SearchDriverBar} />
                                 <Scene key="singlePhotoViewAtHomeBlock" component={SinglePhotoView} hideNavBar hideTabBar />
+                                <Scene key='pictureRecordingAtHomeBlock'
+                                    title='录像'
+                                    component={PictureRecording}
+                                    navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
+                                <Scene key='showImageForApplyDamageAtHomeBlock'
+                                    title='照片'
+                                    component={ShowImageForApplyDamage}
+                                    navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
+                                <Scene key='showVideoForApplyDamageAtHomeBlock'
+                                    title='播放'
+                                    component={ShowVideoForApplyDamage}
+                                    navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
                                 <Scene key="applyDamageAtHomeBlock" component={ApplyDamage} LeftButton={LeftButton} RightButton={ApplyDamageSubmit}
                                     title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
-                                <Scene key="applyDamageUploadImageAtHomeBlock" component={ApplyDamageUploadImage} LeftButton={LeftButton} RightButton={ApplyDamageUploadImageSubmit}
+                                <Scene key="applyDamageUploadImageAtHomeBlock" component={ApplyDamageUploadImage} LeftButton={ApplyDamageUploadImageLeftButton} RightButton={ApplyDamageUploadImageSubmit}
                                     title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
                             </Scene>
                             <Scene key="settingBlock" icon={TabIcon} online='ios-settings' outline='ios-settings-outline' >
+
                                 <Scene key="setting" component={Setting} title='设置' hideNavBar={false} navBar={SearchBar} />
+                                <Scene key='pictureRecordingAtSettingBlock'
+                                    title='录像'
+                                    component={PictureRecording}
+                                    navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
+                                <Scene key='showImageForApplyDamageAtSettingBlock'
+                                    title='照片'
+                                    component={ShowImageForApplyDamage}
+                                    navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
+                                <Scene key='showImageForDamage'
+                                    title='照片'
+                                    component={ShowImageForDamage}
+                                    navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
+                                <Scene key='showVideoForDamage'
+                                    title='播放'
+                                    component={ShowVideoForDamage}
+                                    navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
+                                <Scene key='showVideoForApplyDamageAtSettingBlock'
+                                    title='播放'
+                                    component={ShowVideoForApplyDamage}
+                                    navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
                                 <Scene key="carInfoAtSettingBlock" component={CarInfo} LeftButton={LeftButton} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
                                 <Scene key="searchCarAtSettingBlock" component={SearchCar} hideNavBar={false} hideTabBar navBar={SearchCarBar} />
                                 <Scene key="selectDriverAtSettingBlock" component={SelectDriver} hideNavBar={false} hideTabBar navBar={SearchDriverBar} />
                                 <Scene key="singlePhotoViewAtSettingBlock" component={SinglePhotoView} hideNavBar hideTabBar />
                                 <Scene key="applyDamageAtSettingBlock" component={ApplyDamage} LeftButton={LeftButton} RightButton={ApplyDamageSubmit}
                                     title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
-                                <Scene key="applyDamageUploadImageAtSettingBlock" component={ApplyDamageUploadImage} LeftButton={LeftButton} RightButton={ApplyDamageUploadImageSubmit}
+                                <Scene key="applyDamageUploadImageAtSettingBlock" component={ApplyDamageUploadImage} LeftButton={ApplyDamageUploadImageLeftButton} RightButton={ApplyDamageUploadImageSubmit}
                                     title='质损申请' hideTabBar hideNavBar={false} navBar={NavBar} />
                                 <Scene key="updatePassword" LeftButton={LeftButton} component={UpdatePassword} title='修改密码'
                                     hideTabBar hideNavBar={false} navBar={NavBar} />

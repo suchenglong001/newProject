@@ -8,8 +8,10 @@ import { Icon } from 'native-base'
 import globalStyles from '../../../GlobalStyles'
 import { connect } from 'react-redux'
 
+
 const CarInfoForDemageInfo = props => {
     const { carInfoForDemageReducer: { data: { carInfo: { vin, addr_name, en_short_name, make_name, route_end, route_start, re_short_name } } } } = props
+    // console.log('props',props)
     return (
         <View style={styles.container}>
             <View style={[styles.headerContainer]}>

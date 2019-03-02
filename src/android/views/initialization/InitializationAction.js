@@ -47,7 +47,7 @@ export const initApp = (currentStep = 1, tryCount = 1, param = null) => (dispatc
 export const getCommunicationSetting = () => async (dispatch) => {
     try {
         const localStorageRes = await localStorage.load({ key: localStorageKey.SERVERADDRESS })
-        console.log('localStorageRes', localStorageRes)
+        // console.log('localStorageRes', localStorageRes)
         const { base_host, file_host, record_host, host } = localStorageRes
         if (base_host && file_host && record_host && host) {
             await dispatch({
@@ -71,10 +71,10 @@ export const getCommunicationSetting = () => async (dispatch) => {
 export const validateVersion = (tryCount = 1) => async (dispatch, getState) => {
     const currentStep = 1
     try {
-        console.log(getState())
+        // console.log(getState())
         const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${base_host}/app${ObjectToUrl({ app: android_app.type, type: android_app.android })}`
-        console.log('url', url)
+        // console.log('url', url)
         const res = await httpRequest.get(url)
         if (res.success) {
             const data = {
@@ -199,7 +199,7 @@ export const validateToken = (tryCount = 1, param) => async (dispatch, getState)
     try {
         const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${base_host}/user/${param.requiredParam.userId}/token/${param.requiredParam.token}`
-        console.log('url', url)
+        // console.log('url', url)
         const res = await httpRequest.get(url)
         if (res.success) {
             const getUserInfoUrl = `${base_host}/user${ObjectToUrl({ userId: param.requiredParam.userId })}`

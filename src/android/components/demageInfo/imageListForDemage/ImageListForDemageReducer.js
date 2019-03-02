@@ -3,9 +3,17 @@ import * as imageListForDemageActionTypes from './ImageListForDemageActionTypes'
 
 const initialState = {
     data: {
-        demageImageList: []
+        demageImageList: [],
+        videoUrl: null,
+        recordId: 0,
+        index: 0
     },
     getDamageImageList: {
+        errorMsg: '',
+        failedMsg: '',
+        isResultStatus: 0
+    },
+    uploadImageForDamage: {
         errorMsg: '',
         failedMsg: '',
         isResultStatus: 0
@@ -20,10 +28,12 @@ const initialState = {
 //isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(错误)，4(执行失败),5(服务器未处理错误)]
 export default handleActions({
     [imageListForDemageActionTypes.get_DamageImageList_success]: (state, action) => {
-        const { payload: { demageImageList } } = action
+        const { payload: { demageImageList,videoUrl } } = action
         return {
             ...state,
             data: {
+                ...state.data,
+                videoUrl,
                 demageImageList
             },
             getDamageImageList: {
@@ -123,5 +133,65 @@ export default handleActions({
                 errorMsg
             }
         }
+    },
+
+
+    [imageListForDemageActionTypes.upload_videoForDamage_success]: (state, action) => {
+        const { payload: { videoUrl } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                videoUrl
+            },
+            uploadImageForDamage: {
+                ...initialState.uploadImageForDamage,
+                isResultStatus: 2
+            }
+        }
+    },
+    [imageListForDemageActionTypes.upload_videoForDamage_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            uploadImageForDamage: {
+                ...initialState.uploadImageForDamage,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [imageListForDemageActionTypes.upload_videoForDamage_waiting]: (state, action) => {
+        return {
+            ...state,
+            uploadImageForDamage: {
+                ...initialState.uploadImageForDamage,
+                isResultStatus: 1
+            }
+        }
+    },
+    [imageListForDemageActionTypes.upload_videoForDamage_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            uploadImageForDamage: {
+                ...initialState.uploadImageForDamage,
+                isResultStatus: 3,
+                errorMsg
+            }
+        }
+    },
+
+
+    [imageListForDemageActionTypes.set_indexForUploadImageForDamage]: (state, action) => {
+        const { payload: { index } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                index
+            }
+        }
     }
+
 }, initialState)

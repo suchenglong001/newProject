@@ -57,5 +57,13 @@ export default handleActions({
                 errorMsg
             }
         }
+    },
+
+
+
+    [applyDamageSubmitActionTypes.clean_applyDamage]: (state, action) => {
+        return {
+            ...initialState,
+        }
     }
 }, initialState)

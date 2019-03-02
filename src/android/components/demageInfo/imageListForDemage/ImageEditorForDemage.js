@@ -10,27 +10,36 @@ import {
     TouchableOpacity
 } from 'react-native'
 import ImageItem from '../../share/ImageItem'
-import globalStyles from '../../../GlobalStyles'
+import globalStyles, { styleColor } from '../../../GlobalStyles'
 import { connect } from 'react-redux'
-import CameraButton from '../../../components/share/CameraButton'
+// import CameraButton from '../../../components/share/CameraButton'
 import { Container, Content, Input, Label, Icon } from 'native-base'
 import * as  imageListForDemageAction from './ImageListForDemageAction'
 import * as routerDirection from '../../../../util/RouterDirection'
+import CameraButton from '../../../components/share/CameraVideoButton'
+import { Actions } from 'react-native-router-flux'
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 
 const window = Dimensions.get('window')
 const containerWidth = window.width / 2
 const containerHeight = containerWidth / 16 * 9
 
 const renderItem = props => {
-    const { item, index, uploadDamageImageWaiting, uploadDamageImage, demageImageList, parent, damageId, file_host } = props
+    const { parent, item, index, file_host, uploadDamageImageWaiting, setIndexForUploadImageForDamage, uploadDamageImage,
+        damageId, uploadVideoForDamage, uploadVideoForDamageWaiting, videoUrl } = props
     if (item == 'isCameraButton') {
-        return renderItemCameraButton({ index, uploadDamageImageWaiting, uploadDamageImage, damageId })
+        return renderItemCameraButton({ index, parent, uploadDamageImageWaiting, damageId, uploadDamageImage, uploadVideoForDamage, uploadVideoForDamageWaiting })
+    } else if (item == 'isVideo') {
+
+        return renderVideo({ videoUrl, file_host, parent, uploadVideoForDamage, uploadVideoForDamageWaiting, uploadDamageImageWaiting, uploadDamageImage, damageId })
     } else {
         return (
             <TouchableOpacity
-                key={index}
                 style={styles.itemContainer}
-                onPress={() => routerDirection.singlePhotoView(parent)({ initParam: { imageUrlList: demageImageList.map(url => `${file_host}/image/${url.url}`), index } })} >
+                onPress={() => {
+                    setIndexForUploadImageForDamage({ index })
+                    Actions.showImageForDamage()
+                }} >
                 <ImageItem imageUrl={`${file_host}/image/${item.url}`} />
             </TouchableOpacity>
         )
@@ -38,52 +47,90 @@ const renderItem = props => {
 }
 
 const renderItemCameraButton = props => {
-    const { index, uploadDamageImageWaiting, uploadDamageImage, damageId } = props
+    const { index, parent, uploadDamageImageWaiting, uploadDamageImage,
+        uploadVideoForDamage, uploadVideoForDamageWaiting, damageId } = props
     return (
         <View key={index} style={styles.itemCameraButton}>
             <CameraButton
-                getImage={(cameraReses) => uploadDamageImage({ cameraReses, damageId })}
+                parent={parent}
+                getImage={param => uploadDamageImage({ cameraReses: param, damageId })}
+                getVideo={param => uploadVideoForDamage({ ...param, damageId })}
                 _cameraStart={uploadDamageImageWaiting}
+                _videoStart={uploadVideoForDamageWaiting}
             />
         </View>
     )
 }
 
+const renderVideo = props => {
+    const { videoUrl, file_host, parent, uploadVideoForDamage, damageId } = props
+    if (videoUrl) {
+        return (
+            <TouchableOpacity style={styles.itemCameraButton} onPress={() => {
+                Actions.showVideoForDamage({ videoUrl: `${file_host}/file/${videoUrl}/video.mp4` })
+            }}>
+                <FontAwesomeIcon name='film' style={{ fontSize: 50, color: styleColor }} />
+            </TouchableOpacity>
+        )
+    } else {
+        return (
+            <TouchableOpacity style={styles.itemCameraButton} onPress={() => {
+                routerDirection.pictureRecording(parent)({ uploadVideo: (param) => uploadVideoForDamage({ ...param, damageId }) })
+            }}>
+                <FontAwesomeIcon name='video-camera' style={{ fontSize: 50, color: styleColor }} />
+            </TouchableOpacity>
+        )
+    }
+}
+
 const renderListEmpty = props => {
-    const { uploadDamageImageWaiting, uploadDamageImage, damageId } = props
+    const { parent, uploadDamageImageWaiting, uploadDamageImage, uploadVideoForDamage, uploadVideoForDamageWaiting, damageId } = props
     return (
         <View>
             <View style={styles.cameraButtonContainer}>
                 <CameraButton
-                    getImage={(cameraReses) => uploadDamageImage({ cameraReses, damageId })}
-                    _cameraStart={uploadDamageImageWaiting} />
+                    parent={parent}
+                    getImage={param => {
+                        uploadDamageImage({ cameraReses: param, damageId })
+                    }}
+                    getVideo={param => uploadVideoForDamage({ ...param, damageId })}
+                    _cameraStart={uploadDamageImageWaiting}
+                    _videoStart={uploadVideoForDamageWaiting} />
             </View>
             <View style={styles.titleContainer}>
-                <Text style={[globalStyles.midText, globalStyles.styleColor]}>点击按钮上传质损图片</Text>
+                <Text style={[globalStyles.largeText, globalStyles.styleColor]}>点击按钮上传车辆视频或照片</Text>
             </View>
-            {/* <View style={styles.subtitleContainer}>
+            <View style={styles.subtitleContainer}>
                 <Text style={[globalStyles.smallText, globalStyles.styleColor]}>若不进行此选项操作可直接点击“<Text style={styles.tagText}>完成</Text>”</Text>
-            </View> */}
+            </View>
         </View>
     )
 }
+
 
 const ImageEditorForDemage = props => {
     const { parent,
         uploadDamageImageWaiting,
         uploadDamageImage,
-        imageListForDemageReducer: { data: { demageImageList }, uploadDamageImage: { isResultStatus } },
+        uploadVideoForDamage,
+        uploadVideoForDamageWaiting,
+        setIndexForUploadImageForDamage,
+        imageListForDemageReducer: { data: { demageImageList, videoUrl }, uploadDamageImage: { isResultStatus } },
         initParam: { id } } = props
     const { communicationSettingReducer: { data: { base_host, file_host, record_host } } } = props
+
     return (
         <Container >
             <FlatList
                 style={styles.flatList}
-                showsVerticalScrollIndicator={false}
-                data={demageImageList.length > 0 ? [...demageImageList, 'isCameraButton'] : demageImageList}
+                keyExtractor={(item, index) => index}
+                data={demageImageList.length > 0 || videoUrl ? ['isCameraButton', 'isVideo', ...demageImageList] : demageImageList}
                 numColumns={2}
-                ListEmptyComponent={() => renderListEmpty({ uploadDamageImageWaiting, uploadDamageImage, damageId: id })}
-                renderItem={({ item, index }) => renderItem({ parent, item, index, file_host, demageImageList, uploadDamageImageWaiting, uploadDamageImage, damageId: id })} />
+                ListEmptyComponent={() => renderListEmpty({ parent, uploadDamageImageWaiting, uploadVideoForDamage, uploadVideoForDamageWaiting, uploadDamageImage, damageId: id })}
+                renderItem={({ item, index }) => renderItem({
+                    parent, item, index, file_host, demageImageList, uploadDamageImageWaiting, uploadDamageImage,
+                    uploadVideoForDamage, setIndexForUploadImageForDamage, uploadVideoForDamageWaiting, damageId: id, videoUrl
+                })} />
             <Modal
                 animationType={"fade"}
                 transparent={true}
@@ -172,6 +219,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     uploadDamageImage: (param) => {
         dispatch(imageListForDemageAction.uploadDamageImage(param))
+    },
+    setIndexForUploadImageForDamage: param => {
+        dispatch(imageListForDemageAction.setIndexForUploadImageForDamage(param))
+    },
+    uploadVideoForDamageWaiting: () => {
+        dispatch(imageListForDemageAction.uploadVideoForDamageWaiting())
+    },
+    uploadVideoForDamage: (param) => {
+        dispatch(imageListForDemageAction.uploadVideoForDamage(param))
     }
 })
 

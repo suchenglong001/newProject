@@ -31,7 +31,7 @@ const TextBox = props => {
 const Login = props => {
     const { login, initializationReducer: { validateVersion, data: { version: { force_update, url } } } } = props
     // console.log('force_update', force_update)
-    console.log('props', props)
+    // console.log('props', props)
     return (
         <Container style={styles.container}>
             <StatusBar hidden={true} />

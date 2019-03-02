@@ -27,7 +27,7 @@ const CommunicationSetting = props => {
 
 const mapStateToProps = (state) => {
     const { communicationSettingReducer: { data: { host } } } = state
-    console.log('host',host)
+    // console.log('host',host)
     return {
         initialValues: {
             url: host
