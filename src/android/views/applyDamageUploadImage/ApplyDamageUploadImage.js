@@ -16,8 +16,8 @@ import globalStyles, { styleColor } from '../../GlobalStyles'
 import * as routerDirection from '../../../util/RouterDirection'
 import * as applyDamageUploadImageAction from './ApplyDamageUploadImageAction'
 import ImageItem from '../../components/share/ImageItem'
-import { file_host } from '../../../config/Host'
-import { Actions } from 'react-native-router-flux'
+// import { file_host } from '../../../config/Host'
+// import { Actions } from 'react-native-router-flux'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 
 const window = Dimensions.get('window')
@@ -25,13 +25,13 @@ const containerWidth = window.width / 2
 const containerHeight = containerWidth / 16 * 9
 
 const renderItem = props => {
-    const { item, index, uploadImageForApplyDamageWaiting, videoUrl, parent,
+    const { item, index,file_host, uploadImageForApplyDamageWaiting, videoUrl, parent,
         uploadImageForApplyDamage, setIndexForUploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting } = props
     if (item == 'isCameraButton') {
         return renderItemCameraButton({ index, parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting })
     } else if (item == 'isVideo') {
-        
-        return renderVideo({ videoUrl, parent,  uploadVideoForApplyDamage })
+
+        return renderVideo({ videoUrl, parent, uploadVideoForApplyDamage })
     } else {
         return (
             <TouchableOpacity
@@ -49,7 +49,7 @@ const renderItem = props => {
 const renderItemCameraButton = props => {
     const { index, parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage,
         uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting } = props
-        console.log('uploadVideoForApplyDamageWaiting',uploadVideoForApplyDamageWaiting)
+    console.log('uploadVideoForApplyDamageWaiting', uploadVideoForApplyDamageWaiting)
     return (
         <View key={index} style={styles.itemCameraButton}>
             <CameraButton
@@ -64,7 +64,7 @@ const renderItemCameraButton = props => {
 }
 
 const renderVideo = props => {
-    const { videoUrl,parent, uploadVideoForApplyDamage } = props
+    const { videoUrl, parent, uploadVideoForApplyDamage } = props
     if (videoUrl) {
         return (
             <TouchableOpacity style={styles.itemCameraButton} onPress={() => {
@@ -111,6 +111,7 @@ const renderListEmpty = props => {
 
 const ApplyDamageUploadImage = props => {
     const { parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage, setIndexForUploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting,
+        communicationSettingReducer: { data: { file_host } },
         applyDamageUploadImageReducer: { data: { imageList, videoUrl }, uploadImageForApplyDamage: { isResultStatus }, getImageForCreateCar }, applyDamageUploadImageReducer } = props
     if (getImageForCreateCar.isResultStatus == 1) {
         return (
@@ -128,7 +129,7 @@ const ApplyDamageUploadImage = props => {
                     numColumns={2}
                     ListEmptyComponent={() => renderListEmpty({ parent, uploadImageForApplyDamageWaiting, uploadImageForApplyDamage, uploadVideoForApplyDamage, uploadVideoForApplyDamageWaiting })}
                     renderItem={({ item, index }) => renderItem({
-                        parent, item, index, videoUrl, imageList, uploadImageForApplyDamageWaiting, uploadVideoForApplyDamage,
+                        parent, item, file_host,index, videoUrl, imageList, uploadImageForApplyDamageWaiting, uploadVideoForApplyDamage,
                         uploadVideoForApplyDamageWaiting, uploadImageForApplyDamage, setIndexForUploadImageForApplyDamage
                     })} />
                 <Modal
@@ -224,7 +225,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        applyDamageUploadImageReducer: state.applyDamageUploadImageReducer
+        applyDamageUploadImageReducer: state.applyDamageUploadImageReducer,
+        communicationSettingReducer: state.communicationSettingReducer
     }
 }
 
