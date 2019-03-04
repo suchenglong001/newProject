@@ -2,7 +2,7 @@ import * as httpRequest from '../../../../util/HttpRequest'
 import * as imageListForDemageActionTypes from './ImageListForDemageActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
 import { ToastAndroid } from 'react-native'
-
+import {Actions} from 'react-native-router-flux'
 
 export const getDamageImageList = (param) => async (dispatch, getState) => {
     const { id } = param
@@ -97,16 +97,22 @@ export const uploadVideoForDamage = param => async (dispatch, getState) => {
         const { loginReducer: { data: { user: { uid, type, real_name } } } } = getState()
         const { communicationSettingReducer: { data: { base_host, file_host, record_host } } } = getState()
         const { damageId } = param
+        console.log('param',param)
+        console.log('getState()',getState())
         const uploadVideoUrl = `${file_host}/user/${uid}/video${ObjectToUrl({ videoType: 1, userType: type })}`
+        console.log('uploadVideoUrl',uploadVideoUrl)
+
         const uploadVideoRes = await httpRequest.postFile(uploadVideoUrl, {
             key: 'file',
             imageUrl: param.source,
             imageType: 'video/mp4',
             imageName: 'video.mp4'
         })
+        console.log('uploadVideoRes',uploadVideoRes)
 
         if (uploadVideoRes.success) {
             const uploadVideoRecordUrl = `${record_host}/user/${uid}/damage/${damageId}/video`
+            console.log('uploadVideoRecordUrl',uploadVideoRecordUrl)
 
             const uploadVideoRecordRes = await httpRequest.post(uploadVideoRecordUrl, {
                 username: real_name,
@@ -114,9 +120,12 @@ export const uploadVideoForDamage = param => async (dispatch, getState) => {
                 userType: type,
                 url: uploadVideoRes.result.id
             })
+            console.log('uploadVideoRecordRes',uploadVideoRecordRes)
+
             if (uploadVideoRecordRes.success) {
                 dispatch({ type: imageListForDemageActionTypes.upload_videoForDamage_success, payload: { videoUrl: uploadVideoRes.result.id } })
                 ToastAndroid.show('视频上传成功！', 10)
+                Actions.pop()
             } else {
                 dispatch({ type: imageListForDemageActionTypes.upload_videoForDamage_failed, payload: { failedMsg: res.msg } })
                 ToastAndroid.show(`视频上传失败，${failedMsg}！`, 10)

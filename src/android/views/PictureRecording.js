@@ -48,7 +48,7 @@ export default class CameraComponent extends Component {
             minimumBitrate: 300000,
             removeAudio: false
         };
-        console.log('this.props',this.props)
+        // console.log('this.props',this.props)
         ProcessingManager.compress(this.state.videoPatch, options) // like VideoPlayer compress options
             .then((data) => {
                 this.props.uploadVideo(data)

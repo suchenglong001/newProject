@@ -41,7 +41,7 @@ const renderListItem = props => {
             Actions.demageInfo({ initParam: item })
             InteractionManager.runAfterInteractions(() => {
                 getCarInfo({ car_id })
-                getCarInfoRecord({ car_id })
+                getCarInfoRecord({ car_id ,vin})
                 getDemageOpResult({ id })
                 getDamageImageList({ id })
             })

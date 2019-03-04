@@ -222,12 +222,12 @@ export default class CameraVideoButton extends Component {
                                     <Text style={[styles.modalListItemTitle, globalStyles.midText]}>拍照</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 onPress={() => this.setState({ operationModalVisible: false }, this.openCameraPicker)}>
                                 <View style={styles.listItemCutLine}>
                                     <Text style={[styles.modalListItemTitle, globalStyles.midText]}>选择视频</Text>
                                 </View>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                             <TouchableOpacity
                                 onPress={() => this.setState({ operationModalVisible: false }, () => {
                                     routerDirection.pictureRecording(parent)({ uploadVideo: this.props.getVideo })

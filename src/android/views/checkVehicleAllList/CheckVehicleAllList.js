@@ -37,7 +37,7 @@ const renderListItem = props => {
             routerDirection.carInfo(parent)()
             InteractionManager.runAfterInteractions(() => {
                 getCarDetail({ car_id: id })
-                getCarInfoRecord({ car_id: id })
+                getCarInfoRecord({ car_id: id ,vin})
             })
         }}>
             <View style={styles.itemHeaderContainer}>

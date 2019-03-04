@@ -12,7 +12,6 @@ import {
 import ImageItem from '../../share/ImageItem'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
 import { connect } from 'react-redux'
-// import CameraButton from '../../../components/share/CameraButton'
 import { Container, Content, Input, Label, Icon } from 'native-base'
 import * as  imageListForDemageAction from './ImageListForDemageAction'
 import * as routerDirection from '../../../../util/RouterDirection'
@@ -30,14 +29,17 @@ const renderItem = props => {
     if (item == 'isCameraButton') {
         return renderItemCameraButton({ index, parent, uploadDamageImageWaiting, damageId, uploadDamageImage, uploadVideoForDamage, uploadVideoForDamageWaiting })
     } else if (item == 'isVideo') {
-
         return renderVideo({ videoUrl, file_host, parent, uploadVideoForDamage, uploadVideoForDamageWaiting, uploadDamageImageWaiting, uploadDamageImage, damageId })
     } else {
+        let imageIndex = index - 1
+        if (videoUrl) {
+            imageIndex = imageIndex - 1
+        }
         return (
             <TouchableOpacity
                 style={styles.itemContainer}
                 onPress={() => {
-                    setIndexForUploadImageForDamage({ index })
+                    setIndexForUploadImageForDamage({ index: imageIndex })
                     Actions.showImageForDamage()
                 }} >
                 <ImageItem imageUrl={`${file_host}/image/${item.url}`} />
@@ -50,7 +52,7 @@ const renderItemCameraButton = props => {
     const { index, parent, uploadDamageImageWaiting, uploadDamageImage,
         uploadVideoForDamage, uploadVideoForDamageWaiting, damageId } = props
     return (
-        <View key={index} style={styles.itemCameraButton}>
+        <View key={index} style={[styles.itemCameraButton, { margin: 5 }]}>
             <CameraButton
                 parent={parent}
                 getImage={param => uploadDamageImage({ cameraReses: param, damageId })}
@@ -66,16 +68,8 @@ const renderVideo = props => {
     const { videoUrl, file_host, parent, uploadVideoForDamage, damageId } = props
     if (videoUrl) {
         return (
-            <TouchableOpacity style={styles.itemCameraButton} onPress={() => {
+            <TouchableOpacity style={[styles.itemCameraButton]} onPress={() => {
                 Actions.showVideoForDamage({ videoUrl: `${file_host}/file/${videoUrl}/video.mp4` })
-            }}>
-                <FontAwesomeIcon name='film' style={{ fontSize: 50, color: styleColor }} />
-            </TouchableOpacity>
-        )
-    } else {
-        return (
-            <TouchableOpacity style={styles.itemCameraButton} onPress={() => {
-                routerDirection.pictureRecording(parent)({ uploadVideo: (param) => uploadVideoForDamage({ ...param, damageId }) })
             }}>
                 <FontAwesomeIcon name='video-camera' style={{ fontSize: 50, color: styleColor }} />
             </TouchableOpacity>
@@ -119,12 +113,27 @@ const ImageEditorForDemage = props => {
         initParam: { id } } = props
     const { communicationSettingReducer: { data: { base_host, file_host, record_host } } } = props
 
+
+    //demageImageList.length > 0 && videoUrl ? ['isCameraButton', 'isVideo', ...demageImageList] : demageImageList
+    let dataList = []
+    if (demageImageList.length > 0) {
+        if (videoUrl) {
+            dataList = ['isCameraButton', 'isVideo', ...demageImageList]
+        } else {
+            dataList = ['isCameraButton', ...demageImageList]
+        }
+    } else {
+        if (videoUrl) {
+            dataList = ['isCameraButton', 'isVideo', ...demageImageList]
+        }
+    }
+
     return (
         <Container >
             <FlatList
                 style={styles.flatList}
                 keyExtractor={(item, index) => index}
-                data={demageImageList.length > 0 || videoUrl ? ['isCameraButton', 'isVideo', ...demageImageList] : demageImageList}
+                data={demageImageList.length > 0 || videoUrl ? dataList : []}
                 numColumns={2}
                 ListEmptyComponent={() => renderListEmpty({ parent, uploadDamageImageWaiting, uploadVideoForDamage, uploadVideoForDamageWaiting, uploadDamageImage, damageId: id })}
                 renderItem={({ item, index }) => renderItem({
@@ -180,8 +189,8 @@ const styles = StyleSheet.create({
     itemCameraButton: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: containerWidth,
-        height: containerHeight
+        width: containerWidth - 15,
+        height: containerHeight - 10
     },
     modalContainer: {
         flex: 1,

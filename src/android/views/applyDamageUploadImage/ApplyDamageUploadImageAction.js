@@ -2,7 +2,7 @@ import * as httpRequest from '../../../util/HttpRequest'
 // import { base_host, file_host, record_host } from '../../../config/Host'
 import { ToastAndroid } from 'react-native'
 import * as applyDamageUploadImageActionTypes from './ApplyDamageUploadImageActionTypes'
-
+import { Actions } from 'react-native-router-flux'
 import { ObjectToUrl } from '../../../util/ObjectToUrl'
 
 export const uploadImageForApplyDamageWaiting = () => (dispatch) => {
@@ -99,9 +99,9 @@ export const getImageForCreateCarWaiting = () => (dispatch) => {
 
 export const uploadVideoForApplyDamage = param => async (dispatch, getState) => {
     try {
-        const { loginReducer: { data: { user: { uid, type,real_name } } },
+        const { loginReducer: { data: { user: { uid, type, real_name } } },
             applyDamageSubmitReducer: { data: { damageId } },
-            communicationSettingReducer: { data: { file_host, record_host } }  } = getState()
+            communicationSettingReducer: { data: { file_host, record_host } } } = getState()
 
         // console.log('getState', getState())
         const uploadVideoUrl = `${file_host}/user/${uid}/video${ObjectToUrl({ videoType: 1, userType: type })}`
@@ -129,6 +129,7 @@ export const uploadVideoForApplyDamage = param => async (dispatch, getState) => 
             if (uploadVideoRecordRes.success) {
                 dispatch({ type: applyDamageUploadImageActionTypes.upload_videoForApplyDamage_success, payload: { videoUrl: uploadVideoRes.result.id } })
                 ToastAndroid.show('视频上传成功！', 10)
+                Actions.pop()
             } else {
                 dispatch({ type: applyDamageUploadImageActionTypes.upload_videoForApplyDamage_failed, payload: { failedMsg: res.msg } })
                 ToastAndroid.show(`视频上传失败，${failedMsg}！`, 10)

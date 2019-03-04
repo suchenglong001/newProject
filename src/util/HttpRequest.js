@@ -36,7 +36,7 @@ export const postFile = (url, params) => {
     formData.append(params.key, file)
     return fetch(url, {
         method: 'POST',
-        // headers: requestHeaders.formHeaders,
+        headers: requestHeaders.formHeaders,
         body: formData,
     }).then((response) => response.json())
 }
