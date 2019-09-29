@@ -18,6 +18,7 @@ import LeftButton from './components/share/bar/LeftButton'
 import ApplyDamageUploadImageLeftButton from './components/share/bar/ApplyDamageUploadImageLeftButton'
 import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
 import CheckVehicleAllListToolButton from './components/toolButton/CheckVehicleAllListToolButton'
+import CarSortToolButton from './components/toolButton/CarSortToolButton'
 import ApplyDamageUploadImageSubmit from './components/applyDamageUploadImage/ApplyDamageUploadImageSubmit'
 import PhotoViewNavBar from './components/share/PhotoViewNavBar'
 import ShowImageForApplyDamage from './views/ShowImageForApplyDamage'
@@ -43,6 +44,7 @@ import SelectDriver from './views/select/driver/SelectDriver'
 import SinglePhotoView from './views/SinglePhotoView'
 import RetrievePassword from './views/retrievePassword/RetrievePassword'
 import CheckVehicleAllList from './views/checkVehicleAllList/CheckVehicleAllList'
+import CarSort from './views/carSort/CarSort'
 import QRCodeScreen from './views/QRCodeScreen'
 import Orientation from 'react-native-orientation'
 import PictureRecording from '../android/views/PictureRecording'
@@ -199,6 +201,8 @@ export default class App extends Component {
                                     hideNavBar={false} navBar={NavBar} />
                                 <Scene key="checkVehicleAllList" LeftButton={LeftButton} component={CheckVehicleAllList} title='检车记录' hideTabBar
                                     hideNavBar={false} navBar={NavBar} RightButton={CheckVehicleAllListToolButton}/>
+                                <Scene key="carSort" LeftButton={LeftButton} component={CarSort} title='分拣记录' hideTabBar
+                                    hideNavBar={false} navBar={NavBar} RightButton={CarSortToolButton}/>
                                 <Scene key="demageList" LeftButton={LeftButton} component={DemageList} title='我的质损' hideTabBar
                                     hideNavBar={false} navBar={NavBar} />
                                 <Scene key="responsibilityInfo" LeftButton={LeftButton} component={ResponsibilityInfo} title='责任详情'

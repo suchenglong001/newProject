@@ -15,6 +15,7 @@ import globalStyles from '../../GlobalStyles'
 import * as demageListAction from '../demageList/DemageListAction'
 import * as responsibilityListAction from '../responsibilityList/ResponsibilityListAction'
 import * as checkVehicleAllListActions from '../checkVehicleAllList/checkVehicleAllListActions'
+import * as carSortActions from '../carSort/carSortActions'
 import * as loginAction from '../login/LoginAction'
 import ConfirmModal from '../../components/share/ConfirmModal'
 
@@ -49,6 +50,8 @@ class Setting extends Component {
             getResponsibilityListWaiting,
             getResponsibilityList,
             cleanLogin,
+            getCarSortList,
+            getCarSortListWaiting,
             getCheckVehicleAllList,
             getCheckVehicleAllListWaiting,
             loginReducer: { data: { user: { real_name, avatar_image, mobile } } },
@@ -81,6 +84,23 @@ class Setting extends Component {
                             </Left>
                             <Body>
                                 <Text style={globalStyles.midText}>检车记录</Text>
+                            </Body>
+                            <Right>
+                                <Icon name="arrow-forward" />
+                            </Right>
+                        </ListItem>
+                        <ListItem icon onPress={() => {
+                            getCarSortListWaiting()
+                            Actions.carSort()
+                            InteractionManager.runAfterInteractions(() => {
+                                getCarSortList()
+                            })
+                        }}>
+                            <Left>
+                                <Icon name="ios-funnel" style={globalStyles.styleColor} />
+                            </Left>
+                            <Body>
+                                <Text style={globalStyles.midText}>分拣记录</Text>
                             </Body>
                             <Right>
                                 <Icon name="arrow-forward" />
@@ -222,6 +242,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getCheckVehicleAllListWaiting: () => {
         dispatch(checkVehicleAllListActions.getCheckVehicleAllListWaiting())
+    },
+    getCarSortList: req => {
+        dispatch(carSortActions.getCarSortList(req))
+    },
+    getCarSortListWaiting: () => {
+        dispatch(carSortActions.getCarSortListWaiting())
     },
     cleanLogin: () => {
         dispatch(loginAction.cleanLogin())
