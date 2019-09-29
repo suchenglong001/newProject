@@ -45,6 +45,7 @@ const renderListFooter = () => {
 
 
 const CarInfoRecord = props => {
+    console.log('props',props)
     const { carInfoRecord } = props.carInfoRecordReducer.data
     // console.log('props.carInfoRecordReducer.data', props.carInfoRecordReducer.data)
     // console.log('carInfoRecord.comment', carInfoRecord.comment)

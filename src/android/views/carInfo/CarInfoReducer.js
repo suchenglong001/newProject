@@ -6,6 +6,11 @@ const initialState = {
         errorMsg: '',
         failedMsg: '',
         isResultStatus: 0
+    },
+    carSort:{
+        errorMsg: '',
+        failedMsg: '',
+        isResultStatus: 0 
     }
 }
 
@@ -40,6 +45,50 @@ export default handleActions({
             qualityAssurance: {
                 ...initialState.qualityAssurance,
                 isResultStatus: 1
+            }
+        }
+    },
+
+
+
+
+    [carInfoActionTypes.save_carSort_success]: (state, action) => {
+        return {
+            ...state,
+            carSort: {
+                ...initialState.carSort,
+                isResultStatus: 2
+            }
+        }
+    },
+    [carInfoActionTypes.save_carSort_failed]: (state, action) => {
+        const { payload: { failedMsg } } = action
+        return {
+            ...state,
+            carSort: {
+                ...initialState.carSort,
+                isResultStatus: 4,
+                failedMsg
+            }
+        }
+    },
+    [carInfoActionTypes.save_carSort_waiting]: (state, action) => {
+        return {
+            ...state,
+            carSort: {
+                ...initialState.carSort,
+                isResultStatus: 1
+            }
+        }
+    },
+    [carInfoActionTypes.save_carSort_error]: (state, action) => {
+        const { payload: { errorMsg } } = action
+        return {
+            ...state,
+            carSort: {
+                ...initialState.carSort,
+                isResultStatus: 3,
+                errorMsg
             }
         }
     }
