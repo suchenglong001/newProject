@@ -38,6 +38,7 @@ export const getResponsibilityListMore = () => async (dispatch, getState) => {
         loginReducer: { data: { user: { uid } } },
         responsibilityListReducer: { data: { responsibilityList, isComplete } },
         responsibilityListReducer } = getState()
+    // console.log('uid',uid)
     const { communicationSettingReducer: { data: { base_host } } } = getState()
     if (responsibilityListReducer.getResponsibilityListMore.isResultStatus == 1) {
         await sleep(1000)

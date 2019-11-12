@@ -62,7 +62,7 @@ const DemageInfo = props => {
                         {damage_status == 1 && <ImageEditorForDemage initParam={initParam} parent={parent} />}
                     </Container>
                 </Tab>
-                {damage_status != 1 && <Tab
+                {/* {damage_status != 1 && <Tab
                     tabStyle={globalStyles.styleBackgroundColor}
                     activeTabStyle={globalStyles.styleBackgroundColor}
                     activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
@@ -75,7 +75,7 @@ const DemageInfo = props => {
                         : <Container>
                             <DemageOpResult damageStatus={damage_status} />
                         </Container>}
-                </Tab>}
+                </Tab>} */}
             </Tabs>
         </Container>
     )

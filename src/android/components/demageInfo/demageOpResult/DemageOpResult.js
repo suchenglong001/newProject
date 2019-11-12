@@ -23,7 +23,7 @@ const DemageOpResult = props => {
     return (
         <Content showsVerticalScrollIndicator={false} style={{ backgroundColor: '#eaeef1' }}>
             {damageStatus == 3 && <View style={styles.body}>
-                <View style={styles.group}>
+                {/* <View style={styles.group}>
                     <View style={styles.strikingItem}>
                         <Text style={[styles.text, globalStyles.midText, styles.title]}>基本信息</Text>
                     </View>
@@ -44,7 +44,7 @@ const DemageOpResult = props => {
                         <Text style={[styles.text, globalStyles.midText]}>{damage_link_type ? `${damageLinkTypeList.find(item => item.id == damage_link_type).value}` : ''}</Text>
                     </View>
                 </View>
-                <View style={styles.group}>
+                <View style={styles.group}> 
                     <View style={styles.strikingItem}>
                         <Text style={[styles.text, globalStyles.midText, styles.title]}>费用信息</Text>
                     </View>
@@ -68,17 +68,17 @@ const DemageOpResult = props => {
                         <Text style={[styles.text, globalStyles.midText, styles.title]}>盈亏：</Text>
                         <Text style={[styles.text, globalStyles.midText]}>{profit ? `${moneyFormat(profit, 2)}` : '0.00'}元</Text>
                     </View>
-                </View>
+                </View>*/}
                 <View style={styles.group}>
                     <Text style={[styles.text, globalStyles.midText, styles.title]}>责任信息</Text>
                     <View style={[styles.text, styles.strikingItem]}>
                         <Text style={[styles.title, globalStyles.midText]}>责任人承担费用：</Text>
                         <Text style={globalStyles.largeText}><Text style={styles.strikingText}>{under_cost ? `${moneyFormat(under_cost, 2)}` : '0.00'}</Text> 元</Text>
                     </View>
-                    <View style={[styles.text, styles.strikingItem]}>
+                    {/* <View style={[styles.text, styles.strikingItem]}>
                         <Text style={[styles.title, globalStyles.midText]}>公司承担费用：</Text>
                         <Text style={globalStyles.largeText}><Text style={styles.strikingText}>{company_cost ? `${moneyFormat(company_cost, 2)}` : '0.00'}</Text> 元</Text>
-                    </View>
+                    </View> */}
                 </View>
             </View>}
             <View style={styles.footer}>
