@@ -2,6 +2,7 @@ import * as httpRequest from '../../../../util/HttpRequest'
 import * as applyDamageSubmitActionTypes from './ApplyDamageSubmitActionTypes'
 import * as applyDamageUploadImageTypes from '../../../views/applyDamageUploadImage/ApplyDamageUploadImageActionTypes'
 import { ObjectToUrl } from '../../../../util/ObjectToUrl'
+import { objectExceptNull } from '../../../../util/util'
 import { getFormValues } from 'redux-form'
 import { ToastAndroid, InteractionManager } from 'react-native'
 import * as carInfoRecordAction from '../../carInfo/carInfoRecord/CarInfoRecordAction'
@@ -21,6 +22,7 @@ export const createDamage = (parent) => async (dispatch, getState) => {
         const res = await httpRequest.post(url, {
             carId: carDetail.id,
             vin: carDetail.vin,
+            
             truckId: applyDamageForm.selectDriver.truck_id,
             truckNum: applyDamageForm.selectDriver.truck_num,
             driveId: applyDamageForm.selectDriver.id,

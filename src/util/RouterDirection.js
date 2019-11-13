@@ -46,3 +46,9 @@ export const showVideoForApplyDamage = (parent) => {
     if (parent === 'settingBlock') return Actions.showVideoForApplyDamageAtSettingBlock
     if (parent === 'homeBlock') return Actions.showVideoForApplyDamageAtHomeBlock
 }
+
+
+export const carModelList = (parent) => {
+    if (parent === 'settingBlock') return Actions.carModelListAtSettingBlock
+    if (parent === 'homeBlock') return Actions.carModelListAtHomeBlock
+}

@@ -26,6 +26,7 @@ import sendSMSReducer from './android/components/retrievePassword/sendSMS/SendSM
 import checkVehicleAllListRudcer from './android/views/checkVehicleAllList/checkVehicleAllListRudcer'
 import communicationSettingReducer from './android/views/communicationSetting/communicationSettingReducer'
 import carSortReducer from './android/views/carSort/carSortReducer'
+import carModelListReducer from './android/views/select/carModel/CarModelListReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -54,5 +55,6 @@ export default combineReducers({
     sendSMSReducer,
     checkVehicleAllListRudcer,
     communicationSettingReducer,
-    carSortReducer
+    carSortReducer,
+    carModelListReducer
 })

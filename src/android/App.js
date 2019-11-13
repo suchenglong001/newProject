@@ -50,6 +50,7 @@ import Orientation from 'react-native-orientation'
 import PictureRecording from '../android/views/PictureRecording'
 import ShowVideoForDamage from '../android/views/ShowVideoForDamage'
 
+import CarModelList from '../android/views/select/carModel/CarModelList'
 
 const styles = StyleSheet.create({
     tabBarStyle: {
@@ -137,6 +138,14 @@ export default class App extends Component {
                                     navBar={PhotoViewNavBar}
                                     hideTabBar
                                     LeftButton={LeftButton} />
+                                
+                                <Scene key='carModelListAtHomeBlock'
+                                    title='车型列表'
+                                    component={CarModelList}
+                                    navBar={NavBar}
+                                    hideNavBar={false}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
                                 <Scene key='showImageForApplyDamageAtHomeBlock'
                                     title='照片'
                                     component={ShowImageForApplyDamage}
@@ -161,6 +170,13 @@ export default class App extends Component {
                                     title='录像'
                                     component={PictureRecording}
                                     navBar={PhotoViewNavBar}
+                                    hideTabBar
+                                    LeftButton={LeftButton} />
+                                <Scene key='carModelListAtSettingBlock'
+                                    title='车型列表'
+                                    component={CarModelList}
+                                    navBar={NavBar}
+                                    hideNavBar={false}
                                     hideTabBar
                                     LeftButton={LeftButton} />
                                 <Scene key='showImageForApplyDamageAtSettingBlock'

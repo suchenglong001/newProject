@@ -20,7 +20,8 @@ const CarInfo = props => {
             data: {
                 carDetail: {
                     id,
-                    vin
+                    vin,
+                    make_id
                 } } },
         carInfoRecordReducer: {
             getCarInfoRecord
@@ -28,7 +29,7 @@ const CarInfo = props => {
         qualityAssurance,
         carSort,
         parent } = props
-    console.log('props', props)
+
     if (getCarDetail.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) {
         return (
             <Container>
@@ -40,7 +41,7 @@ const CarInfo = props => {
             <Container>
                 <CarDetail />
                 <View style={styles.buttonContainer}>
-                    <Button full onPress={() => routerDirection.applyDamage(parent)({ initParam: { car_Id: id } })} style={[styles.applyButton, styles.button]}>
+                    <Button full onPress={() => routerDirection.applyDamage(parent)({ initParam: { car_Id: id,make_id } })} style={[styles.applyButton, styles.button]}>
                         <Text style={styles.buttonTitle}>质损申报</Text>
                     </Button>
                     <Button full onPress={() => {

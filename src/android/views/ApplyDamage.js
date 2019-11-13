@@ -11,9 +11,12 @@ import { connect } from 'react-redux'
 import { Container, Content, Input, Label, Icon } from 'native-base'
 import globalStyles, { textColor } from '../GlobalStyles'
 import { Field, reduxForm, getFormValues } from 'redux-form'
+import Select from '../components/share/form/Select'
 import * as routerDirection from '../../util/RouterDirection'
 import * as selectDriverAction from './select/driver/SelectDriverAction'
+import * as carModelListActions from './select/carModel/CarModelListActions'
 import * as applyDamageSubmitAction from '../components/applyDamage/submit/ApplyDamageSubmitAction'
+import { Actions } from 'react-native-router-flux'
 
 const DamageRemark = props => {
     const { input: { onChange, ...restProps }, meta: { error, touched, valid } } = props
@@ -56,10 +59,27 @@ const SelectDriver = props => {
 
 
 const ApplyDamage = props => {
-    const { getSelectDriverList, getSelectDriverListWaiting, parent } = props
+    const { getSelectDriverList, getSelectDriverListWaiting, getCarModelList, getCarModelListWaiting, parent, initParam: { make_id } } = props
     return (
         <Container>
             <Content>
+                <Field
+                    name='carModel'
+                    label='指令编号'
+                    component={Select}
+                    onPress={({ onChange }) => {
+                        getCarModelListWaiting()
+                        routerDirection.carModelList(parent)({
+                            onSelect: (param) => {
+                                const { id, model_name } = param
+                                onChange({ id, value: model_name, item: param })
+                            }
+                        })
+
+
+                        InteractionManager.runAfterInteractions(() => getCarModelList({ make_id }))
+                    }}
+                />
                 <Field
                     name='damageRemark'
                     component={DamageRemark} />
@@ -69,6 +89,7 @@ const ApplyDamage = props => {
                     getSelectDriverList={getSelectDriverList}
                     getSelectDriverListWaiting={getSelectDriverListWaiting}
                     parent={parent} />
+
             </Content>
         </Container >
     )
@@ -129,6 +150,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
     getSelectDriverListWaiting: () => {
         dispatch(selectDriverAction.getSelectDriverListWaiting())
+    },
+    getCarModelList: param => {
+        dispatch(carModelListActions.getCarModelList(param))
+    },
+    getCarModelListWaiting: () => {
+        dispatch(carModelListActions.getCarModelListWaiting())
     },
     onSubmit: () => {
         const { parent } = ownProps
