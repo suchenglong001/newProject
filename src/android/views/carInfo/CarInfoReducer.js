@@ -2,6 +2,9 @@ import { handleActions } from 'redux-actions'
 import * as carInfoActionTypes from './CarInfoActionTypes'
 
 const initialState = {
+    data:{
+        disabled:false
+    },
     qualityAssurance: {
         errorMsg: '',
         failedMsg: '',
@@ -16,6 +19,16 @@ const initialState = {
 
 //isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(错误)，4(执行失败),5(服务器未处理错误)]
 export default handleActions({
+    [carInfoActionTypes.disabled]: (state, action) => {
+        const { payload: { disabled }}=action
+        return {
+            ...state,
+            data:{
+                disabled
+            }
+
+        }
+    },
     [carInfoActionTypes.qualityAssurance_success]: (state, action) => {
         return {
             qualityAssurance: {

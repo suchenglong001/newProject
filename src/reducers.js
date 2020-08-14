@@ -24,6 +24,7 @@ import imageListForDemageReducer from './android/components/demageInfo/imageList
 import responsibilityListReducer from './android/views/responsibilityList/ResponsibilityListReducer'
 import sendSMSReducer from './android/components/retrievePassword/sendSMS/SendSMSReducer'
 import checkVehicleAllListRudcer from './android/views/checkVehicleAllList/checkVehicleAllListRudcer'
+import todayCheckReducer from './android/views/todayCheck/TodayCheckReducer'
 import communicationSettingReducer from './android/views/communicationSetting/communicationSettingReducer'
 import carSortReducer from './android/views/carSort/carSortReducer'
 import carModelListReducer from './android/views/select/carModel/CarModelListReducer'
@@ -54,6 +55,7 @@ export default combineReducers({
     responsibilityListReducer,
     sendSMSReducer,
     checkVehicleAllListRudcer,
+    todayCheckReducer,
     communicationSettingReducer,
     carSortReducer,
     carModelListReducer

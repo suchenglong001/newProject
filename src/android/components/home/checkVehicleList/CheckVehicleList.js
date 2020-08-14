@@ -6,16 +6,17 @@ import {
     Image,
     FlatList,
     TouchableOpacity,
-    InteractionManager, RefreshControl
+    InteractionManager, RefreshControl, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
-import { Icon, Thumbnail } from 'native-base'
+import {Button, Icon, Thumbnail} from 'native-base'
 import globalStyles, { styleColor } from '../../../GlobalStyles'
 import * as routerDirection from '../../../../util/RouterDirection'
 import * as checkVehicleListAction from './CheckVehicleListAction'
 import * as carDetailAction from '../../../components/carInfo/carDetail/CarDetailAction'
 import * as carInfoRecordAction from '../../../components/carInfo/carInfoRecord/CarInfoRecordAction'
 import moment from 'moment'
+
 
 const renderListItem = props => {
     const { item: { vin, comment, created_on, id }, index, getCarDetail, parent, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
@@ -46,10 +47,12 @@ const renderListItem = props => {
 }
 
 const renderEmpty = () => {
+
     return (
         <View style={styles.listEmptyContainer}>
             <Thumbnail square source={{ uri: 'emptylisticon' }} />
             <Text style={[globalStyles.largeText, styles.listEmptyText]}>暂无检车记录</Text>
+
         </View>
     )
 }
@@ -67,6 +70,7 @@ class CheckVehicleList extends Component {
         const { checkVehicleListReducer: { data: { checkVehicleList } }, checkVehicleListReducer,
             getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting, parent, getCheckVehicleListWaiting, getCheckVehicleList
          } = this.props
+
         return (
             <FlatList
                 refreshControl={<RefreshControl

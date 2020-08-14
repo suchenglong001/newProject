@@ -40,7 +40,7 @@ class CheckStatistics extends Component {
                 </View>
                 <View style={styles.item}>
                     <View style={styles.circle}>
-                        <Text style={[globalStyles.smallText, styles.text]}>本月责任</Text>
+                        <Text style={[globalStyles.smallText, styles.text]}>今日检车</Text>
                         <Text style={[globalStyles.xlText, styles.text]}>{check_count ? `${check_count}` : '0'}</Text>
                     </View>
                 </View>

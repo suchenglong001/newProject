@@ -3,6 +3,7 @@ package com.log_qa_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.zmxv.RNSound.RNSoundPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.shahenlibrary.RNVideoProcessingPackage;
 import com.brentvatne.react.ReactVideoPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSoundPackage(),
             new RNCameraPackage(),
             new RNVideoProcessingPackage(),
             new ReactVideoPackage(),

@@ -1,78 +1,122 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
     StyleSheet,
     Text,
     View,
     Alert
 } from 'react-native'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import CarDetail from '../../components/carInfo/carDetail/CarDetail'
 import CarInfoRecord from '../../components/carInfo/carInfoRecord/CarInfoRecord'
-import { Button, Container, Spinner } from 'native-base'
-import globalStyles, { styleColor } from '../../GlobalStyles'
+import {Button, Container, Spinner} from 'native-base'
+import globalStyles, {styleColor} from '../../GlobalStyles'
 import * as carInfoAction from './CarInfoAction'
 import * as routerDirection from '../../../util/RouterDirection'
-
+// import Sound from 'react-native-sound'
+//
+// let musciPath = require('../../../sound/sound01.wav')
+//
+// const music = new Sound(musciPath,(error)=>{
+//     if(error){
+//         Alert.alert("播放失败。。。");
+//     }
+// })
 const CarInfo = props => {
-    const {
-        carDetailReducer: {
-            getCarDetail,
-            data: {
-                carDetail: {
-                    id,
-                    vin,
-                    make_id
-                } } },
-        carInfoRecordReducer: {
-            getCarInfoRecord
-        },
-        qualityAssurance,
-        carSort,
-        parent } = props
+    const {carInfoReducer:{data:{disabled}},carDetailReducer: {getCarDetail, data: {carDetail: {id, vin, make_id}}}, carInfoRecordReducer: {getCarInfoRecord}, qualityAssurance, carSort, parent} = props
+
 
     if (getCarDetail.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) {
         return (
             <Container>
-                <Spinner color={styleColor} />
+                <Spinner color={styleColor}/>
             </Container>
         )
     } else {
         return (
             <Container>
-                <CarDetail />
+                <CarDetail/>
                 <View style={styles.buttonContainer}>
-                    <Button full onPress={() => routerDirection.applyDamage(parent)({ initParam: { car_Id: id,make_id } })} style={[styles.applyButton, styles.button]}>
+                    <Button disabled={disabled} full   onPress={() => routerDirection.applyDamage(parent)({initParam: {car_Id: id, make_id}})}
+                            style={[disabled?styles.applyButtonTwo:styles.applyButton, styles.button]}>
                         <Text style={styles.buttonTitle}>质损申报</Text>
                     </Button>
-                    <Button full onPress={() => {
+
+                    <Button  disabled={disabled} full  onPress={() => {
                         Alert.alert(
                             '提示',
                             '确定车辆已检吗？',
                             [
-                                { text: '关闭', onPress: () => { }, style: 'cancel' },
-                                { text: '确定', onPress: qualityAssurance },
+                                {
+                                    text: '关闭', onPress: () => {
+                                    }, style: 'cancel'
+                                },
+                                {text: '确定', onPress: qualityAssurance},
                             ],
-                            { cancelable: false }
+                            {cancelable: false}
                         )
                         //qualityAssurance
-                    }} style={[globalStyles.styleBackgroundColor, styles.button]}>
+                    }} style={[disabled?styles.applyButtonTwo:globalStyles.styleBackgroundColor, styles.button]}>
                         <Text style={styles.buttonTitle}>已检</Text>
                     </Button>
-                    <Button full onPress={() => {
+
+                </View>
+
+                <View style={styles.buttonContainer}>
+                    <Button disabled={disabled} full  onPress={() => {
+
                         Alert.alert(
                             '提示',
-                            '确定车辆分拣吗？',
+                            '确定车辆分拣道位吗？',
                             [
-                                { text: '关闭', onPress: () => { }, style: 'cancel' },
-                                { text: '确定', onPress: () => carSort({ carId: id, vin }) },
+                                {
+                                    text: '关闭', onPress: () => {
+                                    }, style: 'cancel'
+                                },
+                                {text: '确定', onPress: () => carSort({carId: id, vin,opType:17})},
                             ],
-                            { cancelable: false }
+                            {cancelable: false}
                         )
-                    }} style={[styles.button, { backgroundColor: 'green' }]}>
-                        <Text style={styles.buttonTitle}>分拣</Text>
+                    }} style={[styles.button, disabled?styles.applyButtonTwo:{backgroundColor: 'green'}]}>
+                        <Text style={styles.buttonTitle}>分拣道位</Text>
+                    </Button>
+                    <Button disabled={disabled} full  onPress={() => {
+
+                        Alert.alert(
+                            '提示',
+                            '确定车辆分拣入库吗？',
+                            [
+                                {
+                                    text: '关闭', onPress: () => {
+                                    }, style: 'cancel'
+                                },
+                                {text: '确定', onPress: () => carSort({carId: id, vin,opType:11})},
+                            ],
+                            {cancelable: false}
+                        )
+                    }} style={[styles.button,disabled?styles.applyButtonTwo: {backgroundColor: 'green'}]}>
+                        <Text style={styles.buttonTitle}>分拣入库</Text>
+                    </Button>
+                    <Button disabled={disabled} full  onPress={() => {
+
+                        Alert.alert(
+                            '提示',
+                            '确定车辆分拣出库吗？',
+                            [
+                                {
+                                    text: '关闭', onPress: () => {
+                                    }, style: 'cancel'
+                                },
+                                {text: '确定', onPress: () => carSort({carId: id, vin,opType:13})},
+                            ],
+                            {cancelable: false}
+                        )
+                    }} style={[styles.button, disabled?styles.applyButtonTwo:{backgroundColor: 'green'}]}>
+                        <Text style={styles.buttonTitle}>分拣出库</Text>
                     </Button>
                 </View>
-                <CarInfoRecord />
+
+
+                <CarInfoRecord/>
             </Container>
         )
     }
@@ -80,12 +124,16 @@ const CarInfo = props => {
 
 
 const styles = StyleSheet.create({
+
     button: {
         margin: 5,
         flex: 1
     },
     applyButton: {
         backgroundColor: '#fa7376'
+    },
+    applyButtonTwo: {
+        backgroundColor: '#828482'
     },
     buttonTitle: {
         color: '#fff'

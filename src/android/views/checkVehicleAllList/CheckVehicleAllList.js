@@ -13,7 +13,7 @@ import {
     Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
-import { Icon, Thumbnail, Container, Button } from 'native-base'
+import {Icon, Thumbnail, Container, Button, List, Content, Left, Body, Right, ListItem} from 'native-base'
 import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Field, reduxForm } from 'redux-form'
 import * as routerDirection from '../../../util/RouterDirection'
@@ -22,6 +22,8 @@ import * as carDetailAction from '../../components/carInfo/carDetail/CarDetailAc
 import * as carInfoRecordAction from '../../components/carInfo/carInfoRecord/CarInfoRecordAction'
 import moment from 'moment'
 import DatePicker from '../../components/share/form/DatePicker'
+import {Actions} from "react-native-router-flux";
+import * as TodayCheckAction from "../todayCheck/TodayCheckAction";
 
 
 
@@ -87,10 +89,29 @@ class CheckVehicleAllList extends Component {
     render() {
         const { checkVehicleAllListRudcer: { data: { checkVehicleAllList, isComplete, isModalVisible }, getCheckVehicleAllList }, checkVehicleAllListRudcer,
             getCheckVehicleAllListMore,
-            getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting, parent, handleSubmit, getCheckVehicleListWaiting, getCheckVehicleList
+            getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting, parent, handleSubmit, getCheckVehicleListWaiting, getCheckVehicleList,getTodayCheckListWaiting,getTodayCheck
         } = this.props
         return (
             <Container style={globalStyles.container}>
+                <List style={styles.list}>
+                    <ListItem icon onPress={() => {
+                        getTodayCheckListWaiting()
+                        Actions.todayCheck()
+                       InteractionManager.runAfterInteractions(() => {
+                           getTodayCheck()
+                       })
+                    }}>
+                        <Left>
+                            <Icon name="ios-search" style={globalStyles.styleColor} />
+                        </Left>
+                        <Body>
+                            <Text style={globalStyles.midText}>今日检车</Text>
+                        </Body>
+                        <Right>
+                            <Icon name="arrow-forward" />
+                        </Right>
+                    </ListItem>
+                </List>
                 <FlatList
                     refreshControl={<RefreshControl
                         refreshing={checkVehicleAllListRudcer.getCheckVehicleAllList.isResultStatus == 1}
@@ -228,7 +249,14 @@ const mapDispatchToProps = (dispatch) => ({
     },
     cleanCheckVehicleAllList: () => {
         dispatch(checkVehicleAllListActions.cleanCheckVehicleAllList())
-    }
+    },
+    getTodayCheck: () => {
+        dispatch(TodayCheckAction.getTodayCheck())
+    },
+    getTodayCheckListWaiting: () => {
+        dispatch(TodayCheckAction.getTodayCheckListWaiting())
+    },
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({

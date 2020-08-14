@@ -15,6 +15,7 @@ import SearchCarBar from './components/share/bar/SearchCarBar'
 import SearchDriverBar from './components/share/bar/SearchDriverBar'
 import TabIcon from './components/share/TabIcon'
 import LeftButton from './components/share/bar/LeftButton'
+import CarInfoLeft from './components/share/bar/CarInfoLeft'
 import ApplyDamageUploadImageLeftButton from './components/share/bar/ApplyDamageUploadImageLeftButton'
 import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
 import CheckVehicleAllListToolButton from './components/toolButton/CheckVehicleAllListToolButton'
@@ -44,6 +45,7 @@ import SelectDriver from './views/select/driver/SelectDriver'
 import SinglePhotoView from './views/SinglePhotoView'
 import RetrievePassword from './views/retrievePassword/RetrievePassword'
 import CheckVehicleAllList from './views/checkVehicleAllList/CheckVehicleAllList'
+import TodayCheck from './views/todayCheck/TodayCheck'
 import CarSort from './views/carSort/CarSort'
 import QRCodeScreen from './views/QRCodeScreen'
 import Orientation from 'react-native-orientation'
@@ -128,7 +130,7 @@ export default class App extends Component {
                             tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
                             <Scene key="homeBlock" icon={TabIcon} initial={true} online='ios-home' outline='ios-home-outline' >
                                 <Scene key="home" component={Home} initial={true} title='首页' hideNavBar={false} navBar={SearchBar} />
-                                <Scene key="carInfoAtHomeBlock" component={CarInfo} LeftButton={LeftButton} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
+                                <Scene key="carInfoAtHomeBlock" component={CarInfo} LeftButton={CarInfoLeft} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
                                 <Scene key="searchCarAtHomeBlock" component={SearchCar} hideNavBar={false} hideTabBar navBar={SearchCarBar} />
                                 <Scene key="selectDriverAtHomeBlock" component={SelectDriver} hideNavBar={false} hideTabBar navBar={SearchDriverBar} />
                                 <Scene key="singlePhotoViewAtHomeBlock" component={SinglePhotoView} hideNavBar hideTabBar />
@@ -217,6 +219,11 @@ export default class App extends Component {
                                     hideNavBar={false} navBar={NavBar} />
                                 <Scene key="checkVehicleAllList" LeftButton={LeftButton} component={CheckVehicleAllList} title='检车记录' hideTabBar
                                     hideNavBar={false} navBar={NavBar} RightButton={CheckVehicleAllListToolButton}/>
+
+                                <Scene key="todayCheck" LeftButton={LeftButton} component={TodayCheck} title='今日检车' hideTabBar
+                                       hideNavBar={false} navBar={NavBar} />
+
+
                                 <Scene key="carSort" LeftButton={LeftButton} component={CarSort} title='分拣记录' hideTabBar
                                     hideNavBar={false} navBar={NavBar} RightButton={CarSortToolButton}/>
                                 <Scene key="demageList" LeftButton={LeftButton} component={DemageList} title='我的质损' hideTabBar

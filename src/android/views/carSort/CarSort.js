@@ -92,6 +92,8 @@ class CarSort extends Component {
         } = this.props
         return (
             <Container style={globalStyles.container}>
+
+
                 <FlatList
                     refreshControl={<RefreshControl
                         refreshing={carSortReducer.getCarSortList.isResultStatus == 1}
