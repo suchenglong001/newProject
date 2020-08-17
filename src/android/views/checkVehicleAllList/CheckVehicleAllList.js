@@ -87,7 +87,7 @@ class CheckVehicleAllList extends Component {
     }
 
     render() {
-        const { checkVehicleAllListRudcer: { data: { checkVehicleAllList, isComplete, isModalVisible }, getCheckVehicleAllList }, checkVehicleAllListRudcer,
+        const {checkStatisticsReducer:{ data: { check_count } }, checkVehicleAllListRudcer: { data: { checkVehicleAllList, isComplete, isModalVisible }, getCheckVehicleAllList }, checkVehicleAllListRudcer,
             getCheckVehicleAllListMore,
             getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting, parent, handleSubmit, getCheckVehicleListWaiting, getCheckVehicleList,getTodayCheckListWaiting,getTodayCheck
         } = this.props
@@ -105,7 +105,7 @@ class CheckVehicleAllList extends Component {
                             <Icon name="ios-search" style={globalStyles.styleColor} />
                         </Left>
                         <Body>
-                            <Text style={globalStyles.midText}>今日检车</Text>
+                            <Text style={globalStyles.midText}>今日检车:{check_count?check_count:0}辆</Text>
                         </Body>
                         <Right>
                             <Icon name="arrow-forward" />
@@ -214,6 +214,7 @@ const mapStateToProps = (state) => {
         search = {}
     }
     return {
+        checkStatisticsReducer:state.checkStatisticsReducer,
         checkVehicleAllListRudcer: state.checkVehicleAllListRudcer,
         initialValues: {
             startDate: search.startDate,

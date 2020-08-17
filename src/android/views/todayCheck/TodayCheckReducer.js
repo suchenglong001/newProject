@@ -3,7 +3,8 @@ import * as TodayCheckType from './TodayCheckType'
 
 const initialState = {
     data: {
-        todayCheckList: []
+        todayCheckList: [],
+        isComplete:""
     },
     getTodayCheckList: {
         errorMsg: '',
@@ -20,11 +21,12 @@ const initialState = {
 //isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(错误)，4(执行失败),5(服务器未处理错误)]
 export default handleActions({
     [TodayCheckType.get_TodayCheck_success]: (state, action) => {
-        const { payload: { todayCheckList } } = action
+        const { payload: { todayCheckList ,isComplete} } = action
         return {
             ...state,
             data: {
-                todayCheckList
+                todayCheckList,
+                isComplete
             },
             getTodayCheckList: {
                 ...initialState.getTodayCheckList,

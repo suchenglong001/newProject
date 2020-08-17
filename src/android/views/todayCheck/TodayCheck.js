@@ -17,28 +17,20 @@ import * as carDetailAction from "../../components/carInfo/carDetail/CarDetailAc
 import * as carInfoRecordAction from "../../components/carInfo/carInfoRecord/CarInfoRecordAction";
 
 const renderListItem = props => {
-    const { item: { vin, comment, created_on, id }, index, getCarDetail, parent, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting } = props
-    console.log(props)
+    const { item: { qa_count, id }, index} = props
+    // console.log(props)
     return (
-        <TouchableOpacity key={index} style={[styles.itemContainer]} onPress={() => {
-            getCarInfoRecordWaiting()
-            getCarDetailWaiting()
-            routerDirection.carInfo(parent)()
-            InteractionManager.runAfterInteractions(() => {
-                getCarDetail({ car_id: id })
-                getCarInfoRecord({ car_id: id ,vin})
-            })
-        }}>
+        <TouchableOpacity key={index} style={[styles.itemContainer]} >
             <View style={styles.itemHeaderContainer}>
                 <Icon name="ios-time-outline" style={styles.itemHeaderIcon} />
-                <Text style={[globalStyles.smallText, styles.text]}>{created_on ? `${moment(created_on).format('YYYY-MM-DD HH:mm:ss')}` : ''}</Text>
+                <Text style={[globalStyles.smallText, styles.text]}>{id ?id : ''}</Text>
             </View>
             <View style={styles.itemBodyContainer}>
                 <View style={styles.itemBodyLeft}>
                     <Icon name="ios-car" style={[globalStyles.styleColor, styles.itemBodyIcon]} />
-                    <Text style={[globalStyles.midText, styles.text]}>{vin ? `${vin}` : ''}</Text>
+                    <Text style={[globalStyles.midText, styles.text]}>{qa_count ? `${qa_count}` : 0}辆</Text>
                 </View>
-                <Text style={globalStyles.smallText}>{comment ? `${comment}` : ''}</Text>
+                {/*<Text style={globalStyles.smallText}>{comment ? `${comment}` : ''}</Text>*/}
             </View>
 
         </TouchableOpacity>
@@ -64,8 +56,7 @@ const renderEmpty = () => {
 }
 
 const TodayCheck = props => {
-    const {
-            todayCheckReducer: {data: {todayCheckList}, getTodayCheckList, getTodayCheckMore},parent, getTodayCheckListWaiting, getTodayCheck, TodayCheckMore,
+    const {todayCheckReducer: {data: {todayCheckList,isComplete}, getTodayCheckList, getTodayCheckMore},parent, getTodayCheckListWaiting, getTodayCheck, TodayCheckMore,
             getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting
         } = props
         console.log(todayCheckList)
@@ -84,20 +75,15 @@ const TodayCheck = props => {
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={renderEmpty}
                     onEndReachedThreshold={0.2}
-                    onEndReached={() => {
-                        if (getTodayCheckList.isResultStatus == 2 && !isComplete) {
-                            TodayCheckMore()
-                        }
-                    }}
+                    // onEndReached={() => {
+                    //     if (getTodayCheckList.isResultStatus == 2 && !isComplete) {
+                    //         TodayCheckMore()
+                    //     }
+                    // }}
                     ListFooterComponent={getTodayCheckMore.isResultStatus == 1 ? ListFooterComponent : <View/>}
                     renderItem={({item, index}) => renderListItem({
                         item,
                         index,
-                        getCarDetail,
-                        parent,
-                        getCarInfoRecord,
-                        getCarDetailWaiting,
-                        getCarInfoRecordWaiting
                     })}
                     data={todayCheckList}
                 />

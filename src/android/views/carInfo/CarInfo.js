@@ -12,20 +12,11 @@ import {Button, Container, Spinner} from 'native-base'
 import globalStyles, {styleColor} from '../../GlobalStyles'
 import * as carInfoAction from './CarInfoAction'
 import * as routerDirection from '../../../util/RouterDirection'
-// import Sound from 'react-native-sound'
-//
-// let musciPath = require('../../../sound/sound01.wav')
-//
-// const music = new Sound(musciPath,(error)=>{
-//     if(error){
-//         Alert.alert("播放失败。。。");
-//     }
-// })
+
 const CarInfo = props => {
-    const {carInfoReducer:{data:{disabled}},carDetailReducer: {getCarDetail, data: {carDetail: {id, vin, make_id}}}, carInfoRecordReducer: {getCarInfoRecord}, qualityAssurance, carSort, parent} = props
+    const {  carInfoReducer:{data:{disabled}},carDetailReducer: {getCarDetail, data: {carDetail: {id, vin, make_id}}}, carInfoRecordReducer: {getCarInfoRecord}, qualityAssurance, carSort, parent} = props
 
-
-    if (getCarDetail.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) {
+        if (getCarDetail.isResultStatus == 1 || getCarInfoRecord.isResultStatus == 1) {
         return (
             <Container>
                 <Spinner color={styleColor}/>
@@ -35,6 +26,7 @@ const CarInfo = props => {
         return (
             <Container>
                 <CarDetail/>
+
                 <View style={styles.buttonContainer}>
                     <Button disabled={disabled} full   onPress={() => routerDirection.applyDamage(parent)({initParam: {car_Id: id, make_id}})}
                             style={[disabled?styles.applyButtonTwo:styles.applyButton, styles.button]}>
@@ -42,6 +34,7 @@ const CarInfo = props => {
                     </Button>
 
                     <Button  disabled={disabled} full  onPress={() => {
+
                         Alert.alert(
                             '提示',
                             '确定车辆已检吗？',
@@ -63,7 +56,6 @@ const CarInfo = props => {
 
                 <View style={styles.buttonContainer}>
                     <Button disabled={disabled} full  onPress={() => {
-
                         Alert.alert(
                             '提示',
                             '确定车辆分拣道位吗？',
@@ -124,6 +116,9 @@ const CarInfo = props => {
 
 
 const styles = StyleSheet.create({
+    backgroundVideo: {
+     width:200,height:200
+    },
 
     button: {
         margin: 5,

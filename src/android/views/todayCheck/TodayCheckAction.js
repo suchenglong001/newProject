@@ -4,18 +4,12 @@ import {ObjectToUrl} from "../../../util/ObjectToUrl"
 import {sleep} from "../../../util/util"
 import {ToastAndroid} from "react-native"
 
-const pageSize = 50
+const pageSize = 10
 export const getTodayCheck = () => async (dispatch, getState) => {
-    console.log("000")
     try {
-        const { communicationSettingReducer: { data: { record_host } } } = getState()
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const { loginReducer: { data: { user: { uid } } } } = getState()
-        const url = `${record_host}/opRecord${ObjectToUrl({
-            userId: uid,
-            op: 10,
-            start: 0,
-            size: pageSize,
-        })}`
+        const url = `${base_host}/user/${uid}/damageQaTaskDayStat?start=0&size=${pageSize}`
         const res = await httpRequest.get(url)
         console.log(res)
         if (res.success) {
@@ -43,7 +37,7 @@ export const TodayCheckMore = () => async (dispatch, getState) => {
     const { loginReducer: { data: { user: { uid } } },
         todayCheckReducer: { data: { todayCheckList, isComplete } },
         todayCheckReducer } = getState()
-    const { communicationSettingReducer: { data: { record_host } } } = getState()
+    const { communicationSettingReducer: { data: { base_host } } } = getState()
 
     if (todayCheckReducer.getTodayCheckMore.isResultStatus == 1) {
         await sleep(1000)
@@ -52,12 +46,7 @@ export const TodayCheckMore = () => async (dispatch, getState) => {
         if (!isComplete) {
             dispatch({ type: TodayCheckType.get_TodayCheckMore_waiting, payload: {} })
             try {
-                const url = `${record_host}/opRecord${ObjectToUrl({
-                    userId: uid,
-                    op: 10,
-                    start: todayCheckList.length,
-                    size: pageSize,
-                })}`
+                const url = `${base_host}/user/${uid}/damageQaTaskDayStat?start=${todayCheckList.length}&size=${pageSize}`
                 const res = await httpRequest.get(url)
                 if (res.success) {
                     dispatch({
