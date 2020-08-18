@@ -24,10 +24,12 @@ export const qualityAssurance = () => async (dispatch, getState) => {
             dispatch(carInfoRecordAction.getCarInfoRecord({ car_id: carDetail.id, vin: carDetail.vin }))
             dispatch(checkVehicleListAction.getCheckVehicleList())
         } else {
+            dispatch({ type: carInfoActionTypes.disabled, payload: {disabled:false} })
             dispatch({ type: carInfoActionTypes.qualityAssurance_success, payload: {} })
             ToastAndroid.showWithGravity(`提交失败！${res.msg}`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
         }
     } catch (err) {
+        dispatch({ type: carInfoActionTypes.disabled, payload: {disabled:false} })
         dispatch({ type: carInfoActionTypes.qualityAssurance_success, payload: {} })
         ToastAndroid.showWithGravity(`提交失败！${err}`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
     }
@@ -60,10 +62,12 @@ export const carSort = param => async (dispatch, getState) => {
             dispatch(carInfoRecordAction.getCarInfoRecord({ car_id: param.carId, vin: param.vin }))
 
         } else {
+            dispatch({ type: carInfoActionTypes.disabled, payload: {disabled:false} })
             ToastAndroid.showWithGravity(`分拣失败！`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
             dispatch({ type: carInfoActionTypes.save_carSort_failed, payload: { failedMsg: res.msg } })
         }
     } catch (err) {
+        dispatch({ type: carInfoActionTypes.disabled, payload: {disabled:false} })
         ToastAndroid.showWithGravity(`分拣失败！`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
         dispatch({ type: carInfoActionTypes.save_carSort_error, payload: { errorMsg: res.msg } })
     }
