@@ -13,7 +13,7 @@ const initialState = {
     carSort:{
         errorMsg: '',
         failedMsg: '',
-        isResultStatus: 0 
+        isResultStatus: 0
     }
 }
 
@@ -31,6 +31,9 @@ export default handleActions({
     },
     [carInfoActionTypes.qualityAssurance_success]: (state, action) => {
         return {
+            data:{
+                disabled:false
+            },
             qualityAssurance: {
                 ...initialState.qualityAssurance,
                 isResultStatus: 2
@@ -39,6 +42,9 @@ export default handleActions({
     },
     [carInfoActionTypes.qualityAssurance_failed]: (state, action) => {
         return {
+            data:{
+                disabled:false
+            },
             qualityAssurance: {
                 ...initialState.qualityAssurance,
                 isResultStatus: 4
@@ -47,6 +53,9 @@ export default handleActions({
     },
     [carInfoActionTypes.qualityAssurance_error]: (state, action) => {
         return {
+            data:{
+                disabled:false
+            },
             qualityAssurance: {
                 ...initialState.qualityAssurance,
                 isResultStatus: 3
@@ -68,6 +77,9 @@ export default handleActions({
     [carInfoActionTypes.save_carSort_success]: (state, action) => {
         return {
             ...state,
+            data:{
+                disabled:false
+            },
             carSort: {
                 ...initialState.carSort,
                 isResultStatus: 2
@@ -78,6 +90,9 @@ export default handleActions({
         const { payload: { failedMsg } } = action
         return {
             ...state,
+            data:{
+                disabled:false
+            },
             carSort: {
                 ...initialState.carSort,
                 isResultStatus: 4,
@@ -98,6 +113,9 @@ export default handleActions({
         const { payload: { errorMsg } } = action
         return {
             ...state,
+            data:{
+                disabled:false
+            },
             carSort: {
                 ...initialState.carSort,
                 isResultStatus: 3,

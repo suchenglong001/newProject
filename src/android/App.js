@@ -15,7 +15,6 @@ import SearchCarBar from './components/share/bar/SearchCarBar'
 import SearchDriverBar from './components/share/bar/SearchDriverBar'
 import TabIcon from './components/share/TabIcon'
 import LeftButton from './components/share/bar/LeftButton'
-import CarInfoLeft from './components/share/bar/CarInfoLeft'
 import ApplyDamageUploadImageLeftButton from './components/share/bar/ApplyDamageUploadImageLeftButton'
 import ApplyDamageSubmit from './components/applyDamage/submit/ApplyDamageSubmit'
 import CheckVehicleAllListToolButton from './components/toolButton/CheckVehicleAllListToolButton'
@@ -130,7 +129,7 @@ export default class App extends Component {
                             tabBarSelectedItemStyle={styles.tabBarSelectedItemStyle}>
                             <Scene key="homeBlock" icon={TabIcon} initial={true} online='ios-home' outline='ios-home-outline' >
                                 <Scene key="home" component={Home} initial={true} title='首页' hideNavBar={false} navBar={SearchBar} />
-                                <Scene key="carInfoAtHomeBlock" component={CarInfo} LeftButton={CarInfoLeft} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
+                                <Scene key="carInfoAtHomeBlock" component={CarInfo} LeftButton={LeftButton} title='车辆信息' hideNavBar={false} hideTabBar navBar={NavBar} />
                                 <Scene key="searchCarAtHomeBlock" component={SearchCar} hideNavBar={false} hideTabBar navBar={SearchCarBar} />
                                 <Scene key="selectDriverAtHomeBlock" component={SelectDriver} hideNavBar={false} hideTabBar navBar={SearchDriverBar} />
                                 <Scene key="singlePhotoViewAtHomeBlock" component={SinglePhotoView} hideNavBar hideTabBar />
@@ -140,7 +139,7 @@ export default class App extends Component {
                                     navBar={PhotoViewNavBar}
                                     hideTabBar
                                     LeftButton={LeftButton} />
-                                
+
                                 <Scene key='carModelListAtHomeBlock'
                                     title='车型列表'
                                     component={CarModelList}
