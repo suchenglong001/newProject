@@ -8,7 +8,7 @@ export const getCheckStatistics = () => async (dispatch, getState) => {
         const { communicationSettingReducer: { data: { base_host } } } = getState()
         const { loginReducer: { data: { user: { uid } } } } = getState()
         const urls = [`${base_host}/damageNotCheckCount${ObjectToUrl({ declareUserId: uid, yearMonth: moment().format('YYYYMM') })}`,
-            `${base_host}/user/${uid}/damageQaTaskDayStat${ObjectToUrl({dateId:moment().format('YYYYMMDD') })}`]
+            `${base_host}/user/${uid}/damageQaTaskDayStat${ObjectToUrl({qaUserId:uid,dateId:moment().format('YYYYMMDD') })}`]
         const res = await Promise.all(urls.map(url => httpRequest.get(url)))
         if (res[0].success && res[1].success) {
             dispatch({

@@ -7,7 +7,8 @@ const initialState = {
         carSortList: [],
         isComplete: false,
         search: {},
-        isModalVisible:false
+        isModalVisible:false,
+        type:0
     },
     getCarSortList: {
         errorMsg: '',
@@ -140,6 +141,16 @@ export default handleActions({
     [carSortActionTypes.clean_carSortList]: (state, action) => {
         return {
             ...initialState
+        }
+    },
+    [carSortActionTypes.get_type]: (state, action) => {
+        const { payload: { type } } = action
+        return {
+            ...state,
+            data:{
+                ...state.data,
+                type
+            }
         }
     }
 }, initialState)

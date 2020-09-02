@@ -84,7 +84,6 @@ export const carSort = param => async (dispatch, getState) => {
             failedSound.play()
             ToastAndroid.showWithGravity(`分拣失败！`, ToastAndroid.CENTER, ToastAndroid.BOTTOM)
             dispatch({ type: carInfoActionTypes.save_carSort_failed, payload: { failedMsg: res.msg } })
-
         }
     } catch (err) {
         failedSound.play()

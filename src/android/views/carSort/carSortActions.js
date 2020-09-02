@@ -7,24 +7,34 @@ import { sleep } from '../../../util/util'
 const pageSize = 50
 
 export const getCarSortList = req => async (dispatch, getState) => {
-    try {
-        let searchParam = {}
-        if (req) {
-            searchParam = {
-                startDate: req.startDate ? req.startDate : null,
-                endDate: req.endDate ? req.startDate : null
-            }
+    let searchParam = {}
+    let newtype=17
+    if (req) {
+        searchParam = {
+            startDate: req.startDate ? req.startDate : null,
+            endDate: req.endDate ? req.endDate : null
         }
+        if(searchParam.startDate||searchParam.endDate){
+            const {carSortReducer: { data: {type} } } = getState()
+            newtype=type
+        }else {
+            newtype=(req.index==0?17:(req.index==1?11:13))
+        }
+    }
+    // console.log('req', req)
+    dispatch({ type: carSortActionTypes.get_type, payload: { type:newtype } })
+    try {
+
         const { communicationSettingReducer: { data: { record_host } } } = getState()
-        const { loginReducer: { data: { user: { uid } } } } = getState()
+        const { loginReducer: { data: { user: { uid } } }, carSortReducer: { data: {type} } } = getState()
         const url = `${record_host}/opRecord${ObjectToUrl({
             userId: uid,
-            op: 17,
+            op: type,
             start: 0,
             size: pageSize,
             ...searchParam
         })}`
-        // console.log('url', url)
+        console.log('url', url)
         const res = await httpRequest.get(url)
         // console.log('res', res)
 
@@ -52,7 +62,7 @@ export const getCarSortListWaiting = () => (dispatch) => {
 
 export const getCarSortListMore = () => async (dispatch, getState) => {
     const { loginReducer: { data: { user: { uid } } },
-        carSortReducer: { data: { carSortList, isComplete, search } },
+        carSortReducer: { data: { carSortList, isComplete, search,type } },
         carSortReducer } = getState()
     const { communicationSettingReducer: { data: { record_host } } } = getState()
     let searchParam = {}
@@ -71,12 +81,12 @@ export const getCarSortListMore = () => async (dispatch, getState) => {
             try {
                 const url = `${record_host}/opRecord${ObjectToUrl({
                     userId: uid,
-                    op: 17,
+                    op: type,
                     start: carSortList.length,
                     size: pageSize,
                     ...searchParam
                 })}`
-                // console.log('url', url)
+                console.log('url', url)
                 const res = await httpRequest.get(url)
                 // console.log('res', res)
                 if (res.success) {

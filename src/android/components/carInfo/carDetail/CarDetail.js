@@ -12,7 +12,7 @@ import * as carDetailAction from './CarDetailAction'
 
 
 const CarDetail = props => {
-    const { carDetail: { make_name, en_short_name, route_start, route_end, vin, addr_name, re_short_name } } = props.carDetailReducer.data
+    const { carDetail: { make_name, en_short_name, route_start, route_end, vin, addr_name, re_short_name,ship_name } } = props.carDetailReducer.data
     // console.log('props.carDetailReducer.data', props.carDetailReducer.data)
     return (
         <View>
@@ -30,6 +30,9 @@ const CarDetail = props => {
             </ListItem>
             <ListItem>
                 <Text style={globalStyles.midText}><Text style={styles.label}>目的地：</Text>{route_end ? `${route_end}` : ''}{re_short_name ? `(${re_short_name})` : ''}</Text>
+            </ListItem>
+            <ListItem>
+                <Text style={globalStyles.midText}><Text style={styles.label}>船名：</Text>{ship_name ? `${ship_name}` : ''}</Text>
             </ListItem>
         </View>
     )

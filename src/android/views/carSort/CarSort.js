@@ -13,7 +13,7 @@ import {
     Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
-import { Icon, Thumbnail, Container, Button } from 'native-base'
+import {Icon, Thumbnail, Container, Button, Tabs, Tab, Spinner} from 'native-base'
 import globalStyles, { styleColor } from '../../GlobalStyles'
 import { Field, reduxForm } from 'redux-form'
 import * as routerDirection from '../../../util/RouterDirection'
@@ -22,7 +22,6 @@ import * as carDetailAction from '../../components/carInfo/carDetail/CarDetailAc
 import * as carInfoRecordAction from '../../components/carInfo/carInfoRecord/CarInfoRecordAction'
 import moment from 'moment'
 import DatePicker from '../../components/share/form/DatePicker'
-
 
 
 const { width } = Dimensions.get('window')
@@ -74,10 +73,27 @@ const renderEmpty = () => {
         </View>
     )
 }
+const renderEmptyIn = () => {
+    return (
+        <View style={styles.listEmptyContainer}>
+            <Thumbnail square source={{ uri: 'emptylisticon' }} />
+            <Text style={[globalStyles.largeText, styles.listEmptyText]}>暂无入库记录</Text>
+        </View>
+    )
+}
+const renderEmptyOut = () => {
+    return (
+        <View style={styles.listEmptyContainer}>
+            <Thumbnail square source={{ uri: 'emptylisticon' }} />
+            <Text style={[globalStyles.largeText, styles.listEmptyText]}>暂无出库记录</Text>
+        </View>
+    )
+}
 
 class CarSort extends Component {
     constructor(props) {
         super(props)
+        this.state={index:0}
     }
 
     componentWillUnmount() {
@@ -88,34 +104,120 @@ class CarSort extends Component {
         const { carSortReducer: { data: { carSortList, isComplete, isModalVisible } }, carSortReducer,
             getCarSortListMore,
             getCarDetail, getCarInfoRecord, getCarInfoRecordWaiting, getCarDetailWaiting, parent,
-            handleSubmit, getCarSortListWaiting, getCarSortList
+            handleSubmit, getCarSortListWaiting, getCarSortList,cleanCarSortList
         } = this.props
         return (
             <Container style={globalStyles.container}>
 
 
-                <FlatList
-                    refreshControl={<RefreshControl
-                        refreshing={carSortReducer.getCarSortList.isResultStatus == 1}
-                        onRefresh={() => {
-                            getCarSortListWaiting()
-                            InteractionManager.runAfterInteractions(getCarSortList)
-                        }}
-                        colors={[styleColor]}
-                    />}
-                    keyExtractor={(item, index) => index}
-                    showsVerticalScrollIndicator={false}
-                    ListEmptyComponent={renderEmpty}
-                    onEndReachedThreshold={0.2}
-                    onEndReached={() => {
-                        if (carSortReducer.getCarSortList.isResultStatus == 2 && !isComplete) {
-                            getCarSortListMore()
-                        }
+                <Tabs
+                    onChangeTab={index=>{
+                        this.setState({index:i})
+                        console.log(index)
+                        const {i,ref,from}=index
+                        getCarSortList({index:i})
                     }}
-                    ListFooterComponent={carSortReducer.getCarSortListMore.isResultStatus == 1 ? ListFooterComponent : <View />}
-                    data={carSortList}
-                    renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail, parent, getCarInfoRecord, getCarDetailWaiting, getCarInfoRecordWaiting })}
-                />
+                >
+                    <Tab
+                        tabStyle={globalStyles.styleBackgroundColor}
+                        activeTabStyle={globalStyles.styleBackgroundColor}
+                        activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
+                        textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
+                        heading="分拣道位"
+                     >
+                        <Container>
+                            <FlatList
+                                refreshControl={<RefreshControl
+                                    refreshing={carSortReducer.getCarSortList.isResultStatus == 1}
+                                    onRefresh={() => {
+                                        getCarSortListWaiting()
+                                        InteractionManager.runAfterInteractions(getCarSortList)
+                                    }}
+                                    colors={[styleColor]}
+                                />}
+                                keyExtractor={(item, index) => index}
+                                showsVerticalScrollIndicator={false}
+                                ListEmptyComponent={renderEmpty}
+                                onEndReachedThreshold={0.2}
+                                onEndReached={() => {
+                                    if (carSortReducer.getCarSortList.isResultStatus == 2 && !isComplete) {
+                                        getCarSortListMore()
+                                    }
+                                }}
+                                ListFooterComponent={carSortReducer.getCarSortListMore.isResultStatus == 1 ? ListFooterComponent : <View />}
+                                data={carSortList}
+                                renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail, parent, getCarInfoRecord, getCarDetailWaiting, getCarInfoRecordWaiting })}
+                            />
+                        </Container>
+                    </Tab>
+                    <Tab
+                        tabStyle={globalStyles.styleBackgroundColor}
+                        activeTabStyle={globalStyles.styleBackgroundColor}
+                        activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
+                        textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
+                        heading="分拣入库"
+                       >
+                        <Container>
+                            <FlatList
+                                refreshControl={<RefreshControl
+                                    refreshing={carSortReducer.getCarSortList.isResultStatus == 1}
+                                    onRefresh={() => {
+                                        getCarSortListWaiting()
+                                        InteractionManager.runAfterInteractions(getCarSortList)
+                                    }}
+                                    colors={[styleColor]}
+                                />}
+                                keyExtractor={(item, index) => index}
+                                showsVerticalScrollIndicator={false}
+                                ListEmptyComponent={renderEmptyIn}
+                                onEndReachedThreshold={0.2}
+                                onEndReached={() => {
+                                    if (carSortReducer.getCarSortList.isResultStatus == 2 && !isComplete) {
+                                        getCarSortListMore()
+                                    }
+                                }}
+                                ListFooterComponent={carSortReducer.getCarSortListMore.isResultStatus == 1 ? ListFooterComponent : <View />}
+                                data={carSortList}
+                                renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail, parent, getCarInfoRecord, getCarDetailWaiting, getCarInfoRecordWaiting })}
+                            />
+                        </Container>
+                    </Tab>
+                    <Tab
+                        tabStyle={globalStyles.styleBackgroundColor}
+                        activeTabStyle={globalStyles.styleBackgroundColor}
+                        activeTextStyle={[globalStyles.midText, { color: '#fff' }]}
+                        textStyle={[globalStyles.midText, { color: '#adc5d5' }]}
+                        heading="分拣出库"
+                       >
+                        <Container>
+                            <FlatList
+                                refreshControl={<RefreshControl
+                                    refreshing={carSortReducer.getCarSortList.isResultStatus == 1}
+                                    onRefresh={() => {
+                                        getCarSortListWaiting()
+                                        InteractionManager.runAfterInteractions(getCarSortList)
+                                    }}
+                                    colors={[styleColor]}
+                                />}
+                                keyExtractor={(item, index) => index}
+                                showsVerticalScrollIndicator={false}
+                                ListEmptyComponent={renderEmptyOut}
+                                onEndReachedThreshold={0.2}
+                                onEndReached={() => {
+                                    if (carSortReducer.getCarSortList.isResultStatus == 2 && !isComplete) {
+                                        getCarSortListMore()
+                                    }
+                                }}
+                                ListFooterComponent={carSortReducer.getCarSortListMore.isResultStatus == 1 ? ListFooterComponent : <View />}
+                                data={carSortList}
+                                renderItem={({ item, index }) => renderListItem({ item, index, getCarDetail, parent, getCarInfoRecord, getCarDetailWaiting, getCarInfoRecordWaiting })}
+                            />
+                        </Container>
+                    </Tab>
+
+                </Tabs>
+
+
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -191,7 +293,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-    let { carSortReducer: { data: { search } } } = state
+    let { carSortReducer: { data: { search ,type} } } = state
     if (!search) {
         search = {}
     }
@@ -211,8 +313,8 @@ const mapDispatchToProps = (dispatch) => ({
     setModalVisible: param => {
         dispatch(carSortActions.setModalVisible(param))
     },
-    getCarSortList: () => {
-        dispatch(carSortActions.getCarSortList())
+    getCarSortList: (type) => {
+        dispatch(carSortActions.getCarSortList(type))
     },
     getCarSortListWaiting: () => {
         dispatch(carSortActions.getCarSortListWaiting())

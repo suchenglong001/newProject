@@ -9,7 +9,7 @@ export const getTodayCheck = () => async (dispatch, getState) => {
     try {
         const { communicationSettingReducer: { data: { base_host } } } = getState()
         const { loginReducer: { data: { user: { uid } } } } = getState()
-        const url = `${base_host}/user/${uid}/damageQaTaskDayStat?start=0&size=${pageSize}`
+        const url = `${base_host}/user/${uid}/damageQaTaskDayStat?qaUserId=${uid}&start=0&size=${pageSize}`
         const res = await httpRequest.get(url)
         console.log(res)
         if (res.success) {
@@ -46,7 +46,7 @@ export const TodayCheckMore = () => async (dispatch, getState) => {
         if (!isComplete) {
             dispatch({ type: TodayCheckType.get_TodayCheckMore_waiting, payload: {} })
             try {
-                const url = `${base_host}/user/${uid}/damageQaTaskDayStat?start=${todayCheckList.length}&size=${pageSize}`
+                const url = `${base_host}/user/${uid}/damageQaTaskDayStat?qaUserId=${uid}&start=${todayCheckList.length}&size=${pageSize}`
                 const res = await httpRequest.get(url)
                 if (res.success) {
                     dispatch({

@@ -10,3 +10,4 @@ export const get_carSortListMore_error = 'get_carSortListMore_error'
 
 export const clean_carSortList = 'clean_carSortList'
 export const setModalVisible_carSortList = 'setModalVisible_carSortList'
+export const get_type = 'get_type'
