@@ -23,7 +23,7 @@ const CarDetail = props => {
                 </Left>   
                 {qa_level==1&&<Right>
                 <Image source={{ uri: 'chenk'  }}
-                    style={{width:35,height:35}}
+                    style={{width:30,height:30}}
                 />
                 </Right>}
             </ListItem>
