@@ -199,7 +199,7 @@ export const loadLocalStorage = () => async (dispatch) => {
 //第三步:更换service-token ,如果更新成功将登陆数据放入userReducer
 export const validateToken = (tryCount = 1, param) => async (dispatch, getState) => {
     let uniqueID = DeviceInfo.getUniqueID()
-    console.log("uniqueID",uniqueID)
+    // console.log("uniqueID",uniqueID)
     const currentStep = 3
     try {
         const { communicationSettingReducer: { data: { base_host } } } = getState()
@@ -217,7 +217,7 @@ export const validateToken = (tryCount = 1, param) => async (dispatch, getState)
             })}`
             const userDeviceRes = await httpRequest.post(userDeviceUrl)
             if (userDeviceRes.success) {
-                console.log('userDeviceRes', userDeviceRes)
+                // console.log('userDeviceRes', userDeviceRes)
             }
            
 
@@ -265,18 +265,3 @@ export const validateToken = (tryCount = 1, param) => async (dispatch, getState)
 }
 
 
-/**
- * 获取uniqueID，
- *          如果localStorage中有，从localStorage中取，
- *          如果没有DeviceInfo.getUniqueID()获取
- */
-export const loadUniqueID = param => async (dispatch, getState) => {
-    let uniqueID
-    try {
-        uniqueID = await localStorage.load({ key: localStorageKey.UNIQUEID })
-    } catch (err) {
-        uniqueID = DeviceInfo.getUniqueID()
-    }
-    console.log('uniqueID', uniqueID)
-    dispatch(getCommunicationSetting({ ...param, deviceInfo: { ...param.deviceInfo, uniqueID } }))
-}
