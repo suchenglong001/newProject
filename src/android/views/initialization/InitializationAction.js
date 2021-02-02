@@ -13,6 +13,7 @@ import requestHeaders from '../../../util/RequestHeaders'
 import * as android_app from '../../../android_app.json'
 import { sleep } from '../../../util/util'
 import { Actions } from 'react-native-router-flux'
+import DeviceInfo from 'react-native-device-info'
 /** 
  * 
  * initApp : APP初始化
@@ -56,7 +57,7 @@ export const getCommunicationSetting = () => async (dispatch) => {
                 }
             })
             dispatch(validateVersion())
-     
+            
         } else {
             Actions.mainRoot()
         }
@@ -66,6 +67,8 @@ export const getCommunicationSetting = () => async (dispatch) => {
         console.log('err', err)
     }
 }
+
+
 
 //第一步：获取最新version信息
 export const validateVersion = (tryCount = 1) => async (dispatch, getState) => {
@@ -195,6 +198,8 @@ export const loadLocalStorage = () => async (dispatch) => {
 
 //第三步:更换service-token ,如果更新成功将登陆数据放入userReducer
 export const validateToken = (tryCount = 1, param) => async (dispatch, getState) => {
+    let uniqueID = DeviceInfo.getUniqueID()
+    console.log("uniqueID",uniqueID)
     const currentStep = 3
     try {
         const { communicationSettingReducer: { data: { base_host } } } = getState()
@@ -202,6 +207,21 @@ export const validateToken = (tryCount = 1, param) => async (dispatch, getState)
         // console.log('url', url)
         const res = await httpRequest.get(url)
         if (res.success) {
+
+            const userDeviceUrl = `${base_host}/user/${param.requiredParam.userId}/userDevice?${ObjectToUrl({
+                deviceToken:"",
+                version: android_app.version,
+                appType: android_app.type,
+                deviceType: 1,
+                deviceId: uniqueID
+            })}`
+            const userDeviceRes = await httpRequest.post(userDeviceUrl)
+            if (userDeviceRes.success) {
+                console.log('userDeviceRes', userDeviceRes)
+            }
+           
+
+
             const getUserInfoUrl = `${base_host}/user${ObjectToUrl({ userId: param.requiredParam.userId })}`
             const getUserInfoRes = await httpRequest.get(getUserInfoUrl)
             if (getUserInfoRes.success) {
@@ -242,4 +262,21 @@ export const validateToken = (tryCount = 1, param) => async (dispatch, getState)
             Actions.mainRoot()
         }
     }
+}
+
+
+/**
+ * 获取uniqueID，
+ *          如果localStorage中有，从localStorage中取，
+ *          如果没有DeviceInfo.getUniqueID()获取
+ */
+export const loadUniqueID = param => async (dispatch, getState) => {
+    let uniqueID
+    try {
+        uniqueID = await localStorage.load({ key: localStorageKey.UNIQUEID })
+    } catch (err) {
+        uniqueID = DeviceInfo.getUniqueID()
+    }
+    console.log('uniqueID', uniqueID)
+    dispatch(getCommunicationSetting({ ...param, deviceInfo: { ...param.deviceInfo, uniqueID } }))
 }
