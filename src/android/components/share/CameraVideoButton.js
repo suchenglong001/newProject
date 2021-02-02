@@ -105,20 +105,29 @@ export default class CameraVideoButton extends Component {
             else if (response.error) {
                 //console.log('ImagePicker Error: ', response.error)
             }
-            else {
-                this.props.getImage([{
+            else {           
+            // console.log("response.uri",response.uri)
+             ImageResizer.createResizedImage(response.uri, 960, 960, 'JPEG', 100)
+             .then(res => {
+                console.log(res)
+                   this.props.getImage([{
                     success: true,
                     res: {
-                        imageUrl: response.uri,
-                        imageType: response.type,
-                        imageName: encodeURI(response.fileName)
-                    }
-                }])
+                         imageUrl: res.uri,
+                         imageType: "image/jpeg",
+                         imageName: res.name
+                     }
+                 }])
+              })
+              .catch(err => {
+                 console.log(err)
+              });
             }
         })
     }
 
     createResizedImage(param) {//图片压缩
+       // console.log("param",param)
         if (param.height <= 960 && param.width <= 960) {
             const pos = param.path.lastIndexOf('/')
             return Promise.resolve({
@@ -142,6 +151,9 @@ export default class CameraVideoButton extends Component {
                             imageName: encodeURI(param.path.substring(pos + 1))
                         }
                     })
+
+                    //console.log("resizedImageUri.size",resizedImageUri)
+                    //console.log("param",param)
                 })
                 .catch((err) => {
                     // console.log('err', err)
